@@ -9,7 +9,7 @@ Requirements:
 
 Usage
 * Authentication requires the App Registrations ClientID, Password and Region
-* Replace the Data withthe contents from your App Registration and Region
+* Replace the Data with the contents from your App Registration and Region
 ____
 
 ### [Snow Atlas Documentation](https://docs.snowsoftware.com/snow-atlas/?lang=en)
