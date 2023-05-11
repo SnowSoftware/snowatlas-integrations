@@ -17,7 +17,7 @@
         $Token = ($TokenData.Content  | ConvertFrom-Json).access_token
     }
 
-    
+   
 #Get Computers (Paginated)
     $ContentType = 'application/json' 
     $headers = @{Authorization = ("Bearer {0}" -f $Token) } 
@@ -32,7 +32,7 @@
         $Count = $ComputerData.items.count 
     
         $Content | ForEach-Object {           
-        $Comuterobject = [PSCustomObject]@{ 
+        $Computerobject = [PSCustomObject]@{ 
             itemNumber = $itemnumber
             domain = $_.domain
             hostname = $_.hostName
@@ -50,7 +50,7 @@
             organizationId = $_.organizationId
             status = $_.status
         }
-        $ComputerObjects += $Comuterobject
+        $ComputerObjects += $Computerobject
         $itemnumber++
     }
     $page++ 
