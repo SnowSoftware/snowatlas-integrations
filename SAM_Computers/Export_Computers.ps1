@@ -18,13 +18,15 @@
     }
 
    
-#Get Computers (Paginated)
+#Set Content type and header
     $ContentType = 'application/json' 
     $headers = @{Authorization = ("Bearer {0}" -f $Token) } 
-    #Paginate Starting at Page 1
+
+#Get Computers(Paginated)
     $Page = 1
     $itemnumber = 1
     $ComputerObjects = @()
+
     Do{
         $ComputersUri = "https://$Region.snowsoftware.io/api/sam/estate/v1/computers?page_size=100&page_number=$page"
         $ComputerData = Invoke-RestMethod $ComputersUri -Method 'GET' -Headers $headers -ContentType $ContentType
