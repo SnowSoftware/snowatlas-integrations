@@ -1,0 +1,1302 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SAM Datacenters/Clusters",
+    "description": "API for exploring datacenters/clusters.",
+    "version": "1.0.0",
+    "contact": {
+          "name": "Snow Software",
+          "url": "https://www.snowsoftware.com"
+        }
+  },
+  "servers": [
+    {
+      "url": "https://australiasoutheast.snowsoftware.io"
+    },
+    {
+      "url": "https://eastus2.snowsoftware.io"
+    },
+    {
+      "url": "https://westeurope.snowsoftware.io"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Datacenters and Clusters"
+    },
+    {
+      "name": "Datacenters and Clusters Hypervisors"
+    }
+  ],
+  "paths": {
+    "/api/sam/estate/v1/dcc/{id}/applications": {
+      "get": {
+        "tags": [
+          "Datacenters and Clusters"
+        ],
+        "description": "Returns a collection of members and links to computer applications for a given datacenter/cluster.",
+        "summary": "Get applications",
+        "operationId": "applications",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The unique ID of the datacenter/cluster.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "schema": {
+              "type": "string",
+              "example": "status -eq \"active\""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilteredResponseWithLinksOfDataCenterClusterMemberResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.estate.dcc.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/dcc": {
+      "get": {
+        "tags": [
+          "Datacenters and Clusters"
+        ],
+        "description": "Returns a collection of datacenters/clusters.",
+        "summary": "Get datacenters/clusters",
+        "operationId": "dcc",
+        "parameters": [
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "schema": {
+              "type": "string",
+              "example": "status -eq \"active\""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilteredResponseWithLinksOfDataCenterClusterResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.estate.dcc.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/dcc/{id}": {
+      "get": {
+        "tags": [
+          "Datacenters and Clusters"
+        ],
+        "description": "Returns the details of a given datacenter/cluster.",
+        "summary": "Get datacenter/cluster",
+        "operationId": "dcc2",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The unique ID of the datacenter/cluster.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilteredResponseWithLinksOfHypervisorTypeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.estate.dcc.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/dcc/{id}/history": {
+      "get": {
+        "tags": [
+          "Datacenters and Clusters"
+        ],
+        "description": "Returns a collection of histories for a given datacenter/cluster.",
+        "summary": "Get histories",
+        "operationId": "history",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The unique ID of the datacenter/cluster.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "schema": {
+              "type": "string",
+              "example": "status -eq \"active\""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilteredResponseWithLinksOfDataCenterClusterHistoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.estate.dcc.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/dcc/{id}/members": {
+      "get": {
+        "tags": [
+          "Datacenters and Clusters"
+        ],
+        "description": "Returns a collection of members for a given datacenter/cluster.",
+        "summary": "Get members",
+        "operationId": "members",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The unique ID of the datacenter/cluster.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "schema": {
+              "type": "string",
+              "example": "status -eq \"active\""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilteredResponseWithLinksOfDataCenterClusterMemberResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.estate.dcc.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/dcc/{id}/members/{memberId}": {
+      "get": {
+        "tags": [
+          "Datacenters and Clusters"
+        ],
+        "description": "Returns the details of a given member for a given unique datacenter/cluster.",
+        "summary": "Get member",
+        "operationId": "members2",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The unique ID of the datacenter/cluster.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "memberId",
+            "description": "The unique ID of the member of the datacenter/cluster.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataCenterClusterMemberResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.estate.dcc.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/dcc/{id}/members/{memberId}/features": {
+      "get": {
+        "tags": [
+          "Datacenters and Clusters"
+        ],
+        "description": "Returns a collection of features for a given member of a given datacenter/cluster.",
+        "summary": "Get features",
+        "operationId": "features",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The unique ID of the datacenter/cluster.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "memberId",
+            "description": "The unique ID of the member of the datacenter/cluster.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "schema": {
+              "type": "string",
+              "example": "status -eq \"active\""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilteredResponseWithLinksOfDataCenterClusterMemberFeatureResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.estate.dcc.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/dcc-hypervisors": {
+      "get": {
+        "tags": [
+          "Datacenters and Clusters Hypervisors"
+        ],
+        "description": "Returns a collection of hypervisor types.",
+        "summary": "Get hypervisor types",
+        "operationId": "dcc-hypervisors",
+        "parameters": [
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "schema": {
+              "type": "string",
+              "example": "status -eq \"active\""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilteredResponseWithLinksOfHypervisorTypeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.estate.dcc.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/dcc-hypervisors/{id}": {
+      "get": {
+        "tags": [
+          "Datacenters and Clusters Hypervisors"
+        ],
+        "description": "Returns the details of a hypervisor type for a given datacenter/cluster hypervisor.",
+        "summary": "Get hypervisor type",
+        "operationId": "dcc-hypervisors2",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The unique ID of the datacenter/cluster hypervisor.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HypervisorTypeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.estate.dcc.r"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PaginationResponse": {
+        "type": "object",
+        "description": "Generic response class for the pagination part.\nProperties are annotated using DataMemberAttribute so that we're aligned with REST style guide regarding the json payload.",
+        "additionalProperties": false,
+        "properties": {
+          "page_size": {
+            "type": "integer",
+            "description": "The page size you requested.",
+            "format": "int32",
+            "example": 100
+          },
+          "page_number": {
+            "type": "integer",
+            "description": "The page number you requested.",
+            "format": "int32",
+            "example": 1
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "The total number of pages.",
+            "format": "int32",
+            "nullable": true,
+            "example": 1
+          }
+        }
+      },
+      "Link": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "The associated relative URL.",
+            "nullable": true,
+            "example": "api/sam/estate/v1/..."
+          },
+          "rel": {
+            "type": "string",
+            "description": "Specifies the relationship between the current document and the linked document/resource.",
+            "nullable": true,
+            "example": "self"
+          },
+          "method": {
+            "type": "string",
+            "description": "The method to access related resources.",
+            "nullable": true,
+            "example": "GET"
+          }
+        }
+      },
+      "BaseResponse": {
+        "type": "object",
+        "description": "Base response class.",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "_links": {
+            "type": "array",
+            "description": "A collection of links to related resources.",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "DataCenterClusterMemberResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "description": "Response class for datacenter/cluster member.",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique ID of the datacenter/cluster.",
+                "example": "cc39d7c1-0d45-43c6-9fea-d5c091f94556",
+                "format": "guid"
+              },
+              "computerId": {
+                "type": "string",
+                "description": "The unique ID of the computer.",
+                "example": "15764003-3c61-4d5f-9839-a63271240519",
+                "format": "guid"
+              },
+              "sourceId": {
+                "type": "integer",
+                "description": "The unique ID of the source.",
+                "example": 456,
+                "format": "int32",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "FilteredResponseWithLinksOfDataCenterClusterMemberResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "description": "Generic response class supporting filtering and including links.",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "description": "A collection of members and links to computer applications for a given datacenter/cluster.",
+                "items": {
+                  "$ref": "#/components/schemas/DataCenterClusterMemberResponse"
+                }
+              },
+              "pagination": {
+                "description": "The pagination details.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PaginationResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "ErrorContent": {
+        "type": "object",
+        "description": "Contains error content.",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "The HTTP status code.",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "The error message."
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "Response class for errors.",
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "description": "The error details.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ErrorContent"
+              }
+            ]
+          }
+        }
+      },
+      "DataCenterClusterResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "description": "Response class for datacenter/cluster item.",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique ID of the datacenter/cluster.",
+                "example": "cc39d7c1-0d45-43c6-9fea-d5c091f94556",
+                "format": "guid"
+              },
+              "controllerId": {
+                "type": "integer",
+                "description": "The unique ID of the datacenter/cluster controller.",
+                "example": 12345,
+                "format": "int32",
+                "nullable": true
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the datacenter/cluster.",
+                "example": "DCC 1",
+                "nullable": true
+              },
+              "description": {
+                "type": "string",
+                "description": "The description of the datacenter/cluster.",
+                "example": "The first datacenter/cluster",
+                "nullable": true
+              },
+              "organizationId": {
+                "type": "string",
+                "description": "The unique ID of the organization for the datacenter/cluster.",
+                "example": "f34c5dc6-5fa7-491c-bee6-b0a57c215501",
+                "format": "guid"
+              },
+              "virtualPeakIntervalDays": {
+                "type": "integer",
+                "description": "The virtual peak interval in days for the datacenter/cluster.",
+                "example": 5,
+                "format": "int32",
+                "nullable": true
+              },
+              "virtualPeakIntervalType": {
+                "type": "integer",
+                "description": "The virtual peak interval type for the datacenter/cluster.",
+                "example": 3,
+                "format": "int32",
+                "nullable": true
+              },
+              "virtualPeakCount": {
+                "type": "integer",
+                "description": "The virtual peak count for the datacenter/cluster.",
+                "example": 7,
+                "format": "int32",
+                "nullable": true
+              },
+              "virtualPeakDate": {
+                "type": "string",
+                "description": "The virtual peak date for the datacenter/cluster.",
+                "format": "date-time",
+                "nullable": true
+              },
+              "isAutoGenerated": {
+                "type": "boolean",
+                "description": "```true``` if the datacenter/cluster item is auto-generated; otherwise, ```false```.",
+                "nullable": true
+              },
+              "hypervisor": {
+                "type": "string",
+                "description": "The unique ID of the hypervisor for the datacenter/cluster.",
+                "example": "f6994068-c37c-4846-8a9d-8a35a9cc565c",
+                "format": "guid"
+              },
+              "isHighAvailability": {
+                "type": "boolean",
+                "description": "```true``` if the datacenter/cluster item has high availability; otherwise, ```false```."
+              },
+              "isVMwareDRS": {
+                "type": "boolean",
+                "description": "```true``` if the datacenter/cluster item is a VMware DRS; otherwise, ```false```."
+              },
+              "isHypervisorFromSIM": {
+                "type": "boolean",
+                "description": "```true``` if the hypervisor is inventoried using SIM; otherwise, ```false```."
+              }
+            }
+          }
+        ]
+      },
+      "FilteredResponseWithLinksOfDataCenterClusterResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "description": "Generic response class supporting filtering and including links.",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "description": "A collection of datacenters/clusters.",
+                "items": {
+                  "$ref": "#/components/schemas/DataCenterClusterResponse"
+                }
+              },
+              "pagination": {
+                "description": "The pagination details.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PaginationResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "HypervisorTypeResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "description": "Response class for hypervisor type.",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique ID of the hypervisor for the datacenter/cluster.",
+                "example": "cc39d7c1-0d45-43c6-9fea-d5c091f94556",
+                "format": "guid",
+                "nullable": true
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the hypervisor for the datacenter/cluster.",
+                "example": "Hypervisor 1",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "FilteredResponseWithLinksOfHypervisorTypeResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "description": "Generic response class supporting filtering and including links.",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "description": "A collection of hypervisor types.",
+                "items": {
+                  "$ref": "#/components/schemas/HypervisorTypeResponse"
+                }
+              },
+              "pagination": {
+                "description": "The pagination details.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PaginationResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "DataCenterClusterHistoryResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "description": "Response class for datacenter/cluster history details.",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique ID of the datacenter/cluster.",
+                "example": "cc39d7c1-0d45-43c6-9fea-d5c091f94556",
+                "format": "guid"
+              },
+              "virtualMachineDate": {
+                "type": "string",
+                "description": "The date of the virtual machine's state.",
+                "format": "date-time"
+              },
+              "virtualMachineCount": {
+                "type": "integer",
+                "description": "The virtual machine's count.",
+                "example": 3,
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "FilteredResponseWithLinksOfDataCenterClusterHistoryResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "description": "Generic response class supporting filtering and including links.",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "description": "A collection of histories for a given datacenter/cluster.",
+                "items": {
+                  "$ref": "#/components/schemas/DataCenterClusterHistoryResponse"
+                }
+              },
+              "pagination": {
+                "description": "The pagination details.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PaginationResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "DataCenterClusterMemberFeatureResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "description": "Response class for datacenter/cluster member feature.",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The unique ID of the datacenter/cluster.",
+                "example": "cc39d7c1-0d45-43c6-9fea-d5c091f94556",
+                "format": "guid"
+              },
+              "computerId": {
+                "type": "string",
+                "description": "The unique ID of the computer.",
+                "example": "15764003-3c61-4d5f-9839-a63271240519",
+                "format": "guid"
+              },
+              "featureName": {
+                "type": "string",
+                "description": "The name of the feature.",
+                "example": "Feature 1",
+                "nullable": true
+              },
+              "isRequiresLicense": {
+                "type": "boolean",
+                "description": "```true``` if the datacenter/cluster member feature requires a license; otherwise, ```false```."
+              },
+              "isActive": {
+                "type": "boolean",
+                "description": "```true``` if the datacenter/cluster member feature is active; otherwise, ```false```."
+              },
+              "sourceId": {
+                "type": "integer",
+                "description": "The unique ID of the source.",
+                "example": 456,
+                "format": "int32",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "FilteredResponseWithLinksOfDataCenterClusterMemberFeatureResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseResponse"
+          },
+          {
+            "type": "object",
+            "description": "Generic response class supporting filtering and including links.",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "description": "A collection of features for a given member of a given datacenter/cluster.",
+                "items": {
+                  "$ref": "#/components/schemas/DataCenterClusterMemberFeatureResponse"
+                }
+              },
+              "pagination": {
+                "description": "The pagination details.",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/PaginationResponse"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

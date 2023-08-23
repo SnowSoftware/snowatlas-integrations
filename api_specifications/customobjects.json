@@ -1,0 +1,1152 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SAM Custom Objects",
+    "description": "API for exploring custom objects.",
+    "version": "1.0.0",
+    "contact": {
+          "name": "Snow Software",
+          "url": "https://www.snowsoftware.com"
+        }
+  },
+  "servers": [
+    {
+      "url": "https://australiasoutheast.snowsoftware.io"
+    },
+    {
+      "url": "https://eastus2.snowsoftware.io"
+    },
+    {
+      "url": "https://westeurope.snowsoftware.io"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Custom object types"
+    },
+    {
+      "name": "Custom objects"
+    },
+    {
+      "name": "Custom objects properties"
+    }
+  ],
+  "paths": {
+    "/api/sam/estate/v1/customobjects/{id}/propertyvalues": {
+      "get": {
+        "tags": [
+          "Custom objects properties"
+        ],
+        "description": "Returns a collection of property values for a given custom object.",
+        "operationId": "propertyvalues",
+        "summary": "Get property values", 
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique ID of the custom object.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+            
+          },
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "schema": {
+              "type": "string",
+              "example": "status -eq \"active\""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilteredResponseWithLinksOfPropertyValue"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customobject.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/customobjects/{id}/propertyvalues/{valueId}": {
+      "get": {
+        "tags": [
+          "Custom objects properties"
+        ],
+        "description": "Returns the details of a given property value for a given custom object.",
+        "operationId": "propertyvalues2",
+        "summary": "Get property value",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique ID of the custom object.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "valueId",
+            "in": "path",
+            "description": "The unique ID of the property value.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyValueDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customobject.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/customobjects": {
+      "get": {
+        "tags": [
+          "Custom objects"
+        ],
+        "description": "Returns a collection of custom objects.",
+        "operationId": "customobjects",
+        "summary": "Get custom objects",
+        "parameters": [
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "schema": {
+              "type": "string",
+              "example": "status -eq \"active\""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilteredResponseWithLinksOfCustomObject"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customobject.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/customobjects/{id}": {
+      "get": {
+        "tags": [
+          "Custom objects"
+        ],
+        "description": "Returns the details of a given custom object.",
+        "operationId": "customobjects2",
+        "summary": "Get custom object",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique ID of the custom object.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomObjectDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customobject.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/customobjecttypes/{typeid}/properties": {
+      "get": {
+        "tags": [
+          "Custom object types"
+        ],
+        "description": "Returns a collection of properties for a given custom object type.",
+        "operationId": "properties",
+        "summary": "Get properties",
+        "parameters": [
+          {
+            "name": "typeid",
+            "in": "path",
+            "description": "The unique ID of the custom object type.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "schema": {
+              "type": "string",
+              "example": "status -eq \"active\""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilteredResponseWithLinksOfProperty"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customobject.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/customobjecttypes/{typeid}/properties/{propertyid}": {
+      "get": {
+        "tags": [
+          "Custom object types"
+        ],
+        "description": "Returns the details of a given property for a given custom object type.",
+        "operationId": "properties2",
+        "summary": "Get property",
+        "parameters": [
+          {
+            "name": "typeid",
+            "in": "path",
+            "description": "The unique ID of the custom object type.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "propertyid",
+            "in": "path",
+            "description": "The unique Id of the property.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customobject.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/customobjecttypes": {
+      "get": {
+        "tags": [
+          "Custom object types"
+        ],
+        "description": "Returns a collection of custom object types.",
+        "operationId": "customobjecttypes",
+        "summary": "Get custom object types",
+        "parameters": [
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "schema": {
+              "type": "string",
+              "example": "status -eq \"active\""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilteredResponseWithLinksOfCustomObjectType"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customobject.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/customobjecttypes/{typeid}": {
+      "get": {
+        "tags": [
+          "Custom object types"
+        ],
+        "description": "Returns the details of a given custom object type.",
+        "operationId": "customobjecttypes2",
+        "summary": "Get custom object type",
+        "parameters": [
+          {
+            "name": "typeid",
+            "in": "path",
+            "description": "The unique ID of the custom object type.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomObjectTypeDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customobject.r"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Pagination": {
+        "description": "The pagination details.",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "page_size": {
+            "type": "integer",
+            "description": "The page size you requested.",
+            "format": "int32",
+            "example": 100
+          },
+          "page_number": {
+            "type": "integer",
+            "description": "The page number you requested.",
+            "format": "int32",
+            "example": 1
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "The total number of pages.",
+            "format": "int32",
+            "nullable": true,
+            "example": 1
+          }
+        }
+      },
+      "Link": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "The associated relative URL.",
+            "nullable": true,
+            "example": "api/sam/estate/v1/..."
+          },
+          "rel": {
+            "type": "string",
+            "description": "Specifies the relationship between the current document and the linked document/resource.",
+            "nullable": true,
+            "example": "self"
+          },
+          "method": {
+            "type": "string",
+            "description": "The method to access related resources.",
+            "nullable": true,
+            "example": "GET"
+          }
+        }
+      },
+      "PropertyValue": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the property value.",
+            "example": "768d6f78-6c87-490e-b7b0-d2fa74e3dd0f",
+            "format": "guid"
+          },
+          "objectId": {
+            "type": "string",
+            "description": "The unique ID of the custom object.",
+            "example": "1a2c3e83-4247-4b99-af92-fefacb825720",
+            "format": "guid"
+          },
+          "_links": {
+            "type": "array",
+            "description": "A collection of links to related resources.",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "FilteredResponseWithLinksOfPropertyValue": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "description": "A collection of property values for a given custom object.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyValue"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          },
+          "_links": {
+            "type": "array",
+            "description": "A collection of links to related resources.",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "ErrorContent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "The HTTP status code.",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "The error message."
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "description": "The error details.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ErrorContent"
+              }
+            ]
+          }
+        }
+      },
+      "PropertyValueDetails": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the property value.",
+            "example": "768d6f78-6c87-490e-b7b0-d2fa74e3dd0f",
+            "format": "guid"
+          },
+          "propertyId": {
+            "type": "string",
+            "description": "The unique ID of the property.",
+            "example": "08163a8f-b032-4174-9a24-f339b1fdda53",
+            "format": "guid"
+          },
+          "objectId": {
+            "type": "string",
+            "description": "The unique ID of the custom object.",
+            "example": "1a2c3e83-4247-4b99-af92-fefacb825720",
+            "format": "guid"
+          },
+          "value": {
+            "type": "string",
+            "description": "The value of the property.",
+            "example": "Test"
+          },
+          "_links": {
+            "type": "array",
+            "description": "A collection of links to related resources.",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "CustomObject": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the custom object.",
+            "example": "1a2c3e83-4247-4b99-af92-fefacb825720",
+            "format": "guid"
+          },
+          "objectName": {
+            "type": "string",
+            "description": "The name of the custom object.",
+            "example": "Custom Object 1",
+            "nullable": true
+          },
+          "_links": {
+            "type": "array",
+            "description": "A collection of links to related resources.",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "FilteredResponseWithLinksOfCustomObject": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "description": "A collection of custom objects.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomObject"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          },
+          "_links": {
+            "type": "array",
+            "description": "A collection of links to related resources.",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "CustomObjectDetails": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the custom object.",
+            "example": "1a2c3e83-4247-4b99-af92-fefacb825720",
+            "format": "guid"
+          },
+          "objectName": {
+            "type": "string",
+            "description": "The name of the custom object.",
+            "example": "Custom Object 1",
+            "nullable": true
+          },
+          "computerId": {
+            "type": "string",
+            "description": "The unique ID of the computer.",
+            "example": "15764003-3c61-4d5f-9839-a63271240519",
+            "format": "guid",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "description": "The unique ID of the user.",
+            "example": "c9091484-a226-4b36-b1e1-250fe0757537",
+            "format": "guid",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "The date on which the custom object was created.",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "description": "The date on which the custom object was updated.",
+            "format": "date-time"
+          },
+          "_links": {
+            "type": "array",
+            "description": "A collection of links to related resources.",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "Property": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the property.",
+            "example": "08163a8f-b032-4174-9a24-f339b1fdda53",
+            "format": "guid"
+          },
+          "typeId": {
+            "type": "string",
+            "description": "The unique ID of the property type.",
+            "example": "2b5e364c-ae69-4008-ae8d-e3009106f7c4",
+            "format": "guid"
+          },
+          "_links": {
+            "type": "array",
+            "description": "A collection of links to related resources.",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "FilteredResponseWithLinksOfProperty": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "description": "A collection of properties for a given custom object type.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Property"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          },
+          "_links": {
+            "type": "array",
+            "description": "A collection of links to related resources.",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "PropertyDetails": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the property.",
+            "example": "08163a8f-b032-4174-9a24-f339b1fdda53",
+            "format": "guid"
+          },
+          "typeId": {
+            "type": "string",
+            "description": "The unique ID of the property type.",
+            "example": "2b5e364c-ae69-4008-ae8d-e3009106f7c4",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the property.",
+            "example": "Property 1",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the property.",
+            "example": "The first property",
+            "nullable": true
+          },
+          "isMandatory": {
+            "type": "boolean",
+            "description": "```true``` if the property is mandatory; otherwise, ```false```."
+          },
+          "defaultValue": {
+            "type": "string",
+            "description": "The default value of the property.",
+            "example": "Test value",
+            "nullable": true
+          },
+          "_links": {
+            "type": "array",
+            "description": "A collection of links to related resources.",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "CustomObjectType": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the custom object type.",
+            "example": "9e10a6c2-f6f8-4c27-b0d8-3af23a5dff74",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the custom object type.",
+            "example": "Custom object type 1",
+            "nullable": true
+          },
+          "_links": {
+            "type": "array",
+            "description": "A collection of links to related resources.",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "FilteredResponseWithLinksOfCustomObjectType": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "description": "A collection of custom object types.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomObjectType"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          },
+          "_links": {
+            "type": "array",
+            "description": "A collection of links to related resources.",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "CustomObjectTypeDetails": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the custom object type.",
+            "example": "9e10a6c2-f6f8-4c27-b0d8-3af23a5dff74",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the custom object type.",
+            "example": "Custom object type 1",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the custom object type.",
+            "example": "The first custom object type",
+            "nullable": true
+          },
+          "canAttachToContract": {
+            "type": "boolean",
+            "description": "```true``` if the custom object type can attach to a contract; otherwise, ```false```."
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "The date on which the custom object was created.",
+            "format": "date-time"
+          },
+          "updatedDate": {
+            "type": "string",
+            "description": "The date on which the custom object was updated.",
+            "format": "date-time"
+          },
+          "_links": {
+            "type": "array",
+            "description": "A collection of links to related resources.",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

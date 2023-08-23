@@ -1,0 +1,1475 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SAM Agreements",
+    "description": "API for exploring agreements.",
+    "version": "2.0.0",
+    "contact": {
+      "name": "Snow Software",
+      "url": "https://www.snowsoftware.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://australiasoutheast.snowsoftware.io"
+    },
+    {
+      "url": "https://eastus2.snowsoftware.io"
+    },
+    {
+      "url": "https://westeurope.snowsoftware.io"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Agreements"
+    },
+    {
+      "name": "Contracts"
+    }
+  ],
+  "paths": {
+    "/api/sam/v2/agreements/{id}/periods": {
+      "get": {
+        "tags": [
+          "Agreements"
+        ],
+        "description": "Returns a collection of periods for a given agreement. You can have multiple periods when one period expires and another is added.",
+        "summary": "Get agreement periods",
+        "operationId": "periods2",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The unique ID of the agreement.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAgreementPeriodsCollectionResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.agreements.agreement.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/v2/agreements": {
+      "get": {
+        "tags": [
+          "Agreements"
+        ],
+        "description": "Returns a collection of agreements.",
+        "summary": "Get agreements",
+        "operationId": "agreements",
+        "parameters": [
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "schema": {
+              "type": "string",
+              "example": "status -eq \"active\""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAgreementsCollectionResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.agreements.agreement.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/v2/agreements/{id}": {
+      "get": {
+        "tags": [
+          "Agreements"
+        ],
+        "description": "Returns the details of a given agreement.",
+        "summary": "Get agreement",
+        "operationId": "agreements2",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The unique ID of the agreement.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAgreementDataResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.agreements.agreement.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/v2/agreement-types": {
+      "get": {
+        "tags": [
+          "Agreements"
+        ],
+        "description": "Returns a collection of agreement types.",
+        "summary": "Get agreement types",
+        "operationId": "agreement-types",
+        "parameters": [
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAgreementTypesCollectionResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.agreements.agreement.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/v2/agreement-types/{id}": {
+      "get": {
+        "tags": [
+          "Agreements"
+        ],
+        "description": "Returns the details of a given agreement type.",
+        "summary": "Get agreement type",
+        "operationId": "agreement-types2",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The unique ID of an agreement type.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAgreementTypeResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.agreements.agreement.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/v2/contracts/{id}/periods": {
+      "get": {
+        "tags": [
+          "Contracts"
+        ],
+        "description": "Returns a collection of periods for a given contract.",
+        "summary": "Get contract periods",
+        "operationId": "periods",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The unique ID of the contract.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAgreementPeriodsCollectionResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.contracts.contract.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/v2/contracts": {
+      "get": {
+        "tags": [
+          "Contracts"
+        ],
+        "description": "Returns a collection of contracts.",
+        "summary": "Get contracts",
+        "operationId": "contracts",
+        "parameters": [
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "schema": {
+              "type": "string",
+              "example": "status -eq \"active\""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAgreementsCollectionResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.contracts.contract.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/v2/contracts/{id}": {
+      "get": {
+        "tags": [
+          "Contracts"
+        ],
+        "description": "Returns the details of a given contract.",
+        "summary": "Get contract",
+        "operationId": "contracts2",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The unique ID of a contract.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAgreementDataResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.contracts.contract.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/v2/contract-types": {
+      "get": {
+        "tags": [
+          "Contracts"
+        ],
+        "description": "Returns a collection of contract types.",
+        "summary": "Get contract types",
+        "operationId": "contract-types",
+        "parameters": [
+          {
+            "name": "page_size",
+            "description": "The maximum number of items in the response.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "page_number",
+            "description": "The page number.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAgreementTypesCollectionResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.contracts.contract.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/v2/contract-types/{id}": {
+      "get": {
+        "tags": [
+          "Contracts"
+        ],
+        "description": "Returns the details of a given contract type.",
+        "summary": "Get contract type",
+        "operationId": "contract-types2",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The unique ID of the contract type.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAgreementTypeResponseV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.contracts.contract.r"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Pagination": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "page_size": {
+            "type": "integer",
+            "description": "The page size you requested.",
+            "format": "int32",
+            "example": 100
+          },
+          "page_number": {
+            "type": "integer",
+            "description": "The page number you requested.",
+            "format": "int32",
+            "example": 1
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "The total number of pages.",
+            "format": "int32",
+            "nullable": true,
+            "example": 1
+          }
+        }
+      },
+      "Link": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "The associated relative URL.",
+            "nullable": true,
+            "example": "api/sam/v2/..."
+          },
+          "rel": {
+            "type": "string",
+            "description": "Specifies the relationship between the current document and the linked document/resource.",
+            "nullable": true,
+            "example": "self"
+          },
+          "method": {
+            "type": "string",
+            "description": "The method to access related resources.",
+            "nullable": true,
+            "example": "GET"
+          }
+        }
+      },
+      "GetAgreementPeriodResponseV2": {
+        "type": "object",
+        "description": "Represents response after querying agreement period.\nIncludes Link collection to related resources.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the agreement associated with the periods.",
+            "example": "efb6de18-4dbd-4280-94ae-c89de017421f",
+            "format": "guid"
+          },
+          "validFrom": {
+            "type": "string",
+            "description": "The start date of the agreement period.",
+            "format": "date-time"
+          },
+          "validTo": {
+            "type": "string",
+            "description": "The end date of the agreement period.",
+            "format": "date-time"
+          },
+          "_links": {
+            "type": "array",
+            "description": "A collection of links to related resources.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "FilteredResponseOfGetAgreementPeriodResponseV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "A collection of periods for a given agreement.",
+            
+            "items": {
+              "$ref": "#/components/schemas/GetAgreementPeriodResponseV2"
+            }
+          },
+          "pagination": {
+            
+            "description": "The pagination details.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Pagination"
+              }
+            ]
+          }
+        }
+      },
+      "FilteredHateoasResponseOfGetAgreementPeriodResponseV2": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfGetAgreementPeriodResponseV2"
+          },
+          {
+            "type": "object",
+            "description": "Extends FilteredResponse`1\nwith Link collection",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "description": "A collection of links to related resources.",
+                
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "GetAgreementPeriodsCollectionResponseV2": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredHateoasResponseOfGetAgreementPeriodResponseV2"
+          },
+          {
+            "type": "object",
+            "description": "Represents the response message received after querying agreement periods collection.",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "The HTTP status code.",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "The error message.",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfError": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "description": "The error details.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Error"
+              }
+            ]
+          }
+        }
+      },
+      "ErrorResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ErrorResponseOfError"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "AgreementDataV2": {
+        "type": "object",
+        "description": "Represents agreement data.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the agreement.",
+            "example": "efb6de18-4dbd-4280-94ae-c89de017421f",
+            "format": "guid"
+          },
+          "parentId": {
+            "type": "string",
+            "description": "The unique ID of the parent agreement, if it exists.",
+            "example": "9ce3536d-603d-48f7-845d-2a61d0ba93b8",
+            "format": "guid",
+            "nullable": true
+          },
+          "assignedId": {
+            "type": "string",
+            "description": "The unique ID of the agreement.",
+            "example": "1",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the agreement.",
+            "example": "Agr 1",
+            "nullable": true
+          },
+          "typeId": {
+            "type": "string",
+            "description": "The unique ID of the agreement type.",
+            "example": "d40935d8-5354-41d8-b5d8-7f06348fc63b",
+            "format": "guid"
+          },
+          "contactId": {
+            "type": "string",
+            "description": "The unique ID of the contact, if it exists.",
+            "example": "db9d81e2-43f8-4ab4-a230-cb995c8d78db",
+            "format": "guid",
+            "nullable": true
+          },
+          "manufacturerId": {
+            "type": "string",
+            "description": "The unique ID of the manufacturer, if it exists.",
+            "example": "45558893-9a03-4826-bf8b-ceb5ee479149",
+            "format": "guid",
+            "nullable": true
+          }
+        }
+      },
+      "FilteredResponseOfAgreementDataV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "A collection of agreements.",
+            
+            "items": {
+              "$ref": "#/components/schemas/AgreementDataV2"
+            }
+          },
+          "pagination": {
+            
+            "description": "The pagination details.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Pagination"
+              }
+            ]
+          }
+        }
+      },
+      "FilteredHateoasResponseOfAgreementDataV2": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfAgreementDataV2"
+          },
+          {
+            "type": "object",
+            "description": "Extends FilteredResponse`1\nwith Link collection",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "description": "A collection of links to related resources.",
+                
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "GetAgreementsCollectionResponseV2": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredHateoasResponseOfAgreementDataV2"
+          },
+          {
+            "type": "object",
+            "description": "Represents the response message received after querying the agreements collection.",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "AgreementDetailsDataV2": {
+        "type": "object",
+        "description": "Represents agreement details.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the agreement.",
+            "example": "efb6de18-4dbd-4280-94ae-c89de017421f",
+            "format": "guid"
+          },
+          "parentId": {
+            "type": "string",
+            "description": "The unique ID of the parent agreement, if it exists.",
+            "example": "9ce3536d-603d-48f7-845d-2a61d0ba93b8",
+            "format": "guid",
+            "nullable": true
+          },
+          "assignedId": {
+            "type": "string",
+            "description": "The unique ID of the agreement.",
+            "example": "1",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the agreement.",
+            "example": "Agr 1",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the agreement.",
+            "example": "First agreement",
+            "nullable": true
+          },
+          "typeId": {
+            "type": "string",
+            "description": "The unique ID of the agreement type.",
+            "example": "d40935d8-5354-41d8-b5d8-7f06348fc63b",
+            "format": "guid"
+          },
+          "isSubscription": {
+            "type": "boolean",
+            "description": "```true``` if an agreement is a subscription agreement; otherwise, ```false```."
+          },
+          "isUpgradable": {
+            "type": "boolean",
+            "description": "```true``` if an agreement contains upgrade rights; otherwise, ```false```."
+          },
+          "isValidForAll": {
+            "type": "boolean",
+            "description": "```true``` if objects, licenses, or agreements can be attached after the agreement period has expired; otherwise, ```false```."
+          },
+          "renewalDays": {
+            "type": "integer",
+            "description": "The number of days before expiration that this agreement needs to be renewed or is automatically renewed.",
+            "example": 7,
+            "format": "int32"
+          },
+          "isAlertingOnExpiration": {
+            "type": "boolean",
+            "description": "```true``` if alerts are activated on and before agreement expiration; otherwise, ```false```."
+          },
+          "warningDayLimit": {
+            "type": "integer",
+            "description": "The number of days before the agreement expiration that an alert will be displayed as a warning.",
+            "example": 15,
+            "format": "int32"
+          },
+          "criticalDayLimit": {
+            "type": "integer",
+            "description": "The number of days before the agreement expiration that an alert will be displayed as critical.",
+            "example": 7,
+            "format": "int32"
+          },
+          "isAutoAttachingToComputers": {
+            "type": "boolean",
+            "description": "```true``` if computers from selected organization nodes should be attached to this agreement automatically; otherwise, ```false```."
+          },
+          "contactId": {
+            "type": "string",
+            "description": "The unique ID of the contact, if it exists.",
+            "example": "db9d81e2-43f8-4ab4-a230-cb995c8d78db",
+            "format": "guid",
+            "nullable": true
+          },
+          "contactName": {
+            "type": "string",
+            "description": "The name of the contact for this agreement.",
+            "example": "Bill Smith",
+            "nullable": true
+          },
+          "contactDepartment": {
+            "type": "string",
+            "description": "The department of the contact for this agreement.",
+            "example": "IT",
+            "nullable": true
+          },
+          "contactPhone": {
+            "type": "string",
+            "description": "The phone number of the contact for this agreement.",
+            "example": "123-456-7890",
+            "nullable": true
+          },
+          "contactEmail": {
+            "type": "string",
+            "description": "The email address of the contact for this agreement.",
+            "example": "bill.smith@company.com",
+            "nullable": true
+          },
+          "manufacturerId": {
+            "type": "string",
+            "description": "The unique ID of the manufacturer, if it exists.",
+            "example": "45558893-9a03-4826-bf8b-ceb5ee479149",
+            "format": "guid",
+            "nullable": true
+          },
+          "manufacturerName": {
+            "type": "string",
+            "description": "The name of the manufacturer.",
+            "example": "Apple",
+            "nullable": true
+          },
+          "manufacturerLink": {
+            "type": "string",
+            "description": "The website of the manufacturer.",
+            "example": "www.apple.com",
+            "nullable": true
+          },
+          "manufacturerPhone": {
+            "type": "string",
+            "description": "The phone number of the manufacturer.",
+            "example": "789-654-1236",
+            "nullable": true
+          },
+          "manufacturerContact": {
+            "type": "string",
+            "description": "The name of the contact of the manufacturer.",
+            "example": "John Smith",
+            "nullable": true
+          },
+          "manufacturerContactPhone": {
+            "type": "string",
+            "description": "The phone number of the contact of the manufacturer.",
+            "example": "789-654-1237",
+            "nullable": true
+          },
+          "manufacturerContactEmail": {
+            "type": "string",
+            "description": "The email address of the contact of the manufacturer.",
+            "example": "john.smith@apple.com",
+            "nullable": true
+          }
+        }
+      },
+      "GetAgreementDataResponseV2": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AgreementDetailsDataV2"
+          },
+          {
+            "type": "object",
+            "description": "Represents response after querying agreement\nIncludes Link collection to related resources",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "description": "A collection of links to related resources.",
+                
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "AgreementTypeV2": {
+        "type": "object",
+        "description": "Represents agreement type details.",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the agreement type.",
+            "example": "f9ce2c7b-856f-44a3-81f5-ba594a5d20fb",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the agreement type.",
+            "example": "Software enterprise agreement",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the agreement type.",
+            "example": "A contract that allows purchase at a discounted, fixed rate for a certain time period.",
+            "nullable": true
+          }
+        }
+      },
+      "FilteredResponseOfAgreementTypeV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "A collection of agreement types.",
+            
+            "items": {
+              "$ref": "#/components/schemas/AgreementTypeV2"
+            }
+          },
+          "pagination": {
+            
+            "description": "The pagination details.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Pagination"
+              }
+            ]
+          }
+        }
+      },
+      "FilteredHateoasResponseOfAgreementTypeV2": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfAgreementTypeV2"
+          },
+          {
+            "type": "object",
+            "description": "Extends FilteredResponse`1\nwith Link collection",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "description": "A collection of links to related resources.",
+                
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "GetAgreementTypesCollectionResponseV2": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredHateoasResponseOfAgreementTypeV2"
+          },
+          {
+            "type": "object",
+            "description": "Represents the response message received after querying agreement types collection",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "GetAgreementTypeResponseV2": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AgreementTypeV2"
+          },
+          {
+            "type": "object",
+            "description": "Represents response after querying agreement type.\nIncludes Link collection to related resources",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "description": "A collection of links to related resources.",
+                
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
