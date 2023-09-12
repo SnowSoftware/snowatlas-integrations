@@ -8,8 +8,8 @@ Requirements:
 * API Data Region can be found under Snow Atlas Settings > Licence Details > General Information in the Portal.
 
 Usage
-* Authentication requires the App Registrations ClientID, Password and Region
-* Replace the Data with the contents from your App Registration and Region
+* Authentication requires the App Registrations ClientID, Password and Region.
+* Replace the Data with the contents from your App Registration and Region.
 * Specify the File output location. 
 ____
 
