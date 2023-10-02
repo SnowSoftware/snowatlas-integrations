@@ -70,7 +70,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -89,34 +89,13 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404"
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/500"
           }
         },
         "security": [
@@ -160,7 +139,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -179,24 +158,10 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/500"
           }
         },
         "security": [
@@ -239,34 +204,13 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404"
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/500"
           }
         },
         "security": [
@@ -319,7 +263,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -338,34 +282,13 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404"
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/500"
           }
         },
         "security": [
@@ -418,7 +341,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -437,34 +360,13 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404"
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/500"
           }
         },
         "security": [
@@ -516,34 +418,13 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404"
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/500"
           }
         },
         "security": [
@@ -605,7 +486,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -624,34 +505,13 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404"
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/500"
           }
         },
         "security": [
@@ -695,7 +555,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -714,24 +574,10 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/500"
           }
         },
         "security": [
@@ -774,34 +620,13 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404"
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/500"
           }
         },
         "security": [
@@ -945,7 +770,7 @@
       },
       "ErrorContent": {
         "type": "object",
-        "description": "Contains error content.",
+        "description": "The error details.",
         "additionalProperties": false,
         "properties": {
           "code": {
@@ -965,12 +790,7 @@
         "additionalProperties": false,
         "properties": {
           "error": {
-            "description": "The error details.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ErrorContent"
-              }
-            ]
+            "$ref": "#/components/schemas/ErrorContent"
           }
         }
       },
@@ -993,7 +813,7 @@
               "controllerId": {
                 "type": "integer",
                 "description": "The unique ID of the datacenter/cluster controller.",
-                "example": 12345,
+                "example": 1234,
                 "format": "int32",
                 "nullable": true
               },
@@ -1291,6 +1111,56 @@
         ]
       }
     },
+    "responses": {
+      "400": {
+        "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "example": {
+              "error": {
+                "code": 400,
+                "message": "Filter field name needs to be formatted as a string."
+              }  
+            }          
+          }
+        }
+      },
+      "404": {
+        "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "example": {
+              "error": {
+                "code": 404,
+                "message": "Resource with ID '32aeda0a-80dc-475a-907f-2d250a3a8614' not found."
+              }  
+            }          
+          }
+        }
+      },
+      "500": {
+        "description": "Internal Server Error - Your request failed due to an internal error.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "example": {
+                "error": {
+                  "code": 500,
+                  "message": "The service encountered an unexpected condition that prevented it from fulfilling the request."
+                }  
+              }
+        }
+      }
+    }
+},
     "securitySchemes": {
       "BearerAuth": {
         "type": "http",

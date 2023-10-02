@@ -90,7 +90,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -161,7 +161,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -190,7 +190,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -260,7 +260,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -351,7 +351,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -391,7 +391,7 @@
         "parameters": [
           {
             "name": "id",
-            "description": "The unique ID of an agreement type.",
+            "description": "The unique ID of the agreement type.",
             "in": "path",
             "required": true,
             "schema": {
@@ -421,7 +421,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -521,7 +521,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -592,7 +592,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -621,7 +621,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -661,7 +661,7 @@
         "parameters": [
           {
             "name": "id",
-            "description": "The unique ID of a contract.",
+            "description": "The unique ID of the contract.",
             "in": "path",
             "required": true,
             "schema": {
@@ -691,7 +691,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -782,7 +782,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -852,7 +852,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don’t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features.\n            The recommended action is to abort.",
+            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
