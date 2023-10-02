@@ -118,7 +118,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""

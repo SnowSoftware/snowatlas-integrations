@@ -115,7 +115,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "Filter the collection of Users. Format of the query string parameter:\n\n```\n<filter name> <operator>  -<value>\n```\n\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\nuserName | The userName of a user  | String | ?filter=userName -eq \"Sammy\"\nstatus | The status of a user  | String | ?filter=status -ne \"active\"\nfullName | The fullName of a user | String | ?filter=fullName -contains \"Sammy\"\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "description": "Filter the collection of Users. Format of the query string parameter:\n\n```\n<filter name> <operator>  -<value>\n```\n\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\nuserName | The userName of a user  | String | ?filter=userName -eq \"Sammy\"\nstatus | The status of a user  | String | ?filter=status -ne \"active\"\nfullName | The fullName of a user | String | ?filter=fullName -contains \"Sammy\"\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
             "required": false,
             "schema": {
               "type": "string",
@@ -258,7 +258,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "Filter the collection of user discovery details. Format of the query string parameter:\n\n```\n<filter name> <operator>  -<value>\n```\n\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\n domainName | The domainName for users | String | ?filter=domainName -eq \"thebagel.co\"\nsamAccountName | The samAccountName of a user  | String | ?filter=samAccountName -eq \"thebagel\\ssmith\"\nemail | The email of a user | String | ?filter=email -eq \"ssmith@thebagel.co\"\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "description": "Filter the collection of user discovery details. Format of the query string parameter:\n\n```\n<filter name> <operator>  -<value>\n```\n\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\n domainName | The domainName for users | String | ?filter=domainName -eq \"thebagel.co\"\nsamAccountName | The samAccountName of a user  | String | ?filter=samAccountName -eq \"thebagel\\ssmith\"\nemail | The email of a user | String | ?filter=email -eq \"ssmith@thebagel.co\"\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
             "required": false,
             "schema": {
               "type": "string",
@@ -334,7 +334,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "Filter the collection account metering. Format of the query string parameter:\n\n```\n<filter name> <operator>  -<value>\n```\n\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\nmetricID | The user accounts metricID | String | ?filter=metricID -eq \"2823fbea-bd7b-4f4f-9f0c-780a5f26218c\"\napplicationID | The user accounts applicationID  | String | ?filter=applicationID  -eq \"85d5dc09-115c-40db-a2f6-09f9c935852e\"\norganizationID | The user accounts organizationID | String | ?filter=organizationID -eq\"317db6a5-e16d-4e3b-a745-1f973690e982\"\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "description": "Filter the collection account metering. Format of the query string parameter:\n\n```\n<filter name> <operator>  -<value>\n```\n\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\nmetricID | The user accounts metricID | String | ?filter=metricID -eq \"2823fbea-bd7b-4f4f-9f0c-780a5f26218c\"\napplicationID | The user accounts applicationID  | String | ?filter=applicationID  -eq \"85d5dc09-115c-40db-a2f6-09f9c935852e\"\norganizationID | The user accounts organizationID | String | ?filter=organizationID -eq\"317db6a5-e16d-4e3b-a745-1f973690e982\"\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
             "required": false,
             "schema": {
               "type": "string",
@@ -419,7 +419,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "Filter the collection account metering. Format of the query string parameter:\n\n```\n<filter name> <operator>  -<value>\n```\n\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\nmetricID | The user accounts metricID | String | ?filter=metricID -eq \"2823fbea-bd7b-4f4f-9f0c-780a5f26218c\"\napplicationID | The user accounts applicationID  | String | ?filter=applicationID  -eq \"85d5dc09-115c-40db-a2f6-09f9c935852e\"\norganizationID | The user accounts organizationID | String | ?filter=organizationID -eq\"317db6a5-e16d-4e3b-a745-1f973690e982\"\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/api-conventions#filter-api-call-results).",
+            "description": "Filter the collection account metering. Format of the query string parameter:\n\n```\n<filter name> <operator>  -<value>\n```\n\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\nmetricID | The user accounts metricID | String | ?filter=metricID -eq \"2823fbea-bd7b-4f4f-9f0c-780a5f26218c\"\napplicationID | The user accounts applicationID  | String | ?filter=applicationID  -eq \"85d5dc09-115c-40db-a2f6-09f9c935852e\"\norganizationID | The user accounts organizationID | String | ?filter=organizationID -eq\"317db6a5-e16d-4e3b-a745-1f973690e982\"\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
             "required": false,
             "schema": {
               "type": "string",
