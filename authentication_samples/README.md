@@ -3,7 +3,7 @@
 Sample Scripts for Authentication to Snow Atlas
  
 Requirements:
-* Powershell or Python
+* Powershell, Python 
 * App Registration Created in Snow Atlas with the correct permmission set for the Actions that will be performed. 
 * API Data Region can be found under Snow Atlas Settings > Licence Details > General Information in the Portal.
 
