@@ -1,23 +1,28 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "SAM Agreements",
+    "title": "SAM: Agreements",
     "description": "API for exploring agreements.",
     "version": "2.0.0",
     "contact": {
-      "name": "Snow Software",
+      "name": "Snow Software, Inc.",
       "url": "https://www.snowsoftware.com"
     }
   },
   "servers": [
     {
-      "url": "https://australiasoutheast.snowsoftware.io"
-    },
-    {
-      "url": "https://eastus2.snowsoftware.io"
-    },
-    {
-      "url": "https://westeurope.snowsoftware.io"
+        "url": "https://{region}.snowsoftware.io",
+        "variables": {
+            "region": {
+                "enum": [
+                    "westeurope",
+                    "australiasoutheast",
+                    "eastus2",
+                    "uksouth"
+                ],
+                "default": "westeurope"
+            }
+        }
     }
   ],
   "tags": [
@@ -70,7 +75,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -80,7 +85,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -90,7 +95,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -100,7 +105,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -110,7 +115,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -161,7 +166,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -170,7 +175,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -180,7 +185,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -190,7 +195,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -200,7 +205,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -240,7 +245,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -250,7 +255,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -260,7 +265,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -270,7 +275,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -280,7 +285,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -331,7 +336,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -341,7 +346,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -351,7 +356,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -361,7 +366,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -401,7 +406,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -411,7 +416,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -421,7 +426,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -431,7 +436,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -441,7 +446,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -501,7 +506,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -511,7 +516,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -521,7 +526,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -531,7 +536,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -541,7 +546,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -592,7 +597,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -601,7 +606,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -611,7 +616,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -621,7 +626,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -631,7 +636,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -671,7 +676,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -681,7 +686,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -691,7 +696,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -701,7 +706,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -711,7 +716,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -762,7 +767,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -772,7 +777,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -782,7 +787,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -792,7 +797,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -832,7 +837,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -842,7 +847,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -852,7 +857,7 @@
             }
           },
           "403": {
-            "description": "Forbidden - The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
             "content": {
               "application/json": {
                 "schema": {
@@ -862,7 +867,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -872,7 +877,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1154,7 +1159,7 @@
           },
           {
             "type": "object",
-            "description": "Extends FilteredResponse`1\nwith Link collection",
+            "description": "Extends FilteredResponse`1\nwith Link collection.",
             "additionalProperties": false,
             "properties": {
               "_links": {
@@ -1344,7 +1349,7 @@
           },
           {
             "type": "object",
-            "description": "Represents response after querying agreement\nIncludes Link collection to related resources",
+            "description": "Represents response after querying agreement.\nIncludes Link collection to related resources.",
             "additionalProperties": false,
             "properties": {
               "_links": {
@@ -1414,7 +1419,7 @@
           },
           {
             "type": "object",
-            "description": "Extends FilteredResponse`1\nwith Link collection",
+            "description": "Extends FilteredResponse`1\nwith Link collection.",
             "additionalProperties": false,
             "properties": {
               "_links": {
@@ -1436,7 +1441,7 @@
           },
           {
             "type": "object",
-            "description": "Represents the response message received after querying agreement types collection",
+            "description": "Represents the response message received after querying agreement types collection.",
             "additionalProperties": false
           }
         ]
@@ -1448,7 +1453,7 @@
           },
           {
             "type": "object",
-            "description": "Represents response after querying agreement type.\nIncludes Link collection to related resources",
+            "description": "Represents response after querying agreement type.\nIncludes Link collection to related resources.",
             "additionalProperties": false,
             "properties": {
               "_links": {

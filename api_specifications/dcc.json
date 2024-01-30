@@ -1,31 +1,36 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "SAM Datacenters/Clusters",
+    "title": "SAM: Datacenters/clusters",
     "description": "API for exploring datacenters/clusters.",
     "version": "1.0.0",
     "contact": {
-          "name": "Snow Software",
+          "name": "Snow Software, Inc.",
           "url": "https://www.snowsoftware.com"
         }
   },
   "servers": [
     {
-      "url": "https://australiasoutheast.snowsoftware.io"
-    },
-    {
-      "url": "https://eastus2.snowsoftware.io"
-    },
-    {
-      "url": "https://westeurope.snowsoftware.io"
+        "url": "https://{region}.snowsoftware.io",
+        "variables": {
+            "region": {
+                "enum": [
+                    "westeurope",
+                    "australiasoutheast",
+                    "eastus2",
+                    "uksouth"
+                ],
+                "default": "westeurope"
+            }
+        }
     }
   ],
   "tags": [
     {
-      "name": "Datacenters and Clusters"
+      "name": "Datacenters and clusters"
     },
     {
-      "name": "Datacenters and Clusters Hypervisors"
+      "name": "Datacenters and clusters hypervisors"
     }
   ],
   "paths": {
@@ -70,7 +75,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -79,7 +84,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -139,7 +144,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -148,7 +153,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -194,7 +199,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -263,7 +268,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -272,7 +277,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -341,7 +346,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -350,7 +355,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -408,7 +413,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -486,7 +491,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -495,7 +500,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -555,7 +560,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -564,7 +569,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -610,7 +615,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1113,7 +1118,7 @@
     },
     "responses": {
       "400": {
-        "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+        "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
         "content": {
           "application/json": {
             "schema": {
@@ -1129,7 +1134,7 @@
         }
       },
       "404": {
-        "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+        "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
         "content": {
           "application/json": {
             "schema": {
@@ -1145,7 +1150,7 @@
         }
       },
       "500": {
-        "description": "Internal Server Error - Your request failed due to an internal error.",
+        "description": "Internal Server Error: Your request failed due to an internal error.",
         "content": {
           "application/json": {
             "schema": {

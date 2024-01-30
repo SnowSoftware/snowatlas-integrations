@@ -1,23 +1,28 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "SAM Licenses",
+    "title": "SAM: Licenses",
     "description": "API for interacting with licenses.",
     "version": "1.0.0",
     "contact": {
-          "name": "Snow Software",
+          "name": "Snow Software, Inc.",
           "url": "https://www.snowsoftware.com"
         }
   },
   "servers": [
-   {
-      "url": "https://australiasoutheast.snowsoftware.io"
-    },
     {
-      "url": "https://eastus2.snowsoftware.io"
-    },
-    {
-      "url": "https://westeurope.snowsoftware.io"
+        "url": "https://{region}.snowsoftware.io",
+        "variables": {
+            "region": {
+                "enum": [
+                    "westeurope",
+                    "australiasoutheast",
+                    "eastus2",
+                    "uksouth"
+                ],
+                "default": "westeurope"
+            }
+        }
     }
   ],
   "paths": {
@@ -33,7 +38,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "The license identifier.",
+            "description": "The unique ID of the license.",
             "required": true,
             "schema": {
               "type": "string"
@@ -62,7 +67,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -71,7 +76,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -81,7 +86,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -91,7 +96,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -115,7 +120,7 @@
         "tags": [
           "Upgrades"
         ],
-        "description": "Returns details of a license upgrade.",
+        "description": "Returns the details of a license upgrade.",
         "summary": "Get license upgrade details", 
         "operationId": "upgrades2",
         "parameters": [
@@ -142,7 +147,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -152,7 +157,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -162,7 +167,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -172,7 +177,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -233,7 +238,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -242,7 +247,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -252,7 +257,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -262,7 +267,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -333,7 +338,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -342,7 +347,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -352,7 +357,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -362,7 +367,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -372,7 +377,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -433,7 +438,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -442,7 +447,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -452,7 +457,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -522,7 +527,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -531,7 +536,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -541,7 +546,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -602,7 +607,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -611,7 +616,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -621,7 +626,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -631,7 +636,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -692,7 +697,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -701,7 +706,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -711,7 +716,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -721,7 +726,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -791,7 +796,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -800,7 +805,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -810,7 +815,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -820,7 +825,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -880,7 +885,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -889,7 +894,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -899,7 +904,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -909,7 +914,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -980,7 +985,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -989,7 +994,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -999,7 +1004,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1009,7 +1014,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1070,7 +1075,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -1079,7 +1084,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1089,7 +1094,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1099,7 +1104,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1160,7 +1165,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -1169,7 +1174,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1179,7 +1184,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1189,7 +1194,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1260,7 +1265,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -1269,7 +1274,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1279,7 +1284,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1289,7 +1294,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1350,7 +1355,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -1359,7 +1364,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1369,7 +1374,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1379,7 +1384,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1403,7 +1408,7 @@
                 "tags": [
           "Policies"
         ],
-        "description": "Returns details of a license policy field.",
+        "description": "Returns the details of a license policy field.",
         "summary": "Get license policy field details", 
         "operationId": "fields2",
         "parameters": [
@@ -1430,7 +1435,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1440,7 +1445,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1450,7 +1455,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1460,7 +1465,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1511,7 +1516,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -1520,7 +1525,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1530,7 +1535,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1540,7 +1545,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1564,7 +1569,7 @@
         "tags": [
           "Policies"
         ],
-        "description": "Returns details of a license policy.",
+        "description": "Returns the details of a license policy.",
         "summary": "Get license policy details", 
         "operationId": "licenses-policies2",
         "parameters": [
@@ -1581,7 +1586,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1591,7 +1596,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1601,7 +1606,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1611,7 +1616,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1662,7 +1667,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -1671,7 +1676,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1681,7 +1686,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1691,7 +1696,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1715,7 +1720,7 @@
         "tags": [
           "Licenses"
         ],
-        "description": "Returns details of a license.",
+        "description": "Returns the details of a license.",
         "summary": "Get license details", 
         "operationId": "licenses2",
         "parameters": [
@@ -1732,7 +1737,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1742,7 +1747,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1752,7 +1757,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1762,7 +1767,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1813,7 +1818,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -1822,7 +1827,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1832,7 +1837,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1883,7 +1888,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -1892,7 +1897,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1902,7 +1907,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1953,7 +1958,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1963,7 +1968,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2014,7 +2019,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -2023,7 +2028,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2033,7 +2038,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2043,7 +2048,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2094,7 +2099,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -2103,7 +2108,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2113,7 +2118,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2123,7 +2128,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2164,7 +2169,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2174,7 +2179,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2184,7 +2189,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2194,7 +2199,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2255,7 +2260,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -2264,7 +2269,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2274,7 +2279,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2284,7 +2289,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2308,7 +2313,7 @@
         "tags": [
           "Costs"
         ],
-        "description": "Returns details of a license costs for an organization.",
+        "description": "Returns the details of a license costs for an organization.",
         "summary": "Get a license costs for an organization", 
         "operationId": "costs2",
         "parameters": [
@@ -2335,7 +2340,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2345,7 +2350,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2355,7 +2360,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2365,7 +2370,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2406,7 +2411,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2416,7 +2421,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2426,7 +2431,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2436,7 +2441,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2497,7 +2502,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -2506,7 +2511,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2516,7 +2521,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2526,7 +2531,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2577,7 +2582,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2587,7 +2592,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2597,7 +2602,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2607,7 +2612,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2668,7 +2673,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -2677,7 +2682,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2687,7 +2692,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2697,7 +2702,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2721,7 +2726,7 @@
         "tags": [
           "Assignments"
         ],
-        "description": "Returns details of a data center assignment.",
+        "description": "Returns the details of a data center assignment.",
         "summary": "Get datacenter assignment details for a license", 
         "operationId": "datacenters2",
         "parameters": [
@@ -2768,7 +2773,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2778,7 +2783,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2788,7 +2793,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2798,7 +2803,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2822,7 +2827,7 @@
         "tags": [
           "Assignments"
         ],
-        "description": "Returns details of a license assignment.",
+        "description": "Returns the details of a license assignment.",
         "summary": "Get license assignments summary", 
         "operationId": "assignments-summary",
         "parameters": [
@@ -2839,7 +2844,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2849,7 +2854,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2859,7 +2864,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2869,7 +2874,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2930,7 +2935,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -2939,7 +2944,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2949,7 +2954,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2959,7 +2964,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3010,7 +3015,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3020,7 +3025,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3030,7 +3035,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3040,7 +3045,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3081,7 +3086,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3091,7 +3096,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3101,7 +3106,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3111,7 +3116,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3172,7 +3177,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://snowsoftwareglobal.github.io/snow-atlas-api/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
             "schema": {
               "type": "string",
               "example": "status -eq \"active\""
@@ -3181,7 +3186,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3191,7 +3196,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3201,7 +3206,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3252,7 +3257,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK - Your request succeeded.",
+            "description": "OK: Your request succeeded.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3262,7 +3267,7 @@
             }
           },
           "400": {
-            "description": "Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3272,7 +3277,7 @@
             }
           },
           "404": {
-            "description": "Not Found - The operation you requested failed because a resource associated with your request could not be found.",
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3282,7 +3287,7 @@
             }
           },
           "500": {
-            "description": "Internal Server Error - Your request failed due to an internal error.",
+            "description": "Internal Server Error: Your request failed due to an internal error.",
             "content": {
               "application/json": {
                 "schema": {
