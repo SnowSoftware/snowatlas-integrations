@@ -37,7 +37,7 @@
     "/api/sam/estate/v1/dcc/{id}/applications": {
       "get": {
         "tags": [
-          "Datacenters and Clusters"
+          "Datacenters and clusters"
         ],
         "description": "Returns a collection of members and links to computer applications for a given datacenter/cluster.",
         "summary": "Get applications",
@@ -115,7 +115,7 @@
     "/api/sam/estate/v1/dcc": {
       "get": {
         "tags": [
-          "Datacenters and Clusters"
+          "Datacenters and clusters"
         ],
         "description": "Returns a collection of datacenters/clusters.",
         "summary": "Get datacenters/clusters",
@@ -181,7 +181,7 @@
     "/api/sam/estate/v1/dcc/{id}": {
       "get": {
         "tags": [
-          "Datacenters and Clusters"
+          "Datacenters and clusters"
         ],
         "description": "Returns the details of a given datacenter/cluster.",
         "summary": "Get datacenter/cluster",
@@ -230,7 +230,7 @@
     "/api/sam/estate/v1/dcc/{id}/history": {
       "get": {
         "tags": [
-          "Datacenters and Clusters"
+          "Datacenters and clusters"
         ],
         "description": "Returns a collection of histories for a given datacenter/cluster.",
         "summary": "Get histories",
@@ -308,7 +308,7 @@
     "/api/sam/estate/v1/dcc/{id}/members": {
       "get": {
         "tags": [
-          "Datacenters and Clusters"
+          "Datacenters and clusters"
         ],
         "description": "Returns a collection of members for a given datacenter/cluster.",
         "summary": "Get members",
@@ -386,7 +386,7 @@
     "/api/sam/estate/v1/dcc/{id}/members/{memberId}": {
       "get": {
         "tags": [
-          "Datacenters and Clusters"
+          "Datacenters and clusters"
         ],
         "description": "Returns the details of a given member for a given unique datacenter/cluster.",
         "summary": "Get member",
@@ -444,7 +444,7 @@
     "/api/sam/estate/v1/dcc/{id}/members/{memberId}/features": {
       "get": {
         "tags": [
-          "Datacenters and Clusters"
+          "Datacenters and clusters"
         ],
         "description": "Returns a collection of features for a given member of a given datacenter/cluster.",
         "summary": "Get features",
@@ -531,7 +531,7 @@
     "/api/sam/estate/v1/dcc-hypervisors": {
       "get": {
         "tags": [
-          "Datacenters and Clusters Hypervisors"
+          "Datacenters and clusters hypervisors"
         ],
         "description": "Returns a collection of hypervisor types.",
         "summary": "Get hypervisor types",
@@ -597,7 +597,7 @@
     "/api/sam/estate/v1/dcc-hypervisors/{id}": {
       "get": {
         "tags": [
-          "Datacenters and Clusters Hypervisors"
+          "Datacenters and clusters hypervisors"
         ],
         "description": "Returns the details of a hypervisor type for a given datacenter/cluster hypervisor.",
         "summary": "Get hypervisor type",
