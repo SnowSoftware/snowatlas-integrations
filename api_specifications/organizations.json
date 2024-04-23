@@ -160,7 +160,7 @@
               "text/plain":{
                 "schema":{
                   "type": "string",
-                  "default":"OK"
+                  "default":""
                 }
               }
             }
@@ -225,7 +225,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Organization"
+                  "$ref": "#/components/schemas/Create_Organization"
                 }
               }
             }
@@ -292,7 +292,7 @@
             "type": "string",
             "description": "The unique ID of the parent to this organizations tree node.",
             "format": "guid",
-            "example": "680af471-4771-47ae-93b8-2dc91673ab64"
+            "example": "00000000-0000-0000-0000-000000000000"
           },
           "name": {
             "type": "string",
@@ -309,7 +309,7 @@
             "type": "string",
             "description": "The unique ID of the external org.",
             "nullable": true,
-            "example": "SomeExternalIdString"
+            "example": "Organization_One"
           }
         }
       },
@@ -349,7 +349,7 @@
             "type": "string",
             "description": "The unique ID of the parent to this organizations tree node.",
             "format": "guid",
-            "example": "680af471-4771-47ae-93b8-2dc91673ab64"
+            "example": "00000000-0000-0000-0000-000000000000"
           },
           "name": {
             "type": "string",
@@ -366,7 +366,47 @@
             "type": "string",
             "description": "The unique ID of the external org.",
             "nullable": true,
-            "example": "SomeExternalIdString"
+            "example": "Organization_One"
+          }
+        }
+      },
+      "Create_Organization": {
+        "type": "object",
+        "description": "Organization.",
+        "additionalProperties": false,
+        "required": [
+          "nodes"
+        ],
+        "properties": { 
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the organizations tree node.",
+            "format": "guid",
+            "minLength": 1,
+            "example": "f3fce297-1ab4-4665-b927-51d3c46cb2c5"
+          },
+          "parentId": {
+            "type": "string",
+            "description": "The unique ID of the parent to this organizations tree node.",
+            "format": "guid",
+            "example": "abe1cb12-02e6-4966-823b-82c942e278ef"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the organizations tree node.",
+            "minLength": 1,
+            "example": "Organization Two"
+          },
+          "isLegal": {
+            "type": "boolean",
+            "description": "```true``` if is legal; otherwise, ```false```.",
+            "example": true
+          },
+          "externalId": {
+            "type": "string",
+            "description": "The unique ID of the external org.",
+            "nullable": true,
+            "example": "Organization_Two"
           }
         }
       },
@@ -423,19 +463,19 @@
             "type": "string",
             "description": "The unique ID of the organizations tree node assigned by client. Used for child - parent hierarchy.",
             "minLength": 1,
-            "example": "node15"
+            "example": "Organization_Two"
           },
           "parentId": {
             "type": "string",
             "description": "The unique ID of the parent to this organizations tree node. Used for child - parent hierarchy.",
             "nullable": true,
-            "example": "parentNodeId5"
+            "example": "Organization_One"
           },
           "name": {
             "type": "string",
             "description": "The name of the organizations tree node.",
             "minLength": 1,
-            "example": "Organization One"
+            "example": "Organization Two"
           },
           "isLegal": {
             "type": "boolean",
