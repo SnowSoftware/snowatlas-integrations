@@ -154,7 +154,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "OK: Your request succeeded.",
             "content": {
               "text/plain":{
