@@ -157,12 +157,8 @@
           "200": {
             "description": "OK: Your request succeeded.",
             "content": {
-              "text/plain":{
-                "schema":{
-                  "type": "string",
-                  "default":""
+              "application/json":{
                 }
-              }
             }
           },
           "400": {
