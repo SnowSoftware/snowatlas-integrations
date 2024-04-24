@@ -29,7 +29,7 @@
     "/api/organizations/v1/tree": {
       "get": {
         "summary": "Get organizations",
-        "description": "Returns a collection of organizations",
+        "description": "Returns a collection of organizations.",
         "operationId": "getTree2",
         "responses": {
           "200": {
