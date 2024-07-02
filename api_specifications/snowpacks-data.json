@@ -1,0 +1,1232 @@
+openapi: 3.0.3
+info:
+    version: 1.0.0
+    title: "Support: Access to snowpacks"
+    description: API for interacting with ingested inventory data.
+    contact:
+      name: Snow Software, Inc.
+      url: https://www.snowsoftware.com
+servers:
+  - url: https://{region}.snowsoftware.io
+    variables: 
+      region:
+        enum: 
+          - westeurope 
+          - australiasoutheast
+          - eastus2
+          - uksouth
+        default: westeurope
+tags: 
+  - name: Access to inventory device data
+paths:
+  /api/inventory/v1/device/metadata:
+    get:
+      summary: Get inventory device metadata
+      description: Returns a collection of inventory metadata based on the filter criteria.
+      operationId: getInventoryMetadata
+      tags: 
+        - Access to inventory device data
+      parameters:
+        - name: filter
+          in: query
+          description: "Filter the collection of device metadata. Example: \n\n ```\n filter=status -eq 'active' \n ```\n\n For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions).\n"
+          required: false
+          schema: {
+            "type" : "string"
+          }
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/PageNumber'  
+      responses: 
+        '200': {
+          "description" : "OK: Your request succeeded.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                $ref: '#/components/schemas/Metadata'
+              }
+            }
+          }
+        }
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500' 
+  /api/inventory/v1/device/{deviceId}/data:
+    get:
+      summary: Get inventory device data
+      description: Returns the details of a single device document.
+      operationId: getInventoryDevice
+      tags:
+        - Access to inventory device data
+      parameters:
+        - name: deviceId
+          in: path
+          required: true
+          description: The unique ID of the device.
+          schema:
+              type: string
+        - name: filter
+          in: query
+          description: "Filter the device data. Example: \n\n ```\n filter=status -eq 'active' \n ```\n\n For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions).\n"
+          required: false
+          schema: {
+            "type" : "string"
+          }
+      responses: 
+        '200': {
+          "description" : "OK: Your request succeeded.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                $ref: '#/components/schemas/Device'
+              }
+            }
+          }
+        }
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/inventory/v1/device/{deviceId}/software:
+    get:
+      summary: Get installed device software 
+      description: Returns the details of an installed software.
+      operationId: getInventoryDeviceSoftware
+      tags:
+        - Access to inventory device data
+      parameters:
+        - name: deviceId
+          in: path
+          required: true
+          description: The unique ID of the device.
+          schema:
+              type: string
+        - name: filter
+          in: query
+          description: "Filter the device software data. Example: \n\n ```\n filter=status -eq 'active' \n ```\n\n For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions).\n"
+          required: false
+          schema: {
+            "type" : "string"
+          }
+      responses: 
+        '200': {
+          "description" : "OK: Your request succeeded.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                $ref: '#/components/schemas/Software'
+              }
+            }
+          }
+        }
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+components:
+  parameters:
+
+    PageSize:
+      name: page_size
+      in: query
+      required: false
+      description: The maximum number of items in the response.
+      schema: {
+        "type" : "integer",
+        "default": 100,
+        "maximum": 1000
+      }
+
+    PageNumber:
+      name: page_number
+      in: query
+      required: false
+      description: The page number.
+      schema: {
+        "type" : "integer",
+        "format" : "int64",
+        "default": 1
+      }
+
+  schemas:
+
+    Software:
+      type: object
+      description: Represents device software data object.
+      required: 
+        - tenantId
+        - deviceId
+        - sources
+      properties:
+        tenantId:
+          description: The unique ID of the tenant.
+          type: string
+          example: b814cda1-2c2a-455c-b288-57b642982eb0
+        deviceId:
+          description: The unique ID of the device.
+          type: string
+          example: 602e717c-d1ba-426b-9c58-1b4b4744ffd1
+        sources:
+          description: Collection of installed software by source.
+          type: array
+          items:
+            $ref: '#/components/schemas/SoftwareSource'
+
+    SoftwareSource:
+      type: object
+      description: Represents installed software object per source.
+      required: 
+        - source
+        - software
+      properties:
+        source:
+          $ref: "#/components/schemas/Source"
+        software:
+          description: Collection of installed software per source.
+          type: array
+          items:
+            $ref: "#/components/schemas/InstalledSoftware"
+
+    InstalledSoftware:
+      type: object
+      description: Represents installed software object.
+      required: 
+        - applicationId
+        - ruleId
+        - name
+        - manufacturer
+        - version
+        - executablePath
+        - osType
+        - isOs
+        - isRegistry
+        - isPreRecognized
+        - metering
+      properties:
+        applicationId:
+          description: The unique ID of the application.
+          type: string
+          format: uuid
+          example: 6c8b1a41-58bc-4dd2-a31c-1604ba7ea720
+        ruleId:
+          description: The unique ID of the application rule.
+          type: string
+          format: uuid
+          example: 56eedf2f-27e3-4667-a6bd-168752de3514
+        name:
+          description: Name of the application.
+          type: string
+          example: Jira
+        manufacturer:
+          description: Manufacturer of the application.
+          type: string
+          example: Atlasian
+        version:
+          description: Version of the application.
+          type: string
+          example: "5.4.4"
+        executablePath:
+          description: Executable path of the application.
+          type: string
+          example: N/A
+        osType:
+          description: Os type path of the application.
+          type: integer
+          example: 1
+        isOs:
+          description: "```true``` if aplication is OS; otherwise, ```false```."
+          type: boolean
+          example: true
+        isRegistry:
+          description: "```true``` if aplication is registry; otherwise, ```false```."
+          type: boolean
+          example: true
+        isPreRecognized:
+          description: "```true``` if aplication is pre recognized; otherwise, ```false```."
+          type: boolean
+          example: true
+        metering:
+          description: Collection of software usage information.
+          type: array
+          items:
+            $ref: "#/components/schemas/SoftwareUsage"
+
+    SoftwareUsage:
+      type: object
+      description: Informations regarding how corresponding software is being used
+      required: 
+        - counter
+        - day
+        - deviceId
+        - domainName
+        - firstUsed
+        - fullVersion
+        - isLocal
+        - isWebApp
+        - languageName
+        - lastUsed
+        - manufacturer
+        - minutes
+        - name
+        - pathName
+        - regularAverage
+        - regularCount
+        - usageMask
+        - userName
+        - version
+        - isTS
+      properties:
+        counter:
+          description: Counter regarding how many times the software is being used.
+          type: integer
+          example: 5
+        day:
+          description: Specific day the software was used.
+          type: string
+          format: date-time
+        deviceId:
+          description: The unique ID of the device software.
+          type: string
+          example: N/A
+        domainName:
+          description: Domain name of the software.
+          type: string
+          example: N/A
+        firstUsed:
+          description: The first day the software was used.
+          type: string
+          format: date-time
+        fullVersion:
+          description: Software full version.
+          type: string
+          example: 2.6.6
+        isLocal:
+          description: "```true``` if software usage is local; otherwise, ```false```."
+          type: boolean
+          example: true
+        isWebApp:
+          description: "```true``` if software usage is web app; otherwise, ```false```."
+          type: boolean
+          example: true
+        languageName:
+          description: Language name of the software.
+          type: string
+          example: N/A
+        lastUsed:
+          description: The last day the software was used.
+          type: string
+          format: date-time
+        manufacturer:
+          description: Software manufacturer.
+          type: string
+          example: N/A
+        minutes:
+          description: How much time the software was used in minutes.
+          type: integer
+          example: 10
+        name:
+          description: Software name.
+          type: string
+          example: N/A
+        pathName:
+          description: Software path name.
+          type: string
+          example: N/A
+        regularAverage:
+          description: Regular average usage of the software.
+          type: integer
+          example: 25
+        regularCount:
+          description: Regular usage of the software.
+          type: integer
+          example: 5
+        usageMask:
+          description: Software mask.
+          type: integer
+          example: 15
+        userName:
+          description: Software user name.
+          type: string
+          example: N/A
+        version:
+          description: Software version.
+          type: string
+          example: 4.7.8
+        isTs:
+          description: "```true``` if software usage is Ts; otherwise, ```false```."
+          type: boolean
+          example: true
+
+    Metadata:
+      type: object
+      required:
+        - pagination
+        - items
+        - _links
+      properties: 
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        items:
+          description: A collection of device metadata informations.
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataObject'
+        _links:
+          type: array
+          description: A collection of links to related resources.
+          items:
+            $ref: '#/components/schemas/Link'
+
+    MetadataObject:
+      type: object
+      description: Represents metadata object.
+      required: 
+        - tenantId
+        - hostname
+        - originalBlobId
+        - deviceId
+        - source
+      properties:
+        tenantId:
+          description: The unique ID of the tenant.
+          type: string
+          example: b814cda1-2c2a-455c-b288-57b642982eb0  
+        hostname:
+          description: Hostname where the device exists.
+          type: string
+          example: Client001
+        originalBlobId:
+          description: The unique ID of the blob where the device data was saved.
+          type: string
+          example: d7165920-b415-4a25-bfd9-522a16c2133e
+        deviceId:
+          description: The unique ID of the device.
+          type: string
+          example: 602e717c-d1ba-426b-9c58-1b4b4744ffd1
+        source:
+          description: The source from where the device data was ingested.
+          type: string
+          example: agent-win32
+      
+    Device:
+      type: object
+      description: Represents device data object.
+      required: 
+        - tenantId
+        - deviceId
+        - sources
+      properties:
+        tenantId:
+          description: The unique ID of the tenant.
+          type: string
+          example: b814cda1-2c2a-455c-b288-57b642982eb0
+        deviceId:
+          description: The unique ID of the device.
+          type: string
+          example: 602e717c-d1ba-426b-9c58-1b4b4744ffd1
+        sources:
+          description: Collection of device data by source.
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceSource'
+    
+    DeviceSource:
+      type: object
+      description: Represents device data object per source.
+      required: 
+        - source
+        - client
+        - deviceData
+      properties:
+        source:
+          $ref: "#/components/schemas/Source"
+        client:
+          $ref: "#/components/schemas/Client"
+        deviceData:
+          $ref: "#/components/schemas/DeviceData"
+        identifiers:
+          description: Collection of device identifiers.
+          type: array
+          items:
+            $ref: "#/components/schemas/Identifier"
+
+    Source:
+      type: object
+      description: Represents the source of the device data.
+      required: 
+        - name
+        - ingestionId
+      properties:
+        name:
+          description: Name of the source of device data.
+          type: string
+          example: agent-win32
+        ingestionId:
+          description: The unique ID of the blob where the device data was saved.
+          type: string
+          example: d7165920-b415-4a25-bfd9-522a16c2133e
+
+    Client:
+      type: object
+      description: Represents the client of the device data.
+      required: 
+        - scannerVersion
+        - clientType
+        - clientVersion
+        - site
+        - company
+        - configName
+      properties:
+        scannerVersion:
+          description: Name of the scanned version.
+          type: string
+          example: 1.0.0
+        clientType:
+          description: The type of the client.
+          type: string
+          example: Snow Agent - Windows
+        clientVersion:
+          description: The version of the client.
+          type: string
+          example: 6.7.0
+        site:
+          description: The site of the client.
+          type: string
+          example: snow
+        company:
+          description: The company of the client.
+          type: string
+          example: Test company
+        configName:
+          description: The config name of the client.
+          type: string
+          example: SnowSky
+
+    DeviceData:
+      type: object
+      description: Represents computer object.
+      required: 
+        - hostname
+        - domain
+        - manufacturerName
+        - model
+        - userName
+        - fullUserName
+        - manufacturerId
+        - lastScanDate
+        - bios
+        - processor
+        - memory
+        - networkAdapters
+        - videoAdapters
+        - logicalDrives
+        - physicalDrives
+        - operatingSystem
+        - keyboard
+        - capabilities
+      properties:
+        hostname:
+          description: Hostname where the device exists.
+          type: string
+          example: Client001
+        domain:
+          description: Domain where the device exists.
+          type: string
+          example: Domain001
+        manufacturerName:
+          description: Name of the device client manufacturer.
+          type: string
+          example: Dell Inc.
+        model:
+          description: Name of the device client model.
+          type: string
+          example: Precision 5550
+        userName:
+          description: Username of the device client.
+          type: string
+          example: EUSE\afdnes
+        fullUserName:
+          description: Full username of the device client.
+          type: string
+          example: N/A
+        manufacturerId:
+          description: The unique ID of the device client manufacturer.
+          type: string
+          example: N/A
+        lastScanDate:
+          description: The last scan date of the ingested device data.
+          type: string
+          format: date-time
+        bios:
+          $ref: "#/components/schemas/Bios"
+        processor:
+          $ref: "#/components/schemas/Processor"
+        memory:
+          $ref: "#/components/schemas/Memory"
+        networkAdapters:
+          description: Network adapters.
+          type: array
+          items:
+            $ref: "#/components/schemas/NetworkAdapter"
+        videoAdapters:
+          description: Video adapters.
+          type: array
+          items:
+            $ref: "#/components/schemas/VideoAdapter"
+        logicalDrives:
+          description: Logical drivers.
+          type: array
+          items:
+            $ref: "#/components/schemas/LogicalDrive"
+        physicalDrives:
+          description: Physical drivers.
+          type: array
+          items:
+            $ref: "#/components/schemas/PhysicalDrive"
+        operatingSystem:
+          $ref: "#/components/schemas/OperatingSystem"
+        keyboard:
+          $ref: "#/components/schemas/Keyboard"
+        capabilities:
+          $ref: "#/components/schemas/DeviceCapabilities"
+    
+    Bios:
+      type: object
+      description: Represents computer bios object.
+      required: 
+        - manufacturerName
+        - manufacturerId
+        - serialNumber
+        - version
+        - releaseDate
+      properties:
+        manufacturerName:
+          description: Manufacturer name of the device computer bios.
+          type: string
+          example: Dell Inc.
+        manufacturerId:
+          description: The unique ID of the device client manufacturer.
+          type: string
+          format: uuid
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        serialNumber:
+          description: Bios serial number of the device.
+          type: string
+          example: C2FD893
+        version:
+          description: Bios version number of the device.
+          type: string
+          example: 1.6.1
+        releaseDate:
+          description: Bios release date of the device.
+          type: string
+          format: date-time
+
+    Processor:
+      type: object
+      description: Represents computer cpu object.
+      required: 
+        - name
+        - family
+        - manufacturerName
+        - manufacturerId
+        - vendorIdentifier
+        - identifier
+        - processorId
+        - processorName
+        - model
+        - processorNameString
+        - clockSpeedMhz
+        - maxSpeedMhz
+        - coreCount
+        - processorCount
+        - logicalProcessorCount
+        - hasHyperThreading
+        - hasMmx
+        - voltage
+        - hardwareFamilyId
+        - hardwareSeriesId
+        - hardwareModelId
+        - hardwareVersionId
+      properties:
+        name:
+          description: Device cpu name.
+          type: string
+          example: Intel(R) Core(TM) i7-10850H CPU @ 2.70GHz
+        family:
+          description: Device cpu family name.
+          type: string
+          example: Core i7.
+        manufacturerName:
+          description: Name of the device cpu manifacturer.
+          type: string
+          example: Dell Inc.
+        manufacturerId:
+          description: The unique ID of the device cpu manufacturer.
+          type: string
+          format: uuid
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        vendorIdentifier:
+          description: The identifier of the device cpu vendor.
+          type: string
+          example: GenuineIntel
+        identifier:
+          description: The identifier of the device cpu.
+          type: string
+          example: Intel
+        processorId:
+          description: The unique ID of the device cpu.
+          type: string
+          example: N/A
+        processorName:
+          description: The processor name of the device.
+          type: string
+          example: Intel(R) Core(TM) i7-10850H
+        model:
+          description: The processor model of the device.
+          type: string
+          example: Core i7-10850H
+        processorNameString:
+          description: The processor name of the device.
+          type: string
+          example: Intel(R) Core(TM) i7-10850H
+        clockSpeedMhz:
+          description: The cpu clock speed in Mhz of the device.
+          type: integer
+          example: 2700
+        maxSpeedMhz:
+          description: The cpu max clock speed in Mhz of the device.
+          type: integer
+          example: 3000
+        coreCount:
+          description: The number of cpu cores of the device.
+          type: integer
+          example: 6
+        processorCount:
+          description: The number of processors of the device.
+          type: integer
+          example: 1
+        logicalProcessorCount:
+          description: The number of logical processors of the device.
+          type: integer
+          example: 1
+        hasHyperThreading:
+          description: "```true``` if device cpu has hyper threading; otherwise, ```false```."
+          type: boolean
+          example: true
+        hasMmx:
+          description: "```true``` if device cpu has mmx; otherwise, ```false```."
+          type: boolean
+          example: true
+        voltage:
+          description: Device cpu voltage.
+          type: string
+          example: "1.8"
+        hardwareFamilyId:
+          description: The unique ID of the device cpu hardware family.
+          type: string
+          format: uuid
+          example: e83a470b-64e1-441c-87ef-b0e2e4fe94cf
+        hardwareSeriesId:
+          description: The unique ID of the device cpu series.
+          type: string
+          format: uuid
+          example: 99d2cc10-a7ac-43e9-bb78-356965c288cb
+        hardwareModelId:
+          description: The unique ID of the device cpu hardware model.
+          type: string
+          format: uuid
+          example: 52f7b07f-6f2d-41f6-95e5-8f4c33cf53a0
+        hardwareVersionId:
+          description: The unique ID of the device hardware version.
+          type: string
+          format: uuid
+          example: 9646809d-9b6d-4790-92d7-2dc687233c9e
+    
+    Memory:
+      type: object
+      description: Represents memory object.
+      required: 
+        - totalPhysicalKb
+        - freePhysicalKb
+        - modules
+      properties:
+        totalPhysicalKb:
+          description: Total physical memory in Kb.
+          type: integer
+          example: 2048
+        freePhysicalKb:
+          description: Free physical memory in Kb.
+          type: integer
+          example: 2048
+        modules:
+          description: Memory modules.
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryModule'
+
+    MemoryModule:
+      type: object
+      description: Represents memory module object.
+      required: 
+        - type
+        - sizeMb
+      properties:
+        type:
+          description: Memory module type.
+          type: string
+          example: DDR SDRAM
+        sizeMb:
+          description: Memory module size in Mb.
+          type: integer
+          example: 2048
+
+    NetworkAdapter:
+      type: object
+      description: Represents network adapter object.
+      required: 
+        - name
+        - ipAddress
+        - defaultGateway
+        - dhcpServer
+        - dhcpEnabled
+        - dnsServer
+        - macAddress
+        - subnet
+        - manufacturerName
+        - manufacturerId
+      properties:
+        name:
+          description: The name of the network adapter.
+          type: string
+          example: Intel(R) Dual Band Wireless
+        ipAddress:
+          description: The IP address of the network adapter.
+          type: string
+          example: 10.128.246.8
+        defaultGateway:
+          description: The default gateway of the network adapter.
+          type: string
+          example: 192.168.99.1
+        dhcpServer:
+          description: The dhcp server of the network adapter.
+          type: string
+          example: 192.168.99.1
+        dhcpEnabled:
+          description: "```true``` if network adapter has dhcp server enabled; otherwise, ```false```."
+          type: boolean
+          example: true
+        dnsServer:
+          description: The dns server of the network adapter.
+          type: string
+          example: dns1.registrar-servers.com
+        macAddress:
+          description: The mac address of the network adapter.
+          type: string
+          example: C0:3C:59:10:B6:70
+        subnet:
+          description: The subnet of the network adapter.
+          type: string
+          example: 255.255.255.0
+        manufacturerName:
+          description: The Manufacturer name of the network adapter.
+          type: string
+          example: Dell Inc.
+        manufacturerId:
+          description: The unique ID of the network adapter manufacturer.
+          type: string
+          format: uuid
+          example: c72d3f94-dee6-456f-a73e-4033588a44de
+
+    VideoAdapter:
+      type: object
+      description: Represents video adapter object.
+      required: 
+        - name
+        - description
+        - manufacturerName
+        - manufacturerId
+        - hardwareFamilyId
+        - hardwareSeriesId
+        - hardwareModelId
+        - hardwareVersionId
+        - videoProcessor
+        - adapterRamKb
+        - driverVersion
+        - driverDate
+      properties:
+        name:
+          description: Video adapter name.
+          type: string
+          example: N/A
+        description:
+          description: Video adapter description.
+          type: string
+          example: N/A
+        manufacturerName:
+          description: Manufacturer name of the video adapter manufacturer.
+          type: string
+          example: N/A.
+        manufacturerId:
+          description: The unique ID of the video adapter manufacturer.
+          type: string
+          format: uuid
+          example: c72d3f94-dee6-456f-a73e-4033588a44de
+        hardwareFamilyId:
+          description: The unique ID of the video adapter family.
+          type: string
+          format: uuid
+          example: e83a470b-64e1-441c-87ef-b0e2e4fe94cf
+        hardwareSeriesId:
+          description: The unique ID of the video adapter series.
+          type: string
+          format: uuid
+          example: 99d2cc10-a7ac-43e9-bb78-356965c288cb
+        hardwareModelId:
+          description: The unique ID of the video adapter hardware model.
+          type: string
+          format: uuid
+          example: 52f7b07f-6f2d-41f6-95e5-8f4c33cf53a0
+        hardwareVersionId:
+          description: The unique ID of the video adapter hardware version.
+          type: string
+          format: uuid
+          example: 9646809d-9b6d-4790-92d7-2dc687233c9e
+        videoProcessor:
+          description: Video Processor of the video adapter.
+          type: string
+          example: N/A.
+        adapterRamKb:
+          description: Ram size of the video adapter in Kb.
+          type: integer
+          example: 2048
+        driverVersion:
+          description: Video adapter driver version.
+          type: string
+          example: 2.4.3
+        driverDate:
+          description: Video adapter driver date.
+          type: string
+          format: date-time
+
+    LogicalDrive:
+      type: object
+      description: Represents logical drive object.
+      required: 
+        - name
+        - capacityMb
+        - freeSpaceMb
+        - fileSystem
+        - logicalDriveType
+      properties:
+        name:
+          description: The name of the logical drive.
+          type: string
+          example: N/A
+        capacityMb:
+          description: The capacity in Mb of the logical drive.
+          type: integer
+          example: 2048
+        freeSpaceMb:
+          description: The free capacity in Mb of the logical drive.
+          type: integer
+          example: 2048
+        logicalDriveType: 
+          description: The type of the logical drive.
+          x-enumDescriptions:
+            Unknown: Unknown type.
+            Local: Local type.
+            Network: Network type.
+            External: External type.
+          type: string
+          enum: 
+            - Unknown
+            - Local
+            - Network
+            - External
+          example: Local
+
+    PhysicalDrive:
+      type: object
+      description: Represents physical drive object.
+      required: 
+        - name
+        - interface
+        - capacityMb
+        - partitions
+      properties:
+        name:
+          description: The name of the physical drive.
+          type: string
+          example: N/A
+        interface:
+          description: The interface of the physical drive.
+          type: string
+          example: N/A
+        capacityMb:
+          description: The capacity in Mb of the physical drive.
+          type: integer
+          example: 2048
+        partitions:
+          description: The partitions of the physical drive.
+          type: integer
+          example: 3
+
+    OperatingSystem:
+      type: object
+      description: Represents operating system object.
+      required: 
+        - applicationId
+        - name
+        - manufacturerName
+        - manufacturerId
+        - version
+        - buildNumber
+        - buildType
+        - type
+      properties:
+        applicationId:
+          description: The unique ID of the application.
+          type: string
+          format: uuid
+          example: fdd02e3c-82b2-49a0-91c5-87d873dacf5c
+        name:
+          description: Operating system name.
+          type: string
+          example: Windows
+        manufacturerName:
+          description: Manufacturer name of the operating system.
+          type: string
+          example: Microsoft
+        manufacturerId:
+          description: The unique ID of the operating system.
+          type: string
+          format: uuid
+          example: c72d3f94-dee6-456f-a73e-4033588a44de
+        version:
+          description: Version of the operating system.
+          type: string
+          example: "1.2.3"
+        buildNumber:
+          description: Build number of the operating system.
+          type: string
+          example: "3.4.5"
+        buildType:
+          description: Build type of the operating system.
+          type: string
+          example: N/A
+        type: 
+          description: Operating system type.
+          x-enumDescriptions:
+            Windows: 0
+            Mac: 1
+            Linux: 2
+            Hpux: 3
+            Solaris: 4
+            Aix: 5
+            VMware: 6
+            Citrix: 7
+            Ios: 8
+            Android: 9
+            ChromeOs: 10
+            WindowsPhone: 11
+            Symbian: 12
+            Blackberry: 13
+            Mainframe: 14
+            NotReported: 254
+            Unrecognised: 255
+          type: string
+          enum: 
+            - Windows
+            - Mac
+            - Linux
+            - Hpux
+            - Solaris
+            - Aix
+            - VMware
+            - Citrix
+            - Ios
+            - Android
+            - ChromeOs
+            - WindowsPhone
+            - Symbian
+            - Blackberry
+            - Mainframe
+            - NotReported
+            - Unrecognised
+          example: NotReported
+
+    Keyboard:
+      type: object
+      description: Represents the keyboard object.
+      required: 
+        - layout
+        - name
+      properties:
+        layout:
+          description: Keyboard layout.
+          type: string
+          example: N/A
+        name:
+          description: Keyboard name.
+          type: string
+          example: Logitech
+
+    DeviceCapabilities:
+      type: object
+      description: Represents the device capabilities object.
+      required: 
+        - isVirtual
+        - isServer
+        - architecture
+        - hypervisorName
+      properties:
+        isVirtual:
+          description: "```true``` if device capabilities is virtual; otherwise, ```false```."
+          type: boolean
+          example: false
+        isServer:
+          description: "```true``` if device capabilities is server; otherwise, ```false```."
+          type: boolean
+          example: false
+        architecture:
+          description: Architecture of the device capabilities.
+          type: string
+          example: N/A
+        hypervisorName:
+          description: Hypervisor name of the device capabilities.
+          type: string
+          example: N/A
+
+    Identifier:
+      type: object
+      description: Represents the identifier object.
+      required: 
+        - source
+        - name
+        - value
+      properties:
+        source:
+          description: Source of the identifier.
+          type: string
+          example: N/A
+        name:
+          description: Name of the identifier.
+          type: string
+          example: N/A
+        value:
+          description: Value of the identifier.
+          type: string
+          example: N/A
+
+    ErrorResponse:
+        type: object
+        required:
+          - error
+        properties:
+          error:
+            $ref:  "#/components/schemas/Error"
+
+    Error:
+      description: The error details.
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: The HTTP status code.
+        message:
+          type: string
+          description: The error message.
+
+    Link:
+      type: object
+      required:
+        - href
+        - rel
+        - method
+      properties: 
+        href:
+          type: string
+          description: The associated relative URL.
+          example: api/inventory/v1/...
+        rel:
+          type: string
+          description: Specifies the relationship between the current document and the linked document/resource.
+          example: self
+        method:
+          type: string
+          description: The method to access related resources.
+          example: GET
+
+    Pagination:
+      type: object
+      description: The pagination details.
+      required:
+        - page_size
+        - page_number
+      properties:
+        page_size:
+          type: integer
+          description: The page size you requested.
+          example: 100
+        page_number:
+          type: integer
+          format: int64
+          description: The page number you requested.
+          example: 1
+        total_pages:
+          type: integer
+          format: int64
+          description: The total number of pages.
+          example: 1
+        total_items:
+          type: integer
+          format: int64
+          description: The total number of items.
+          example: 1
+
+  responses:
+
+    "200":
+      description: "OK: Your request succeeded."
+  
+    "400":
+      description: "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: 
+              code: 400
+              message: Filter field name needs to be formatted as a string.
+
+    "404":
+      description: "Not Found: The operation you requested failed because a resource associated with your request could not be found."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: 404
+              message: Resource with ID '32aeda0a-80dc-475a-907f-2d250a3a8614' not found.
+
+    "500":
+      description: "Internal Server Error: Your request failed due to an internal error."
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: 500
+              message: The service encountered an unexpected condition that prevented it from fulfilling the request.
