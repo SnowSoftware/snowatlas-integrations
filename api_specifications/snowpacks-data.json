@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
     version: 1.0.0
-    title: "Support: Access to snowpacks"
+    title: "Support: Snowpacks data"
     description: API for interacting with ingested inventory data.
     contact:
       name: Snow Software, Inc.
