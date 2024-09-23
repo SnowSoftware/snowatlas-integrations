@@ -2556,7 +2556,7 @@
           "Assignments"
         ],
         "description": "Returns license details of a computer assignment.",
-        "summary": "Get assignement details for a computers license", 
+        "summary": "Get assignment details for a computers license", 
         "operationId": "computers7",
         "parameters": [
           {
@@ -2571,7 +2571,7 @@
           },
           {
             "name": "assignmentId",
-            "description": "The assignement identifier.",
+            "description": "The assignment identifier.",
             "example" : "53c15e5c-6311-430d-9e8e-a2680b3efcde",
             "in": "path",
             "required": true,
@@ -2742,7 +2742,7 @@
           },
           {
             "name": "assignmentId",
-            "description": "The assignement identifier.",
+            "description": "The assignment identifier.",
             "example" : "53c15e5c-6311-430d-9e8e-a2680b3efcde",
             "in": "path",
             "required": true,
@@ -2989,7 +2989,7 @@
           "Assignments"
         ],
         "description": "Returns license details of an organization assignment.",
-        "summary": "Get license details for an organization by assignement", 
+        "summary": "Get license details for an organization by assignment", 
         "operationId": "organizations2",
         "parameters": [
           {
@@ -3004,7 +3004,7 @@
           },
           {
             "name": "assignmentId",
-            "description": "The assignement identifier.",
+            "description": "The assignment identifier.",
             "example" : "53c15e5c-6311-430d-9e8e-a2680b3efcde",
             "in": "path",
             "required": true,
@@ -3246,7 +3246,7 @@
           },
           {
             "name": "assignmentId",
-            "description": "The assignement identifier.",
+            "description": "The assignment identifier.",
             "example" : "53c15e5c-6311-430d-9e8e-a2680b3efcde",
             "in": "path",
             "required": true,
