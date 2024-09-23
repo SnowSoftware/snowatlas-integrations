@@ -2555,7 +2555,7 @@
         "tags": [
           "Assignments"
         ],
-        "description": "Returns license details of a computer assignment.",
+        "description": "Returns license details of a computer docs.qa-snowsoftware.io.",
         "summary": "Get assignement details for a computers license", 
         "operationId": "computers7",
         "parameters": [
@@ -2726,8 +2726,8 @@
         "tags": [
           "Assignments"
         ],
-        "description": "Returns the details of a data center assignment.",
-        "summary": "Get datacenter assignment details for a license", 
+        "description": "Returns the details of a data center docs.qa-snowsoftware.io.",
+        "summary": "Get datacenter docs.qa-snowsoftware.io details for a license", 
         "operationId": "datacenters2",
         "parameters": [
           {
@@ -2827,7 +2827,7 @@
         "tags": [
           "Assignments"
         ],
-        "description": "Returns the details of a license assignment.",
+        "description": "Returns the details of a license docs.qa-snowsoftware.io.",
         "summary": "Get license assignments summary", 
         "operationId": "assignments-summary",
         "parameters": [
@@ -2988,7 +2988,7 @@
         "tags": [
           "Assignments"
         ],
-        "description": "Returns license details of an organization assignment.",
+        "description": "Returns license details of an organization docs.qa-snowsoftware.io.",
         "summary": "Get license details for an organization by assignement", 
         "operationId": "organizations2",
         "parameters": [
@@ -3069,7 +3069,7 @@
         "tags": [
           "Assignments"
         ],
-        "description": "Returns license details of a site assignment.",
+        "description": "Returns license details of a site docs.qa-snowsoftware.io.",
         "summary": "Get site details for a license",
         "operationId": "site",
         "parameters": [
@@ -3230,8 +3230,8 @@
         "tags": [
           "Assignments"
         ],
-        "description": "Returns license details of a user assignment.",
-        "summary": "Get license details by users assignment", 
+        "description": "Returns license details of a user docs.qa-snowsoftware.io.",
+        "summary": "Get license details by users docs.qa-snowsoftware.io", 
         "operationId": "users6",
         "parameters": [
           {
