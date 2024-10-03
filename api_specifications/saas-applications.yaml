@@ -1,0 +1,268 @@
+openapi: 3.0.3
+info:
+  title: "SaaS: Applications API"
+  description: API for managing SaaS Applications.
+  version: 1.0.0
+  contact:
+    name: Snow Software, Inc.
+    url: https://www.snowsoftware.com
+servers:
+  - url: https://{region}.snowsoftware.io
+    variables:
+      region:
+        enum:
+          - westeurope
+          - australiasoutheast
+          - eastus2
+          - uksouth
+        default: westeurope
+paths:
+  /api/saas/consolidated-view/v1/applications/{applicationId}/users:
+    get:
+      summary: Get application users
+      description: Returns a collection of users assigned to an application.
+      operationId: getapplicationusers
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: a7a75b83-2690-4cc9-b652-a0fbe93dba4a
+          description: The unique ID of the application.
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/PageNumber"
+      responses:
+        "200":
+          description: "OK: Your request succeeded."
+          content:
+            application/json:
+              schema:
+                required:
+                  - pagination
+                  - items
+                properties:
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                  items:
+                    description: A collection of users.
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+        - bearerAuth:
+            - saas.consolidation.view.crud
+      tags:
+        - Applications
+tags:
+  - name: Applications
+components:
+  parameters:
+    PageSize:
+      name: page_size
+      in: query
+      required: false
+      description: The maximum number of items in the response.
+      schema:
+        type: integer
+        default: 100
+        maximum: 1000
+    PageNumber:
+      name: page_number
+      in: query
+      required: false
+      description: The page number.
+      schema:
+        type: integer
+        format: int64
+        default: 1
+  responses:
+    "204":
+      description: "No Content: Your request succeeded, but the response message was empty."
+    "400":
+      description: "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error:
+              code: 400
+              message: Filter field name needs to be formatted as a string.
+    "404":
+      description: "Not Found: The operation you requested failed because a resource associated with your request could not be found."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error:
+              code: 404
+              message: Resource with ID '32aeda0a-80dc-475a-907f-2d250a3a8614' not found.
+    "500":
+      description: "Internal Server Error: Your request failed due to an internal error."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error:
+              code: 500
+              message: The service encountered an unexpected condition that prevented it from fulfilling the request.
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          description: The error details.
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: integer
+              format: int32
+              description: The HTTP status code.
+            message:
+              type: string
+              description: The error message.
+    User:
+      title: User
+      description: "A discovered user in your SaaS estate." 
+      type: object
+      properties:
+        country:
+          description: The country of the user.
+          example: Japan
+          type: string
+        createdDate:
+          description: The date the user was created.
+          example: "2024-05-25T00:00:00Z"
+          type: string
+          format: date-time
+        department:
+          description: The department of the user.
+          example: Engineering
+          type: string
+        discoveryTypes:
+          description: The unique IDs of the discovery source types where the user was detected. For information on IDs, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
+          example: [1, 2]
+          type: array
+          items:
+            type: integer
+            format: int32
+        displayName:
+          description: The display name of the user.
+          example: John Doe
+          type: string
+        email:
+          description: The email address of the user.
+          example: john.doe@organization.com
+          type: string
+        id:
+          description: The unique ID of the user.
+          example: 2f86b198-04f3-4770-ad08-b32518206da0
+          type: string
+        isEnabled:
+          description: "```true``` if the enabled state of the user in the discovery source is true.; otherwise, ```false```."
+          example: true
+          type: boolean
+        isInReview:
+          description: "```true``` if user has been marked as one to be analyzed further, or as a reminder for taking action on their subscriptions; otherwise, ```false```."
+          example: true
+          type: boolean
+        isOnline:
+          description: "```true``` if user has been marked as a SaaS user; who does not have a device that is inventoried in your organization. This is common for, for example, consultants and other temporary staff; otherwise, ```false```."
+          example: true
+          type: boolean
+        isQualified:
+          description: "```true``` if has been marked to be included in Snow's services which incur a cost; otherwise, ```false```."
+          example: true
+          type: boolean
+        lastActive:
+          description: The date of last user activity in relevant applications.
+          example: "2024-06-28T00:00:00Z"
+          type: string
+          format: date-time
+        licenseCount:
+          description: The number of subscription types assigned to the user.
+          example: 5
+          type: integer
+          format: int32
+        potentialSavings:
+          description: The monthly subscription costs for users who are inactive or have no activity.
+          example: 500.0
+          type: number
+          format: double
+        status:
+          description: The activity status of the user in relevant applications.
+          example: "Active"
+          type: string
+        userCostPerMonth:
+          description: The monthly cost of the user's subscription entitlements.
+          example: 1000.0
+          type: number
+          format: double
+        username:
+          description: The username of the user.
+          example: john.doe_1@org.com
+          type: string
+      required:
+        - id
+        - country
+        - discoveryTypes
+        - isInReview
+        - isQualified
+        - status
+        - email
+        - department
+        - createdDate
+        - lastActive
+        - userCostPerMonth
+        - potentialSavings
+        - displayName
+        - username
+        - licenseCount
+        - isOnline
+    Pagination:
+      type: object
+      description: The pagination details.
+      required:
+        - page_size
+        - page_number
+      properties:
+        page_size:
+          type: integer
+          description: The page size you requested.
+          example: 100
+        page_number:
+          type: integer
+          format: int64
+          description: The page number you requested.
+          example: 1
+        total_pages:
+          type: integer
+          format: int64
+          description: The total number of pages.
+          example: 1
+        total_items:
+          type: integer
+          format: int64
+          description: The total number of items.
+          example: 1
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
