@@ -1,0 +1,1012 @@
+openapi: 3.0.3
+info:
+  title: "SaaS: Users API"
+  description: API for managing SaaS Users.
+  version: 1.0.0
+  contact:
+    name: Snow Software, Inc.
+    url: https://www.snowsoftware.com
+servers:
+  - url: https://{region}.snowsoftware.io
+    variables:
+      region:
+        enum:
+          - westeurope
+          - australiasoutheast
+          - eastus2
+          - uksouth
+        default: westeurope
+paths:
+  /api/saas/consolidated-view/v1/users:
+    get:
+      summary: Get users
+      description: Returns a collection of users.
+      operationId: getSaasConsolidatedViewV1UsersList
+      parameters:
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/PageNumber"
+        - name: filter
+          description: "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results)."
+          in: query
+          schema:
+            type: string
+            example: ?filter=field1 -eq "abc"
+        - name: sort
+          description: "For more information on sorting capability and examples, see [Sort API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#sort-api-call-results)."
+          in: query
+          schema:
+            type: string
+            example: ?sort=field1:asc
+      responses:
+        "200":
+          description: "OK: Your request succeeded."
+          content:
+            application/json:
+              schema:
+                required:
+                  - pagination
+                  - items
+                properties:
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                  items:
+                    description: A collection of users.
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+        - bearerAuth:
+            - saas.consolidation.view.crud
+      tags:
+        - Users
+  /api/saas/consolidated-view/v1/users/kpi:
+    get:
+      summary: Get user KPIs
+      description: Returns a collection of users' key performance indicators.
+      operationId: getUserKpis
+      parameters:
+        - name: fromDate
+          required: true
+          description: "The start date from which the historical key performance indicator data should be returned."
+          in: query
+          schema:
+            type: string
+            example: "2024-05-01T00:00:00Z"
+        - name: toDate
+          required: true
+          description: "The end date to which the historical key performance indicator data should be returned."
+          in: query
+          schema:
+            type: string
+            example: "2024-06-01T00:00:00Z"
+      responses:
+        "200":
+          description: "OK: Your request succeeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersKPIResponse"
+        "500":
+          $ref: "#/components/responses/500"
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+        - bearerAuth:
+            - saas.consolidation.view.crud
+      tags:
+        - Users
+  /api/saas/consolidated-view/v1/users/{userId}:
+    get:
+      summary: Get user
+      description: Returns the details of a user.
+      operationId: getSaasConsolidatedViewV1UserId
+      responses:
+        "200":
+          description: "OK: Your request succeeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: a7a75b83-2690-4cc9-b652-a0fbe93dba4a
+          description: The unique ID of the user.
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+        - bearerAuth:
+            - saas.consolidation.view.crud
+      tags:
+        - Users
+    patch:
+      summary: Update user
+      description: Modifies is-in-review, is-online and is-qualified user properties.
+      operationId: updateUser
+      responses:
+        "200":
+          description: "OK: Your request succeeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      parameters:
+        - name: userId
+          example: a7a75b83-2690-4cc9-b652-a0fbe93dba4a
+          description: The unique ID of the user.
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          {
+            "application/merge-patch+json":
+              { "schema": { $ref: "#/components/schemas/UserRequest" } },
+          }
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.crud
+      tags:
+        - Users
+  /api/saas/consolidated-view/v1/users/{userId}/applications:
+    get:
+      x-internal: true
+      summary: Get user applications
+      description: Returns a collection of applications that have been detected as being used by the given user.
+      operationId: getUserApplications
+      parameters:
+        - name: userId
+          example: a7a75b83-2690-4cc9-b652-a0fbe93dba4a
+          description: The unique ID of the user.
+          in: path
+          schema:
+            type: string
+          required: true
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/PageNumber"
+        - name: filter
+          description: "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results)."
+          in: query
+          schema:
+            type: string
+            example: ?filter=field1 -eq "abc"
+        - name: sort
+          description: "For more information on sorting capability and examples, see [Sort API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#sort-api-call-results)."
+          in: query
+          schema:
+            type: string
+            example: ?sort=field1:asc
+      responses:
+        "200":
+          description: "OK: Your request succeeded."
+          content:
+            application/json:
+              schema:
+                required:
+                  - pagination
+                  - items
+                properties:
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                  items:
+                    description: A collection of user applications.
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/UserApplication"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+        - bearerAuth:
+            - saas.consolidation.view.crud
+      tags:
+        - Users
+  /api/saas/consolidated-view/v1/users/{userId}/subscriptions:
+    get:
+      x-internal: true
+      summary: Get user subscriptions
+      description: Returns a collection of subscriptions in use by the given user.
+      operationId: getSaasConsolidatedViewV1UserSubscriptions
+      parameters:
+        - name: userId
+          example: a7a75b83-2690-4cc9-b652-a0fbe93dba4a
+          description: The unique ID of the user.
+          in: path
+          schema:
+            type: string
+          required: true
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/PageNumber"
+        - name: filter
+          description: "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results)."
+          in: query
+          schema:
+            type: string
+            example: ?filter=field1 -eq "abc"
+        - name: sort
+          description: "For more information on sorting capability and examples, see [Sort API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#sort-api-call-results)."
+          in: query
+          schema:
+            type: string
+            example: ?sort=field1:asc
+      responses:
+        "200":
+          description: "OK: Your request succeeded."
+          content:
+            application/json:
+              schema:
+                required:
+                  - pagination
+                  - items
+                properties:
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                  items:
+                    description: A collection of user subscriptions.
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/UserSubscription"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+        - bearerAuth:
+            - saas.consolidation.view.crud
+      tags:
+        - Users
+  /api/saas/consolidated-view/v1/users/{userId}/discovery-sources:
+    get:
+      x-internal: true
+      summary: Get user discovery sources
+      description: Returns a collection of discovery sources for the given user.
+      operationId: getSaasConsolidatedViewV1UserDiscoverySources
+      parameters:
+        - name: userId
+          example: a7a75b83-2690-4cc9-b652-a0fbe93dba4a
+          description: The unique ID of the user.
+          in: path
+          schema:
+            type: string
+          required: true
+        - $ref: "#/components/parameters/PageSize"
+        - $ref: "#/components/parameters/PageNumber"
+        - name: filter
+          description: "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results)."
+          in: query
+          schema:
+            type: string
+            example: ?filter=field1 -eq "abc"
+        - name: sort
+          description: "For more information on sorting capability and examples, see [Sort API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#sort-api-call-results)."
+          in: query
+          schema:
+            type: string
+            example: ?sort=field1:asc
+      responses:
+        "200":
+          description: "OK: Your request succeeded."
+          content:
+            application/json:
+              schema:
+                required:
+                  - pagination
+                  - items
+                properties:
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                  items:
+                    description: A collection of discovery sources.
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/DiscoverySource"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+        - bearerAuth:
+            - saas.consolidation.view.crud
+      tags:
+        - Users
+tags:
+  - name: Users
+components:
+  parameters:
+    PageSize:
+      name: page_size
+      in: query
+      required: false
+      description: The maximum number of items in the response.
+      schema:
+        type: integer
+        default: 100
+        maximum: 1000
+    PageNumber:
+      name: page_number
+      in: query
+      required: false
+      description: The page number.
+      schema:
+        type: integer
+        format: int64
+        default: 1
+  responses:
+    "204":
+      description: "No Content: Your request succeeded, but the response message was empty."
+    "400":
+      description: "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error:
+              code: 400
+              message: Filter field name needs to be formatted as a string.
+    "404":
+      description: "Not Found: The operation you requested failed because a resource associated with your request could not be found."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error:
+              code: 404
+              message: Resource with ID '32aeda0a-80dc-475a-907f-2d250a3a8614' not found.
+    "500":
+      description: "Internal Server Error: Your request failed due to an internal error."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error:
+              code: 500
+              message: The service encountered an unexpected condition that prevented it from fulfilling the request.
+  schemas:
+    ActiveChartData:
+      title: ActiveChartData
+      type: object
+      properties:
+        active:
+          description: "The total number of users in the system that were active on corresponding date."
+          example: 10
+          type: integer
+          format: int32
+        date:
+          description: The date this set of data relates to.
+          example: "2024-05-25T00:00:00Z"
+          type: string
+          format: date-time
+        total:
+          description: "The total number of users in the system on corresponding date."
+          example: 10
+          type: integer
+          format: int32
+      required:
+        - total
+        - date
+        - active
+    DiscoverySource:
+      title: DiscoverySource
+      type: object
+      properties:
+        created:
+          description: The date the discovery source was created.
+          example: "2024-05-25T00:00:00Z"
+          type: string
+          format: date-time
+        id:
+          description: The unique ID of the discovery source.
+          example: 299febb3-4107-42e9-8121-3df991acaf49
+          type: string
+        name:
+          description: The name of the discovery source.
+          example: saas.collectors.m365
+          type: string
+        type:
+          description: The unique identifier of the discovery source type,  see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
+          example: 1
+          type: integer
+          format: int32
+      required:
+        - created
+        - type
+        - id
+        - name
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          description: The error details.
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: integer
+              format: int32
+              description: The HTTP status code.
+            message:
+              type: string
+              description: The error message.
+    ExportResponse:
+      title: ExportResponse
+      type: object
+      properties:
+        fileBytes:
+          type: array
+          description: The file to be exported in bytes.
+          items:
+            type: string
+            format: binary
+        fileContent:
+          description: The content of the file to be exported.
+          example: data
+          type: string
+        fileName:
+          description: The name of the exported file.
+          example: exportedfile.xls
+          type: string
+      required:
+        - FileBytes
+    InactiveChartData:
+      title: InactiveChartData
+      type: object
+      properties:
+        date:
+          description: The date this set of data relates to.
+          example: "2024-05-25T00:00:00Z"
+          type: string
+          format: date-time
+        inactive:
+          description: "Number of users who have been inactive for the last 30 days on the corresponding date."
+          example: 5
+          type: integer
+          format: int32
+        total:
+          description: "The total number of users in the system on corresponding date."
+          example: 10
+          type: integer
+          format: int32
+      required:
+        - inactive
+        - total
+        - date
+    NoActivityChartData:
+      title: NoActivityChartData
+      type: object
+      properties:
+        date:
+          description: The date this set of data relates to.
+          example: "2024-05-25T00:00:00Z"
+          type: string
+          format: date-time
+        noActivity:
+          description: "Number of users who have no activity on the corresponding date."
+          example: 5
+          type: integer
+          format: int32
+        total:
+          description: "The total number of users in the system on corresponding date."
+          example: 10
+          type: integer
+          format: int32
+      required:
+        - noActivity
+        - total
+        - date
+    User:
+      title: User
+      description: "A discovered user in your SaaS estate." 
+      type: object
+      properties:
+        country:
+          description: The country of the user.
+          example: Japan
+          type: string
+        createdDate:
+          description: The date the user was created.
+          example: "2024-05-25T00:00:00Z"
+          type: string
+          format: date-time
+        department:
+          description: The department of the user.
+          example: Engineering
+          type: string
+        discoveryTypes:
+          description: The unique IDs of the discovery source types where the user was detected. For information on IDs, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
+          example: [1, 2]
+          type: array
+          items:
+            type: integer
+            format: int32
+        displayName:
+          description: The display name of the user.
+          example: John Doe
+          type: string
+        email:
+          description: The email address of the user.
+          example: john.doe@organization.com
+          type: string
+        id:
+          description: The unique ID of the user.
+          example: 2f86b198-04f3-4770-ad08-b32518206da0
+          type: string
+        isEnabled:
+          description: "```true``` if the enabled state of the user in the discovery source is true.; otherwise, ```false```."
+          example: true
+          type: boolean
+        isInReview:
+          description: "```true``` if user has been marked as one to be analyzed further, or as a reminder for taking action on their subscriptions; otherwise, ```false```."
+          example: true
+          type: boolean
+        isOnline:
+          description: "```true``` if user has been marked as a SaaS user; who does not have a device that is inventoried in your organization. This is common for, for example, consultants and other temporary staff; otherwise, ```false```."
+          example: true
+          type: boolean
+        isQualified:
+          description: "```true``` if has been marked to be included in Snow's services which incur a cost; otherwise, ```false```."
+          example: true
+          type: boolean
+        lastActive:
+          description: The date of last user activity in relevant applications.
+          example: "2024-06-28T00:00:00Z"
+          type: string
+          format: date-time
+        licenseCount:
+          description: The number of subscription types assigned to the user.
+          example: 5
+          type: integer
+          format: int32
+        potentialSavings:
+          description: The monthly subscription costs for users who are inactive or have no activity.
+          example: 500.0
+          type: number
+          format: double
+        status:
+          description: The activity status of the user in relevant applications.
+          example: "Active"
+          type: string
+        userCostPerMonth:
+          description: The monthly cost of the user's subscription entitlements.
+          example: 1000.0
+          type: number
+          format: double
+        username:
+          description: The username of the user.
+          example: john.doe_1@org.com
+          type: string
+      required:
+        - id
+        - country
+        - discoveryTypes
+        - isInReview
+        - isQualified
+        - status
+        - email
+        - department
+        - createdDate
+        - lastActive
+        - userCostPerMonth
+        - potentialSavings
+        - displayName
+        - username
+        - licenseCount
+        - isOnline
+    TotalChartData:
+      title: TotalChartData
+      type: object
+      properties:
+        added:
+          description: The number of users added in your SaaS estate on the corresponding date.
+          example: 20
+          type: integer
+          format: int32
+        date:
+          description: The date this set of data relates to.
+          example: "2024-04-30T01:00:00Z"
+          type: string
+          format: date-time
+        removed:
+          description: The number of users removed from your SaaS estate on the corresponding date.
+          example: 10
+          type: integer
+          format: int32
+        total:
+          description: The total number of users in your SaaS estate on the corresponding date.
+          example: 100
+          type: integer
+          format: int32
+      required:
+        - added
+        - removed
+        - total
+        - date
+    UserRequest:
+      title: User
+      description: The properties of a single user that can be updated.
+      type: object
+      properties:
+        isOnline:
+          description: "```true``` if user only exists as SaaS user; who does not have a device that is inventoried in your organization. This is common for, for example, consultants and other temporary staff; otherwise, ```false```."
+          type: boolean
+        isInReview:
+          description: "```true``` if is user is one you need to analyze further, or as a reminder for taking action on their subscriptions; otherwise, ```false```."
+          type: boolean
+        isQualified:
+          description: "```true``` if user is to be included in Snow's services which incur a cost; otherwise, ```false```."
+          type: boolean
+      required:
+        - isOnline
+        - isInReview
+        - isQualified
+    IDPUser:
+      title: User
+      description: A single user in an organization.
+      type: object
+      properties:
+        accountId:
+          description: The unique ID of the user.
+          example: d07543b1-505e-402e-dd8e-08da05w5f550
+          type: string
+        email:
+          description: The email address of the user.
+          example: John.doe@organization.com
+          type: string
+        familyName:
+          description: The surname of the user.
+          example: Doe
+          type: string
+        givenName:
+          description: The first name of the user.
+          example: John
+          type: string
+        tenantId:
+          description: The unique ID of the Snow tenant the user belongs to.
+          example: 7526f54f-88c1-40e6-ae1a-08d8809f9be3
+          type: string
+        userId:
+          description: The unique ID of the user.
+          example: 3abb3537-c268-4163-5987-08da05a4f542
+          type: string
+      required:
+        - givenName
+        - familyName
+        - userId
+        - email
+        - tenantId
+        - accountId
+    UserApplication:
+      title: UserApplication
+      type: object
+      properties:
+        discoveryTypes:
+          description: The type of discovery sources for the application, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
+          type: array
+          items:
+            type: integer
+            format: int32
+        id:
+          description: The unique ID of the application.
+          example: 77f176da-7640-4889-ba6b-c53fe882b234
+          type: string
+        lastActive:
+          description: The date of last user activity in relevant applications.
+          example: "2024-06-28T00:00:00Z"
+          type: string
+          format: date-time
+        name:
+          description: The name of the application.
+          example: Microsoft PowerApps
+          type: string
+        vendor:
+          description: The vendor of the application.
+          example: Microsoft Corporation
+          type: string
+        vendorId:
+          description: The unique ID of the vendor of the application.
+          example: 8cab5d46-18fd-462f-9ae8-6cac8ba12054
+          type: string
+      required:
+        - id
+        - name
+        - discoveryTypes
+        - lastActive
+        - vendorId
+        - vendor
+    SubscriptionInsightsUserDetail:
+      title: SubscriptionInsightsUserDetail
+      type: object
+      properties:
+        lastActive:
+          description: The date of last user activity in relevant subscription or application.
+          type: string
+          format: date-time
+        subscriptionId:
+          description: The unique ID of the subscription.
+          type: string
+          example: 1519f3e3-7e5a-466b-8a86-63ed2776f819
+        subscriptionName:
+          description: The name of the subscription.
+          type: string
+          example: Microsoft 365 E5
+        applicationId:
+          description: The unique ID of the application.
+          type: string
+          example: 3519f3f3-7e5a-e66b-8a86-63ed2776f618
+        applicationName:
+          description: The name of the application.
+          type: string
+          example: Microsoft Power BI
+      required:
+        - subscriptionId
+        - subscriptionName
+        - lastActive
+    UserSubscription:
+      title: UserSubscription
+      type: object
+      properties:
+        applicationId:
+          description: The unique ID of the application for which the subscription is purchased.
+          example: def96bf0-bfd1-4bf9-8b1c-aa78a32bc0ed
+          type: string
+        applicationName:
+          description: The application for which the subscription is purchased.
+          example: Microsoft Copilot
+          type: string
+        discoverySource:
+          description: The discovery source that detected the item.
+          example: "O365 Connector"
+          type: string
+        discoveryType:
+          description: The unique ID of the discovery source type where the user was detected. For information on IDs, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
+          example: 0
+          type: integer
+          format: int32
+        firstDiscovered:
+          description: The time the item was first detected by a discovery source.
+          example: "2024-07-17T08:21:17.359Z"
+          type: string
+          format: date-time
+        id:
+          description: The unique ID of the subscription.
+          example: ac2c7870-6457-4a99-bafb-467eaf5de8e4
+          type: string
+        lastActivity:
+          description: The date of the last user activity in relevant applications.
+          example: "2024-06-28T00:00:00Z"
+          type: string
+          format: date-time
+        name:
+          description: The name of the subscription type.
+          example: "Copilot"
+          type: string
+        potentialSavings:
+          description: The monthly subscription costs for users who are inactive or have no activity.
+          example: 100.00
+          type: number
+          format: double
+        totalCostPerMonth:
+          description: The monthly cost for the subscription.
+          example: 100.00
+          type: number
+          format: double
+        vendor:
+          description: The vendor of the application for which the subscription is purchased.
+          example: "Microsoft Corporation"
+          type: string
+        vendorId:
+          description: The unique ID of the vendor.
+          example: 8cab5d46-18fd-462f-9ae8-6cac8ba12054
+          type: string
+      required:
+        - totalCostPerMonth
+        - applicationId
+        - applicationName
+        - id
+        - discoveryType
+        - lastActivity
+        - vendorId
+        - vendor
+        - name
+        - activity
+        - discoverySource
+        - firstDiscovered
+        - potentialSavings
+    UsersKPIResponse:
+      title: UsersKPIResponse
+      description: "The data for the User key performance indicators and chart."
+      type: object
+      properties:
+        active:
+          type: integer
+          format: int32
+          description: "The number of active users as of today."
+          example: 10
+        activeChartData:
+          description: "The historical data for active users."
+          type: array
+          items:
+            $ref: "#/components/schemas/ActiveChartData"
+        activeTrend:
+          type: integer
+          format: int32
+          description: "Number of active users 30 days ago."
+          example: 10
+        currentActiveChartData:
+          description: "Todays data for active users."
+          type: array
+          items:
+            $ref: "#/components/schemas/ActiveChartData"
+        currentInactiveChartData:
+          description: "Data for users who have been inactive today."
+          type: array
+          items:
+            $ref: "#/components/schemas/InactiveChartData"
+        currentNoActivityChartData:
+          description: "Data for users with no activity today."
+          type: array
+          items:
+            $ref: "#/components/schemas/NoActivityChartData"
+        currentTotalChartData:
+          description: "Data for the total number of discovered users today."
+          type: array
+          items:
+            $ref: "#/components/schemas/TotalChartData"
+        inactive:
+          description: "Number of inactive users today."
+          example: 10
+          type: integer
+          format: int32
+        inactiveChartData:
+          description: "The historical data for users who have been inactive in the last 30 days."
+          type: array
+          items:
+            $ref: "#/components/schemas/InactiveChartData"
+        inactiveTrend:
+          type: integer
+          format: int32
+          description: "The number of inactive users 30 days ago."
+          example: 10
+        noActivity:
+          type: integer
+          format: int32
+          description: "The number of users with no activity as of today."
+          example: 10
+        noActivityChartData:
+          description: "The historical data for users with no activity."
+          type: array
+          items:
+            $ref: "#/components/schemas/NoActivityChartData"
+        noActivityTrend:
+          type: integer
+          format: int32
+          description: "The number of users with no activity 30 days ago."
+          example: 10
+        total:
+          description: "The total number of discovered users as of today."
+          example: 10
+          type: integer
+          format: int32
+        totalChartData:
+          description: "The historical data for all discovered users."
+          type: array
+          items:
+            $ref: "#/components/schemas/TotalChartData"
+        totalTrend:
+          description: "The total number of discovered users 30 days ago."
+          example: 10
+          type: integer
+          format: int32
+      required:
+        - noActivityTrend
+        - activeTrend
+        - inactiveTrend
+        - currentTotalChartData
+        - currentActiveChartData
+        - noActivityChartData
+        - inactive
+        - noActivity
+        - totalTrend
+        - inactiveChartData
+        - currentNoActivityChartData
+        - activeChartData
+        - currentInactiveChartData
+        - total
+        - active
+        - totalChartData
+    SubscriptionInsightUsersResponse:
+      title: SubscriptionInsightUsersResponse
+      description: A collection of users that relate to a subscription insight.
+      type: object
+      properties:
+        items:
+          description: A collection of the requested paginated items.
+          type: array
+          items:
+            allOf:
+              - $ref: "#/components/schemas/User"
+              - properties:                                     
+                  details:
+                    type: array
+                    description: "A collection of the user's subscriptions that related to the insight."
+                    items:
+                      $ref: "#/components/schemas/SubscriptionInsightsUserDetail"
+                required:              
+                  - details
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - items
+        - pagination
+    Pagination:
+      type: object
+      description: The pagination details.
+      required:
+        - page_size
+        - page_number
+      properties:
+        page_size:
+          type: integer
+          description: The page size you requested.
+          example: 100
+        page_number:
+          type: integer
+          format: int64
+          description: The page number you requested.
+          example: 1
+        total_pages:
+          type: integer
+          format: int64
+          description: The total number of pages.
+          example: 1
+        total_items:
+          type: integer
+          format: int64
+          description: The total number of items.
+          example: 1
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
