@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: "SaaS: Users API"
-  description: API for managing SaaS Users.
+  description: API for interacting with SaaS Users.
   version: 1.0.0
   contact:
     name: Snow Software, Inc.
@@ -172,7 +172,6 @@ paths:
         - Users
   /api/saas/consolidated-view/v1/users/{userId}/applications:
     get:
-      x-internal: true
       summary: Get user applications
       description: Returns a collection of applications that have been detected as being used by the given user.
       operationId: getUserApplications
@@ -230,7 +229,6 @@ paths:
         - Users
   /api/saas/consolidated-view/v1/users/{userId}/subscriptions:
     get:
-      x-internal: true
       summary: Get user subscriptions
       description: Returns a collection of subscriptions in use by the given user.
       operationId: getSaasConsolidatedViewV1UserSubscriptions
@@ -288,7 +286,6 @@ paths:
         - Users
   /api/saas/consolidated-view/v1/users/{userId}/discovery-sources:
     get:
-      x-internal: true
       summary: Get user discovery sources
       description: Returns a collection of discovery sources for the given user.
       operationId: getSaasConsolidatedViewV1UserDiscoverySources
@@ -405,7 +402,7 @@ components:
       type: object
       properties:
         active:
-          description: "The total number of users in the system that were active on corresponding date."
+          description: "The total number of users in the system that were active on the corresponding date."
           example: 10
           type: integer
           format: int32
@@ -415,7 +412,7 @@ components:
           type: string
           format: date-time
         total:
-          description: "The total number of users in the system on corresponding date."
+          description: "The total number of users in the system on the corresponding date."
           example: 10
           type: integer
           format: int32
@@ -441,7 +438,7 @@ components:
           example: saas.collectors.m365
           type: string
         type:
-          description: The unique identifier of the discovery source type,  see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
+          description: The unique identifier of the discovery source type. For more information, see [Discovery sources](https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources).
           example: 1
           type: integer
           format: int32
@@ -469,26 +466,6 @@ components:
             message:
               type: string
               description: The error message.
-    ExportResponse:
-      title: ExportResponse
-      type: object
-      properties:
-        fileBytes:
-          type: array
-          description: The file to be exported in bytes.
-          items:
-            type: string
-            format: binary
-        fileContent:
-          description: The content of the file to be exported.
-          example: data
-          type: string
-        fileName:
-          description: The name of the exported file.
-          example: exportedfile.xls
-          type: string
-      required:
-        - FileBytes
     InactiveChartData:
       title: InactiveChartData
       type: object
@@ -554,7 +531,7 @@ components:
           example: Engineering
           type: string
         discoveryTypes:
-          description: The unique IDs of the discovery source types where the user was detected. For information on IDs, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
+          description: The unique IDs of the discovery source types where the user was detected. For information on IDs, see [Discovery sources](https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources).
           example: [1, 2]
           type: array
           items:
@@ -680,48 +657,12 @@ components:
         - isOnline
         - isInReview
         - isQualified
-    IDPUser:
-      title: User
-      description: A single user in an organization.
-      type: object
-      properties:
-        accountId:
-          description: The unique ID of the user.
-          example: d07543b1-505e-402e-dd8e-08da05w5f550
-          type: string
-        email:
-          description: The email address of the user.
-          example: John.doe@organization.com
-          type: string
-        familyName:
-          description: The surname of the user.
-          example: Doe
-          type: string
-        givenName:
-          description: The first name of the user.
-          example: John
-          type: string
-        tenantId:
-          description: The unique ID of the Snow tenant the user belongs to.
-          example: 7526f54f-88c1-40e6-ae1a-08d8809f9be3
-          type: string
-        userId:
-          description: The unique ID of the user.
-          example: 3abb3537-c268-4163-5987-08da05a4f542
-          type: string
-      required:
-        - givenName
-        - familyName
-        - userId
-        - email
-        - tenantId
-        - accountId
     UserApplication:
       title: UserApplication
       type: object
       properties:
         discoveryTypes:
-          description: The type of discovery sources for the application, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
+          description: The type of discovery sources for the application. For more information, see [Discovery sources](https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources).
           type: array
           items:
             type: integer
@@ -754,34 +695,6 @@ components:
         - lastActive
         - vendorId
         - vendor
-    SubscriptionInsightsUserDetail:
-      title: SubscriptionInsightsUserDetail
-      type: object
-      properties:
-        lastActive:
-          description: The date of last user activity in relevant subscription or application.
-          type: string
-          format: date-time
-        subscriptionId:
-          description: The unique ID of the subscription.
-          type: string
-          example: 1519f3e3-7e5a-466b-8a86-63ed2776f819
-        subscriptionName:
-          description: The name of the subscription.
-          type: string
-          example: Microsoft 365 E5
-        applicationId:
-          description: The unique ID of the application.
-          type: string
-          example: 3519f3f3-7e5a-e66b-8a86-63ed2776f618
-        applicationName:
-          description: The name of the application.
-          type: string
-          example: Microsoft Power BI
-      required:
-        - subscriptionId
-        - subscriptionName
-        - lastActive
     UserSubscription:
       title: UserSubscription
       type: object
@@ -799,7 +712,7 @@ components:
           example: "O365 Connector"
           type: string
         discoveryType:
-          description: The unique ID of the discovery source type where the user was detected. For information on IDs, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
+          description: The unique ID of the discovery source type where the user was detected. For information on IDs, see [Discovery sources](https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources).
           example: 0
           type: integer
           format: int32
@@ -874,7 +787,7 @@ components:
           description: "Number of active users 30 days ago."
           example: 10
         currentActiveChartData:
-          description: "Todays data for active users."
+          description: "Today's data for active users."
           type: array
           items:
             $ref: "#/components/schemas/ActiveChartData"
@@ -955,30 +868,6 @@ components:
         - total
         - active
         - totalChartData
-    SubscriptionInsightUsersResponse:
-      title: SubscriptionInsightUsersResponse
-      description: A collection of users that relate to a subscription insight.
-      type: object
-      properties:
-        items:
-          description: A collection of the requested paginated items.
-          type: array
-          items:
-            allOf:
-              - $ref: "#/components/schemas/User"
-              - properties:                                     
-                  details:
-                    type: array
-                    description: "A collection of the user's subscriptions that related to the insight."
-                    items:
-                      $ref: "#/components/schemas/SubscriptionInsightsUserDetail"
-                required:              
-                  - details
-        pagination:
-          $ref: "#/components/schemas/Pagination"
-      required:
-        - items
-        - pagination
     Pagination:
       type: object
       description: The pagination details.

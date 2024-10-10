@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: "SaaS: Subscriptions API"
-  description: API for managing SaaS Subscriptions.
+  description: API for interacting with SaaS Subscriptions.
   version: 1.0.0
   contact:
     name: Snow Software, Inc.
@@ -140,6 +140,9 @@ paths:
                     description: A collection of subscription users.
                     items:
                       $ref: "#/components/schemas/User"
+                required:
+                - items
+                - pagination
         "400":
           $ref: "#/components/responses/400"
         "404":
@@ -247,7 +250,7 @@ components:
           example: Engineering
           type: string
         discoveryTypes:
-          description: The unique IDs of the discovery source types where the user was detected. For information on IDs, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
+          description: The unique IDs of the discovery source types where the user was detected. For information on IDs, see [Discovery sources](https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources)..
           example: [1, 2]
           type: array
           items:
@@ -371,7 +374,7 @@ components:
           example: "O365 Connector"
           type: string
         discoveryType:
-          description: The unique ID of the discovery source type where the user was detected. For information on IDs, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
+          description: The unique ID of the discovery source type where the user was detected. For information on IDs, see [Discovery sources](https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources).
           example: 0
           type: integer
           format: int32
@@ -428,6 +431,9 @@ components:
     SubscriptionInsightUsersResponse:
       title: SubscriptionInsightUsersResponse
       description: A collection of users that relate to a subscription insight.
+      required:
+        - items
+        - pagination
       type: object
       properties:
         items:
@@ -436,19 +442,16 @@ components:
           items:
             allOf:
               - $ref: "#/components/schemas/User"
-              - properties:                                     
+              - properties:
                   details:
                     type: array
-                    description: "A collection of the user's subscriptions that related to the insight."
+                    description: "A collection of the user's subscriptions that relate to the insight."
                     items:
                       $ref: "#/components/schemas/SubscriptionInsightsUserDetail"
-                required:              
+                required:
                   - details
         pagination:
           $ref: "#/components/schemas/Pagination"
-      required:
-        - items
-        - pagination
     Pagination:
       type: object
       description: The pagination details.
