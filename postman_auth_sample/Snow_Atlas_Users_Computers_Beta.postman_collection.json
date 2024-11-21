@@ -1,0 +1,519 @@
+{
+	"info": {
+		"_postman_id": "3ac0a66c-c115-4690-9339-0cfaa691949d",
+		"name": "Snow_Atlas_Users_Computers_Beta",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27884554",
+		"_collection_link": "https://snowsoftware.postman.co/workspace/Team-Workspace~6707227e-9e9e-47b2-80a5-93b21696fd3f/collection/27884554-3ac0a66c-c115-4690-9339-0cfaa691949d?action=share&source=collection_link&creator=27884554"
+	},
+	"item": [
+		{
+			"name": "Get Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.collectionVariables.set(\"Token\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{Region}}.snowsoftware.io/idp/api/connect/token",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"snowsoftware",
+						"io"
+					],
+					"path": [
+						"idp",
+						"api",
+						"connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.snowsoftware.io/api/sam/estate/v1/user-accounts?page_size=100&page_number=1",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"snowsoftware",
+						"io"
+					],
+					"path": [
+						"api",
+						"sam",
+						"estate",
+						"v1",
+						"user-accounts"
+					],
+					"query": [
+						{
+							"key": "page_size",
+							"value": "100"
+						},
+						{
+							"key": "page_number",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Computers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.snowsoftware.io/api/sam/estate/v1/computers?page_size=100&page_number=1",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"snowsoftware",
+						"io"
+					],
+					"path": [
+						"api",
+						"sam",
+						"estate",
+						"v1",
+						"computers"
+					],
+					"query": [
+						{
+							"key": "page_size",
+							"value": "100"
+						},
+						{
+							"key": "page_number",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Custom Field Data Types",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.snowsoftware.io/api/custom-fields/v1/custom-fields-data-types",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"snowsoftware",
+						"io"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields-data-types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Custom Field Asset Types",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.snowsoftware.io/api/custom-fields/v1/custom-fields-asset-types",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"snowsoftware",
+						"io"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields-asset-types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Custom Fields",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.snowsoftware.io/api/custom-fields/v1/custom-fields",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"snowsoftware",
+						"io"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Custom Fields - Users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"User Short Code\",\n  \"description\": \"User Specific Short Code.\",\n  \"dataTypeId\": \"c43e9ce2-4dba-4768-a62c-b8b855b8d436\",\n  \"assetTypesIds\": [\n    \"a7691f24-d5bb-42ad-b6da-d7e0cbb083a8\"\n  ],\n  \"isRequired\": false\n  //\"defaultValue\": \"A value\"\n  //\"multipleChoice\": [\n    //\"Choice 1\",\n    //\"Choice 2\"\n  //]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{Region}}.snowsoftware.io/api/custom-fields/v1/custom-fields",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"snowsoftware",
+						"io"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Custom Fields - Devices",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Cost Center\",\n  \"description\": \"Users Cost Center.\",\n  \"dataTypeId\": \"c43e9ce2-4dba-4768-a62c-b8b855b8d436\",\n  \"assetTypesIds\": [\n    \"6f6c19fe-8e02-4d64-84d6-343f150e9134\"\n  ],\n  \"isRequired\": false\n  //\"defaultValue\": \"A value\",\n  //\"multipleChoice\": [\n    //\"Choice 1\",\n    //\"Choice 2\"\n  //]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{Region}}.snowsoftware.io/api/custom-fields/v1/custom-fields",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"snowsoftware",
+						"io"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Custom Field - Device",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"customFieldId\": \"ab3263e4-a4dc-483e-ab4b-3ddd298f558e\",\n  \"assetId\": \"34469e92-5132-4269-8392-ef0b7652833f\",\n  \"assetTypeId\": \"efdd2bd1-4d22-42f9-b3cd-dffda7374ad9\",\n  \"value\": \"A value\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{Region}}.snowsoftware.io/api/custom-fields/v1/custom-fields",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"snowsoftware",
+						"io"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Custom Field - User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Cost Center\",\n  \"description\": \"Users Cost Center.\",\n  \"dataTypeId\": \"c43e9ce2-4dba-4768-a62c-b8b855b8d436\",\n  \"assetTypesIds\": [\n    \"6f6c19fe-8e02-4d64-84d6-343f150e9134\"\n  ],\n  \"isRequired\": false\n  //\"defaultValue\": \"A value\",\n  //\"multipleChoice\": [\n    //\"Choice 1\",\n    //\"Choice 2\"\n  //]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{Region}}.snowsoftware.io/api/custom-fields/v1/custom-fields",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"snowsoftware",
+						"io"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.variables.get(\"variable_key\");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Region",
+			"value": ""
+		},
+		{
+			"key": "client_id",
+			"value": ""
+		},
+		{
+			"key": "client_secret",
+			"value": ""
+		},
+		{
+			"key": "Token",
+			"value": ""
+		}
+	]
+}
