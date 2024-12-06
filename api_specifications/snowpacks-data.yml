@@ -4,8 +4,8 @@ info:
     title: "Support: Snowpacks data"
     description: API for interacting with ingested inventory data.
     contact:
-      name: Snow Software, Inc.
-      url: https://www.snowsoftware.com
+      name: Flexera
+      url: https://www.flexera.com
 servers:
   - url: https://{region}.snowsoftware.io
     variables: 
