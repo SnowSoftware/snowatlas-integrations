@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: "SaaS: Applications API"
-  description: API for interacting with SaaS Applications.
-  version: 1.0.0
+  title: "SaaS: Applications"
+  description: API for interacting with SaaS applications.
+  version: 1.1.0
   contact:
     name: Flexera
     url: https://www.flexera.com
@@ -85,6 +85,8 @@ components:
         format: int64
         default: 1
   responses:
+    "204":
+      description: "No Content: Your request succeeded, but the response message was empty."
     "400":
       description: "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request."
       content:
@@ -154,7 +156,7 @@ components:
           example: Engineering
           type: string
         discoveryTypes:
-          description: The unique IDs of the discovery source types where the user was detected. For information on IDs, see [Discovery sources](https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources).
+          description: The unique IDs of the discovery source types where the user was detected. For information on IDs, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
           example: [1, 2]
           type: array
           items:
@@ -216,6 +218,11 @@ components:
           description: The username of the user.
           example: john.doe_1@org.com
           type: string
+        totalDaysUsed:
+          description: The count of days the application was used by the user.
+          example: 10
+          type: integer
+          format: int32
       required:
         - id
         - country
@@ -233,6 +240,7 @@ components:
         - username
         - licenseCount
         - isOnline
+        - totalDaysUsed
     Pagination:
       type: object
       description: The pagination details.
