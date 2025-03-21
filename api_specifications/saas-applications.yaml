@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: "SaaS: Applications"
   description: API for interacting with SaaS applications.
-  version: 1.1.0
+  version: 1.1.1
   contact:
     name: Flexera
     url: https://www.flexera.com
@@ -85,8 +85,6 @@ components:
         format: int64
         default: 1
   responses:
-    "204":
-      description: "No Content: Your request succeeded, but the response message was empty."
     "400":
       description: "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request."
       content:
@@ -134,9 +132,11 @@ components:
               type: integer
               format: int32
               description: The HTTP status code.
+              example: 400
             message:
               type: string
               description: The error message.
+              example: "Filter field name needs to be formatted as a string."
     User:
       title: User
       description: "A discovered user in your SaaS estate." 
@@ -156,8 +156,16 @@ components:
           example: Engineering
           type: string
         discoveryTypes:
-          description: The unique IDs of the discovery source types where the user was detected. For information on IDs, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
+          description: The unique IDs of the discovery source types where the user was detected. For information on discovery source types, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
           example: [1, 2]
+          x-enumDescriptions:
+            "0": SaaS connector - Represents integration with SaaS applications for automated data collection and management.
+            "1": Manually added - Indicates resources or applications manually added by users without automated discovery.
+            "2": Browser unverified - Refers to browser-based applications that have not been verified for compliance or usage.
+            "3": SSO - Represents Single Sign-On integrations for centralized user authentication.
+            "4": Device - Refers to physical or virtual devices managed within the IT environment.
+            "7": Browser verified - Denotes browser-based applications that have been verified for compliance or usage.
+            "8": CASB - Represents Cloud Access Security Broker integrations to enhance cloud security and compliance.
           type: array
           items:
             type: integer
