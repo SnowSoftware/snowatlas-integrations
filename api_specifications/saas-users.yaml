@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
   title: "SaaS: Users"
-  description: API for interacting with SaaS users.
-  version: 1.0.1
+  description: API for interacting with SaaS Users.
+  version: 1.1.0
   contact:
     name: Flexera
     url: https://www.flexera.com
@@ -16,6 +16,9 @@ servers:
           - eastus2
           - uksouth
         default: westeurope
+tags:
+  - name: Tasks
+  - name: Users
 paths:
   /api/saas/consolidated-view/v1/users:
     get:
@@ -61,8 +64,6 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
-        - bearerAuth:
-            - saas.consolidation.view.crud
       tags:
         - Users
   /api/saas/consolidated-view/v1/users/kpi:
@@ -97,8 +98,6 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
-        - bearerAuth:
-            - saas.consolidation.view.crud
       tags:
         - Users
   /api/saas/consolidated-view/v1/users/{userId}:
@@ -130,8 +129,6 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
-        - bearerAuth:
-            - saas.consolidation.view.crud
       tags:
         - Users
     patch:
@@ -172,7 +169,6 @@ paths:
         - Users
   /api/saas/consolidated-view/v1/users/{userId}/applications:
     get:
-      x-internal: true
       summary: Get user applications
       description: Returns a collection of applications that have been detected as being used by the given user.
       operationId: getUserApplications
@@ -224,13 +220,10 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
-        - bearerAuth:
-            - saas.consolidation.view.crud
       tags:
         - Users
   /api/saas/consolidated-view/v1/users/{userId}/subscriptions:
     get:
-      x-internal: true
       summary: Get user subscriptions
       description: Returns a collection of subscriptions in use by the given user.
       operationId: getSaasConsolidatedViewV1UserSubscriptions
@@ -282,8 +275,6 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
-        - bearerAuth:
-            - saas.consolidation.view.crud
       tags:
         - Users
   /api/saas/consolidated-view/v1/users/{userId}/discovery-sources:
@@ -340,12 +331,105 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
+      tags:
+        - Users
+  /api/saas/consolidated-view/v1/users/bulk-update:
+    post:
+      summary: Bulk update users
+      description: Modifies a collection of user properties the provided applications.
+      operationId: bulkUpdateUsers
+      requestBody:
+        content: {
+          "application/json": {
+            "schema": {
+              $ref: '#/components/schemas/BulkUpdateUsersRequest'
+            }
+          }
+        }
+      responses:
+        "202": {
+          "description": "Accepted: Your request requires more time for the service to process.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkUpdateUsersResponse"
+              }
+            }
+          }
+        }
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+      security:
         - bearerAuth:
+            - saas.consolidation.view.r       
             - saas.consolidation.view.crud
       tags:
         - Users
-tags:
-  - name: Users
+  /api/saas/consolidated-view/v1/users/bulk-update/{id}:
+    get:
+      summary: Get bulk update users summary
+      description: Returns the details of a completed async bulk update operation.
+      operationId: getbulkUpdateAsyncOperationUsersSummary
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique ID of the summary.
+          schema: {
+            "type": "string"
+          }
+      responses:
+        '200': {
+          "description": "OK: Your request succeeded.",
+          "content": {
+            "application/json": {
+              "schema": {
+                $ref: '#/components/schemas/BulkUpdateUsersSummaryResponse'
+              }
+            }
+          }
+        }
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+      tags:
+        - Users
+  /api/saas/consolidated-view/v1/tasks/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique ID of the task.
+          schema:
+            type: string
+      summary: Get task
+      description: Returns the details of the given task.
+      operationId: getTask
+      tags:
+        - Tasks
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
 components:
   parameters:
     PageSize:
@@ -367,8 +451,6 @@ components:
         format: int64
         default: 1
   responses:
-    "204":
-      description: "No Content: Your request succeeded, but the response message was empty."
     "400":
       description: "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request."
       content:
@@ -399,7 +481,44 @@ components:
             error:
               code: 500
               message: The service encountered an unexpected condition that prevented it from fulfilling the request.
-  schemas:
+  schemas:    
+    Task:
+      type: object
+      required:
+        - id
+        - name
+        - status
+        - _links
+      properties:
+        id:
+          description: The unique ID of the task.
+          type: string
+          example: 483c67cf-e247-4a82-bef7-b86a29560788
+        name:
+          description: The system-assigned task name.
+          type: string
+          example: Export users
+        status:
+          description: The status of the task.
+          x-enumDescriptions:
+            Running: The task is currently running.
+            Complete: The task has completed.
+            Failed: The task ended in a failed state.
+          type: string
+          example: Complete
+        description:
+          description: The detailed description of task status.
+          type: string
+          example: The export completed successfully.
+        _links:
+          type: array
+          description: A collection of links to related resources.
+          items:
+            $ref: '#/components/schemas/Link'
+          example:
+            - href: /api/saas/consolidated-view/v1/users/bulk-update/483c67cf-e247-4a82-bef7-b86a29560788
+              rel: bulk-update-users
+              method: GET
     ActiveChartData:
       title: ActiveChartData
       type: object
@@ -471,26 +590,6 @@ components:
               type: string
               description: The error message.
               example: "Filter field name needs to be formatted as a string."
-    ExportResponse:
-      title: ExportResponse
-      type: object
-      properties:
-        fileBytes:
-          type: array
-          description: The file to be exported in bytes.
-          items:
-            type: string
-            format: binary
-        fileContent:
-          description: The content of the file to be exported.
-          example: data
-          type: string
-        fileName:
-          description: The name of the exported file.
-          example: exportedfile.xls
-          type: string
-      required:
-        - FileBytes
     InactiveChartData:
       title: InactiveChartData
       type: object
@@ -690,42 +789,6 @@ components:
         - isOnline
         - isInReview
         - isQualified
-    IDPUser:
-      title: User
-      description: A single user in an organization.
-      type: object
-      properties:
-        accountId:
-          description: The unique ID of the user.
-          example: d07543b1-505e-402e-dd8e-08da05w5f550
-          type: string
-        email:
-          description: The email address of the user.
-          example: John.doe@organization.com
-          type: string
-        familyName:
-          description: The surname of the user.
-          example: Doe
-          type: string
-        givenName:
-          description: The first name of the user.
-          example: John
-          type: string
-        tenantId:
-          description: The unique ID of the Snow tenant the user belongs to.
-          example: 7526f54f-88c1-40e6-ae1a-08d8809f9be3
-          type: string
-        userId:
-          description: The unique ID of the user.
-          example: 3abb3537-c268-4163-5987-08da05a4f542
-          type: string
-      required:
-        - givenName
-        - familyName
-        - userId
-        - email
-        - tenantId
-        - accountId
     UserApplication:
       title: UserApplication
       type: object
@@ -772,35 +835,7 @@ components:
         - discoveryTypes
         - lastActive
         - vendorId
-        - vendor
-    SubscriptionInsightsUserDetail:
-      title: SubscriptionInsightsUserDetail
-      type: object
-      properties:
-        lastActive:
-          description: The date of last user activity in relevant subscription or application.
-          type: string
-          format: date-time
-        subscriptionId:
-          description: The unique ID of the subscription.
-          type: string
-          example: 1519f3e3-7e5a-466b-8a86-63ed2776f819
-        subscriptionName:
-          description: The name of the subscription.
-          type: string
-          example: Microsoft 365 E5
-        applicationId:
-          description: The unique ID of the application.
-          type: string
-          example: 3519f3f3-7e5a-e66b-8a86-63ed2776f618
-        applicationName:
-          description: The name of the application.
-          type: string
-          example: Microsoft Power BI
-      required:
-        - subscriptionId
-        - subscriptionName
-        - lastActive
+        - vendor 
     UserSubscription:
       title: UserSubscription
       type: object
@@ -973,31 +1008,7 @@ components:
         - currentInactiveChartData
         - total
         - active
-        - totalChartData
-    SubscriptionInsightUsersResponse:
-      title: SubscriptionInsightUsersResponse
-      description: A collection of users that relate to a subscription insight.
-      type: object
-      properties:
-        items:
-          description: A collection of the requested paginated items.
-          type: array
-          items:
-            allOf:
-              - $ref: "#/components/schemas/User"
-              - properties:                                     
-                  details:
-                    type: array
-                    description: "A collection of the user's subscriptions that related to the insight."
-                    items:
-                      $ref: "#/components/schemas/SubscriptionInsightsUserDetail"
-                required:              
-                  - details
-        pagination:
-          $ref: "#/components/schemas/Pagination"
-      required:
-        - items
-        - pagination
+        - totalChartData 
     Pagination:
       type: object
       description: The pagination details.
@@ -1024,6 +1035,117 @@ components:
           format: int64
           description: The total number of items.
           example: 1
+    BulkUpdateUsersRequest:
+      type: object
+      required:
+        - scope
+        - body
+      properties:
+        filter:
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          type: string
+          example: "name -eq Per"
+        scope:
+          description: The scope of the update operation.
+          x-enumDescriptions:
+            Only: The operation is performed only on the users whose IDs are specified..
+            All: The operation is performed on all users.
+            AllExcept: The operation is performed on every user except those who IDs are specified.
+          type: string
+          "enum": [
+            "Only",
+            "All",
+            "AllExcept"
+          ]
+          example: All
+        ids:
+          description: The IDs that the operation is performed on.
+          type: array
+          items:
+            type: string
+            example: a7a75b83-2690-4cc9-b652-a0fbe93dba4a
+        body: 
+          $ref: "#/components/schemas/UserStatus"
+    UserStatus:
+      description: The update to be applied to all IDs.
+      type: object
+      properties:
+        onlineOnly:
+          description: "```true``` if the user is marked as online only; otherwise, ```false```."
+          type: boolean
+          example: true
+        review:
+          description: "```true``` if the user is marked as for review; otherwise, ```false```."
+          type: boolean
+          example: true
+        qualified:
+          description: "```true``` if the user is marked as qualified; otherwise, ```false```."
+          type: boolean
+          example: true
+    BulkUpdateUsersResponse:
+      type: object
+      required:
+        - id
+        - _links
+      properties:
+        id:
+          description: The unique ID of the bulk operation.
+          type: string
+          example: 483c67cf-e247-4a82-bef7-b86a29560788
+        _links:
+          type: array
+          description: A collection of links to related resources.
+          items:
+            $ref: '#/components/schemas/Link'
+          example:
+            - href: "api/saas/consolidated-view/v1/tasks/483c67cf-e247-4a82-bef7-b86a29560788"
+              rel: self
+              method: GET
+    Link:
+      type: object
+      required:
+        - href
+        - rel
+        - method
+      properties:
+        href:
+          type: string
+          description: The associated relative URL.
+          example: api/saas/consolidated-view/v1/...
+        rel:
+          type: string
+          description: Specifies the relationship between the current document and the linked document/resource.
+          example: self
+        method:
+          type: string
+          description: The method to access related resources.
+          example: GET
+    BulkUpdateUsersSummaryResponse:
+      type: object
+      properties:
+        successCount:
+          description: The number of items that succeeded in the operation.
+          type: integer
+          format: int64
+          example: 10
+        failedCount:
+          description: The number of items that failed in the operation.
+          type: integer
+          format: int64
+          example: 10
+        failed:
+          description: The IDs of the failed items.
+          type: array
+          items: 
+            type: string
+          example: [ e192ea5e-363c-47e4-82e3-d2587afada8c, 07d30e31-3d4b-49e3-8000-4faa0653e7dc ]
+        failureReason:
+          description: The reason the bulk operation failed.
+          type: string
+          example: "These users failed for reasons x and y."
+      required:
+        - successCount
+        - failedCount
   securitySchemes:
     bearerAuth:
       type: http
