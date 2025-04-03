@@ -1,0 +1,1144 @@
+openapi: 3.0.3
+info:
+  title: 'SaaS: Family'
+  description: API for interacting with SaaS family subscription endpoints.
+  version: 1.0.0
+  contact:
+    name: Flexera
+    url: https://www.flexera.com
+servers:
+  - url: https://{region}.snowsoftware.io
+    variables:
+      region:
+        enum:
+          - westeurope
+          - australiasoutheast
+          - eastus2
+          - uksouth
+        default: westeurope
+tags:
+  - name: Generic
+    description: Tag for Generic endpoints.
+  - name: Salesforce
+    description: Tag for Salesforce endpoints.
+  - name: Servicenow
+    description: Tag for ServiceNow endpoints.
+paths:
+  /api/saas/consolidated-view/v2/subscription-family/applications/kpi:
+    get:
+      summary: Get application KPIs
+      description: Returns the details of a family's application KPIs.
+      operationId: getFamilyApplicationsKpi
+      tags:
+        - Generic
+      parameters:
+        - $ref: '#/components/parameters/FromDateQuery'
+        - $ref: '#/components/parameters/ToDateQuery'
+        - $ref: '#/components/parameters/SubscriptionIdsQuery'
+        - $ref: '#/components/parameters/SubscriptionPlanIdsQuery'
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyApplicationsKPI'
+        '400':
+          $ref: '#/components/responses/Response400'
+        '500':
+          $ref: '#/components/responses/Response500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+  /api/saas/consolidated-view/v1/subscription-family/servicenow/subscriptions:
+    get:
+      summary: Get ServiceNow subscriptions
+      description: Returns a collection of ServiceNow subscriptions for a family.
+      operationId: getSaasConsolidatedViewV1SubscriptionFamilyServiceNowSubscriptions
+      parameters:
+        - name: subscriptionIds
+          description: A comma-separated list of subscription IDs.
+          in: query
+          schema:
+            type: string
+          example: 5c7665c8-1e00-435b-8ad3-b44dcdf6eb62_d76c28a1-0b62-4849-98fd-8cf2516370ce_06ebc4ee-1bb5-47dd-8120-11324bc54e06,5c7665c8-1e00-435b-8ad3-b44dcdf6eb62_d76c28a1-0b62-4849-98fd-8cf2516370ce_90d8b3f8-712e-4f7b-aa1e-62e7ae6cbe96
+        - name: page_size
+          description: The maximum number of items in the response.
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 100
+        - name: page_number
+          description: The page number.
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 1
+        - name: filter
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          in: query
+          schema:
+            type: string
+            example: '?filter=Application -eq "abc"'
+        - name: sort
+          description: For more information on sorting capability and examples, see [Sort API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#sort-api-call-results).
+          in: query
+          schema:
+            type: string
+            example: '?sort=Application:asc'
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyServiceNowSubscriptionsResponse'
+        '400':
+          $ref: '#/components/responses/Response400'
+        '500':
+          $ref: '#/components/responses/Response500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+      tags:
+        - Servicenow
+  /api/saas/consolidated-view/v1/subscription-family/servicenow/subscriptions/export:
+    post:
+      summary: Export ServiceNow subscriptions in a file
+      description: Exports a collection of subscriptions for a ServiceNow family.
+      operationId: exportSaasConsolidatedViewV1SubscriptionFamilyServiceNowSubscriptions
+      requestBody:
+        description: Request manage download parameters.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DownloadRequest'
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportResponseWrapper'
+        '400':
+          $ref: '#/components/responses/Response400'
+        '500':
+          $ref: '#/components/responses/Response500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+      tags:
+        - Servicenow
+  /api/saas/consolidated-view/v1/subscription-family/servicenow/users:
+    get:
+      summary: Get ServiceNow users
+      description: Returns a collection of ServiceNow users of a family based on filter query if given. If an insightRuleId is provided, users will be returned from the perspective of the provided insights instead.
+      operationId: getSaasConsolidatedViewV1SubscriptionFamilyServiceNowUsers
+      parameters:
+        - name: subscriptionIds
+          description: A comma-separated list of subscription IDs.
+          in: query
+          schema:
+            type: string
+          example: 5c7665c8-1e00-435b-8ad3-b44dcdf6eb62_d76c28a1-0b62-4849-98fd-8cf2516370ce_06ebc4ee-1bb5-47dd-8120-11324bc54e06,5c7665c8-1e00-435b-8ad3-b44dcdf6eb62_d76c28a1-0b62-4849-98fd-8cf2516370ce_90d8b3f8-712e-4f7b-aa1e-62e7ae6cbe96
+        - name: page_size
+          description: The maximum number of items in the response.
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 100
+        - name: page_number
+          description: The page number.
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 1
+        - name: insightRuleId
+          description: The unique ID of the insight rule.
+          in: query
+          schema:
+            $ref: '#/components/schemas/InsightRule'
+        - name: filter
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          in: query
+          schema:
+            type: string
+            example: '?filter=country -eq "abc"'
+        - name: sort
+          description: For more information on sorting capability and examples, see [Sort API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#sort-api-call-results).
+          in: query
+          schema:
+            type: string
+            example: '?sort=country:asc'
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyServiceNowUsersResponse'
+        '400':
+          $ref: '#/components/responses/Response400'
+        '500':
+          $ref: '#/components/responses/Response500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+      tags:
+        - Servicenow
+  /api/saas/consolidated-view/v1/subscription-family/servicenow/users/export:
+    post:
+      summary: Export ServiceNow users in a file
+      description: Exports a collection of ServiceNow users.
+      operationId: exportSaasConsolidatedViewV1SubscriptionFamilyServiceNowUsers
+      requestBody:
+        description: Request manage download parameters.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DownloadRequest'
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportResponseWrapper'
+        '400':
+          $ref: '#/components/responses/Response400'
+        '500':
+          $ref: '#/components/responses/Response500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+      tags:
+        - Servicenow
+  /api/saas/consolidated-view/v1/subscription-family/salesforce/organizations:
+    get:
+      summary: Get Salesforce organizations
+      description: Returns a collection of Salesforce organizations for a family.
+      operationId: getSaasConsolidatedViewV1SubscriptionFamilySalesforceOrganizations
+      parameters:
+        - name: subscriptionPlanIds
+          description: A comma-separated list of subscription plan IDs.
+          in: query
+          schema:
+            type: string
+          example: 5c7665c8-1e00-435b-8ad3-b44dcdf6eb62_d76c28a1-0b62-4849-98fd-8cf2516370ce_06ebc4ee-1bb5-47dd-8120-11324bc54e06,5c7665c8-1e00-435b-8ad3-b44dcdf6eb62_d76c28a1-0b62-4849-98fd-8cf2516370ce_90d8b3f8-712e-4f7b-aa1e-62e7ae6cbe96
+        - name: page_size
+          description: The maximum number of items in the response.
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 100
+        - name: page_number
+          description: The page number.
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 1
+        - name: filter
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          in: query
+          schema:
+            type: string
+            example: '?filter=Application -eq "abc"'
+        - name: sort
+          description: For more information on sorting capability and examples, see [Sort API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#sort-api-call-results).
+          in: query
+          schema:
+            type: string
+            example: '?sort=Application:asc'
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilySalesforceOrganizationsResponse'
+        '400':
+          $ref: '#/components/responses/Response400'
+        '500':
+          $ref: '#/components/responses/Response500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+      tags:
+        - Salesforce
+  /api/saas/consolidated-view/v1/subscription-family/salesforce/organizations/kpi:
+    get:
+      summary: Get Salesforce organization KPIs
+      description: Returns a collection of Salesforce organizations' key performance indicators.
+      operationId: getSaasConsolidatedViewV1SubscriptionFamilySalesforceOrganizationsKpis
+      parameters:
+        - name: subscriptionPlanIds
+          description: A comma-separated list of subscription plan IDs.
+          in: query
+          schema:
+            type: string
+          example: 5c7665c8-1e00-435b-8ad3-b44dcdf6eb62_d76c28a1-0b62-4849-98fd-8cf2516370ce_06ebc4ee-1bb5-47dd-8120-11324bc54e06,5c7665c8-1e00-435b-8ad3-b44dcdf6eb62_d76c28a1-0b62-4849-98fd-8cf2516370ce_90d8b3f8-712e-4f7b-aa1e-62e7ae6cbe96
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilySalesforceOrganizationsKPIResponse'
+        '400':
+          $ref: '#/components/responses/Response400'
+        '500':
+          $ref: '#/components/responses/Response500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+      tags:
+        - Salesforce
+components:
+  parameters:
+    SubscriptionIdsQuery:
+      description: Comma separated list of subscription IDs.
+      required: false
+      name: subscriptionIds
+      in: query
+      schema:
+        type: string
+        example: 5b35aa33-e7a8-47a3-b1b6-19099ebb6bfd,b10f3e61-bf51-4e87-88fe-f3d22e3194bd,b12ce8d7-2ca6-4b2d-80ca-eb5d1a57ceca
+    SubscriptionPlanIdsQuery:
+      description: A comma-separated list of subscription plan IDs.
+      required: false
+      name: subscriptionPlanIds
+      in: query
+      schema:
+        type: string
+        example: 5b35aa33-e7a8-47a3-b1b6-19099ebb6bfd,b10f3e61-bf51-4e87-88fe-f3d22e3194bd,b12ce8d7-2ca6-4b2d-80ca-eb5d1a57ceca
+    FromDateQuery:
+      required: true
+      in: query
+      name: fromDate
+      description: Starting date from which to calculate KPI.
+      schema:
+        type: string
+        example: '2024-11-26'
+        format: date
+    ToDateQuery:
+      required: true
+      in: query
+      name: toDate
+      description: Starting date until which to calculate KPI.
+      schema:
+        type: string
+        example: '2024-11-26'
+        format: date
+  responses:
+    Respond400:
+      $ref: '#/components/responses/Response400'
+    Respond500:
+      $ref: '#/components/responses/Response500'
+    Response400:
+      description: 'Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorValidationResponse'
+          example:
+            error:
+              code: 400
+              message: Filter field name needs to be formatted as a string.
+    Response500:
+      description: 'Internal Server Error: Your request failed due to an internal error.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: 500
+              message: The service encountered an unexpected condition that prevented it from fulfilling the request.
+  schemas:
+    FamilyServiceNowSubscriptionsResponse:
+      title: FamilyServiceNowSubscriptionsResponse
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/Subscription'
+              - $ref: '#/components/schemas/ServiceNowSubscription'
+          description: A collection of ServiceNow subscriptions.
+        pagination:
+          $ref: '#/components/schemas/PaginationResult'
+      required:
+        - items
+        - pagination
+    FamilyServiceNowUsersResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/FamilyUser'
+              - $ref: '#/components/schemas/ServiceNowFamilyUser'
+          description: A collection of ServiceNow users.
+        pagination:
+          $ref: '#/components/schemas/PaginationResult'
+      required:
+        - items
+        - pagination
+    FamilySalesforceOrganizationsResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          description: A collection of Salesforce organizations.
+          items:
+            $ref: '#/components/schemas/SalesforceOrganization'
+        pagination:
+          $ref: '#/components/schemas/PaginationResult'
+      required:
+        - items
+        - pagination
+    FamilySalesforceOrganizationsKPIResponse:
+      title: SalesforceOrganizationsKPI
+      description: The data for the Salesforce Organization key performance indicators.
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int32
+          example: 10
+          description: The total number of discovered organizations as of today.
+        totalCostPerYear:
+          type: number
+          format: double
+          example: 157.35
+          description: The yearly cost of all organizations' subscriptions.
+      required:
+        - total
+        - totalCostPerYear
+    ExportResponseWrapper:
+      description: OK - Your request succeeded.
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+          description: HTTP response status code.
+        body:
+          $ref: '#/components/schemas/ExportResponse'
+      required:
+        - body
+    DownloadRequest:
+      description: Request to download file.
+      type: object
+      properties:
+        fileName:
+          type: string
+          description: File name without extension.
+          example: 2024-01-01_family_subscriptions
+        columns:
+          type: string
+          description: Columns mappings to include.
+          example: name:Application,totalUniqueUsers:Total
+        fileType:
+          type: string
+          enum:
+            - Csv
+            - Xlsx
+          x-enumDescriptions:
+            Csv: Comma Separated Values file format.
+            Xlsx: Microsoft Excel Open XML Spreadsheet file format.
+          example: Csv
+          description: File type for downloaded file.
+        filter:
+          type: string
+          description: Filter criteria (e.g., subscriptionIds -eq "abc").
+          example: subscriptionIds -eq "abc"
+    FamilyApplicationsKPI:
+      title: FamilyApplicationsKPI
+      type: object
+      properties:
+        notApproved:
+          description: Total count of the users that are not approved.
+          example: 71
+          type: integer
+          format: int32
+        total:
+          description: Total count of users.
+          example: 56
+          type: integer
+          format: int32
+      required:
+        - total
+        - notApproved
+    ValidationError:
+      type: object
+      description: Validation error.
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code.
+          format: int32
+          example: 400
+        message:
+          type: string
+          description: The error message.
+          example: Filter field name needs to be formatted as a string.
+      required:
+        - code
+        - message
+    ErrorValidationResponse:
+      title: ErrorValidationResponse
+      description: Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ValidationError'
+      required:
+        - error
+    InternalError:
+      type: object
+      description: Internal error.
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code.
+          format: int32
+          example: 500
+        message:
+          type: string
+          description: The error message.
+          example: The service encountered an unexpected condition that prevented it from fulfilling the request.
+      required:
+        - code
+        - message
+    ErrorResponse:
+      description: Internal Server Error - Your request failed due to an internal error.
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/InternalError'
+      required:
+        - error
+    AttachedApp:
+      title: AttachedApp
+      type: object
+      description: Application attached to Subscription.
+      properties:
+        appCategoryName:
+          type: string
+          description: Application category name.
+          example: Document Management
+        applicationId:
+          type: string
+          format: uuid
+          example: 0dd14c40-965f-432d-b5de-fe8e50677519
+          description: The unique ID of the application.
+        applicationName:
+          type: string
+          example: Adobe Acrobat.
+          description: Application name.
+        disServiceId:
+          type: string
+          format: uuid
+          example: a5b52a55-515c-48f6-9939-10b12191fe6d
+          description: The unique ID of the Data Intelligence Service.
+      required:
+        - applicationName
+        - appCategoryName
+        - applicationId
+        - disServiceId
+    DiscoverySourceV2:
+      type: string
+      description: Discovery source.
+      example: SaasConnector
+      enum:
+        - SaasConnector
+        - ManuallyAdded
+        - BrowserUnverified
+        - SingleSignOn
+        - Device
+        - CloudInventory
+        - ItServiceManagement
+        - BrowserVerified
+        - CloudAssetSecurityBroker
+      x-enumDescriptions:
+        SaasConnector: Represents integration with SaaS applications for automated data collection and management.
+        ManuallyAdded: Indicates resources or applications manually added by users without automated discovery.
+        BrowserUnverified: Refers to browser-based applications that have not been verified for compliance or usage.
+        SingleSignOn: Represents Single Sign-On integrations for centralized user authentication.
+        Device: Refers to physical or virtual devices managed within the IT environment.
+        CloudInventory: Indicates resources discovered and managed within cloud environments.
+        ItServiceManagement: Refers to integrations with IT Service Management systems for streamlined operations.
+        BrowserVerified: Denotes browser-based applications that have been verified for compliance or usage.
+        CloudAssetSecurityBroker: Represents Cloud Access Security Broker integrations to enhance cloud security and compliance.
+    Subscription:
+      description: Subscription.
+      type: object
+      properties:
+        purchased:
+          type: integer
+          format: int32
+          description: Total purchased subscription quantity.
+          example: 10
+        assigned:
+          type: integer
+          format: int32
+          description: Number of subscriptions assigned to a user.
+          example: 3
+        unassigned:
+          type: integer
+          format: int32
+          description: Number of subscriptions not assigned to a user.
+          example: 2
+        overassigned:
+          type: integer
+          format: int32
+          description: Number of assigned subscriptions that exceed the purchased quantity.
+          example: 1
+        id:
+          type: string
+          format: uuid
+          example: 2f86b198-04f3-4770-ad08-b32518206da0
+          description: The unique ID of the Subscription.
+        active:
+          type: integer
+          format: int32
+          example: 10
+          description: Number of subscriptions with user activity withing the last 30 days.
+        inactive:
+          type: integer
+          format: int32
+          example: 10
+          description: Number of subscriptions with user activity more than 30 days.
+        noActivity:
+          type: integer
+          format: int32
+          example: 1
+          description: Number of subscriptions with no recorded user activity.
+        application:
+          type: string
+          example: ServiceNow application name
+          description: Application name.
+        applicationId:
+          type: string
+          format: uuid
+          example: d8fdde78-60e4-4f81-9e32-6b769176eac0
+          description: The unique ID of the ServiceNow application.
+        applications:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttachedApp'
+          description: Applications that belong to family subscription.
+        automaticallyAdded:
+          type: boolean
+          example: false
+          description: '```true``` if was automatically added; otherwise, ```false```.'
+        connectorName:
+          type: string
+          example: ServiceNow connector
+          description: Connector name used to obtain information.
+        costPerUnit:
+          type: number
+          format: double
+          example: 32.1
+          description: Cost per subscription.
+        currency:
+          type: string
+          example: USD
+          description: Subscription currency.
+        disServiceId:
+          type: string
+          format: uuid
+          example: f3924b69-140c-4587-a15e-ecbb4a9e9998
+          description: The unique ID of the Data Intelligence Service.
+        discovered:
+          type: integer
+          format: int32
+          example: 3
+          description: Discovery source where the item was detected.
+        discoveryTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoverySourceV2'
+          example:
+            - SaasConnector
+          description: All discovery sources the item was detected through.
+        excludedFromMetrics:
+          type: boolean
+          example: false
+          description: '```true``` if the subscription is excluded from total usage and cost metrics; otherwise, ```false```.'
+        expirationDate:
+          type: string
+          format: date-time
+          example: '2030-01-02T15:04:05'
+          description: The last day on which subscription can be used.
+        familyId:
+          type: string
+          format: uuid
+          example: 6c12ebe7-4098-443c-b5b0-80ab0b544a60
+          description: The unique ID of the Family.
+        familyName:
+          type: string
+          example: ServiceNow Family name
+          description: Family name.
+        free:
+          type: boolean
+          example: true
+          description: '```true``` if subscription is free and excluded from total usage and cost metrics; otherwise, ```false```.'
+        isBundled:
+          type: boolean
+          example: true
+          description: '```true``` if subscription includes multiple applications; otherwise, ```false```.'
+        name:
+          type: string
+          example: ServiceNow subscription name
+          description: Full subscription name.
+        notMonitored:
+          type: integer
+          format: int32
+          example: 3
+          description: Number of subscriptions without monitored application activity.
+        purchasedDate:
+          type: string
+          format: date-time
+          example: '2006-01-02T15:04:05'
+          description: The date when the subscription was purchased.
+        quantity:
+          type: integer
+          format: int32
+          example: 1
+          description: Quantity.
+        rrpPeriod:
+          type: string
+          example: Annually
+          description: Recommended Retail Pricing period.
+        rrpValue:
+          type: number
+          format: double
+          example: 155.88
+          description: Recommended Retail Pricing value.
+        startDate:
+          type: string
+          format: date-time
+          example: '2006-01-02T15:04:05'
+          description: First day the subscription can be used.
+        usage:
+          type: number
+          format: double
+          example: 0.1
+          description: Ratio of active users to the total of active, inactive, and users with no activity in assigned subscriptions.
+        utilization:
+          type: number
+          format: double
+          example: 98
+          description: Utilization.
+        vendor:
+          type: string
+          example: Adobe Inc.
+          description: Vendor name.
+        vendorId:
+          type: string
+          format: uuid
+          example: 0dd14c40-965f-432d-b5de-fe8e50677519
+          description: The unique ID of the vendor.
+      required:
+        - discoveryTypes
+        - expirationDate
+        - familyId
+        - notMonitored
+        - unassigned
+        - id
+        - connectorName
+        - currency
+        - isBundled
+        - utilization
+        - purchased
+        - active
+        - noActivity
+        - free
+        - inactive
+        - automaticallyAdded
+        - purchasedDate
+        - rrpValue
+        - usage
+        - vendorId
+        - costPerUnit
+        - overassigned
+        - name
+        - startDate
+        - vendor
+        - application
+        - applicationId
+        - disServiceId
+        - excludeFromMetrics
+        - familyName
+        - assigned
+        - applications
+        - discovered
+        - quantity
+        - rrpPeriod
+    ServiceNowSubscription:
+      title: ServiceNowSubscription
+      description: ServiceNow subscription.
+      type: object
+      properties:
+        roleTypes:
+          type: array
+          items:
+            type: string
+          description: ServiceNow role type defines the specific access and capabilities a user has within the platform.
+          example:
+            - Fulfiller
+            - Requester
+        applicationTypes:
+          type: array
+          items:
+            type: string
+          example:
+            - Case Management
+            - Incident Management
+            - Request Management
+          description: ServiceNow application types refer to the various categories of applications that serve different business functions.
+      required:
+        - applicationTypes
+        - roleTypes
+    PaginationResult:
+      title: PaginationResult
+      description: The pagination details.
+      type: object
+      properties:
+        number:
+          type: integer
+          format: int32
+          description: Current page number.
+          example: 1
+        pageCount:
+          type: integer
+          format: int32
+          description: Total number of pages.
+          example: 150
+      required:
+        - number
+        - pageCount
+    ExportResponse:
+      type: object
+      properties:
+        fileContent:
+          description: Base64 encoded binary payload.
+          type: string
+          example: aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ==
+        fileName:
+          type: string
+          description: Name of the file that consists of requested name and requested format.
+          example: 2006_01_02_family_subscriptions.csv
+      required:
+        - fileContent
+        - fileName
+    InsightRule:
+      type: string
+      description: The unique ID of the insight rule.
+      example: UsersAssignedNoActivityInsight
+      enum:
+        - UsersAssignedNoActivityInsight
+        - UsersNoActivityLast30DaysInsight
+        - UsersNotAssignedToAnySubscriptionInsight
+        - UsersDowngradeFromE3ToE1Insight
+        - UsersDowngradeFromE5ToE3Insight
+        - UsersDowngradeFromE5ToE1Insight
+        - UsersUpgradeFromE3ToE5Insight
+        - UsersDowngradeToAdobeSingleAppInsight
+        - UsersWithM365AndDisabledAzureAdInsight
+        - UsersWithM365AndDisabledAzureAdInsightFamily
+      x-enumDescriptions:
+        UsersAssignedNoActivityInsight: Identifies users who have been assigned licenses but show no activity.
+        UsersNoActivityLast30DaysInsight: Highlights users with no activity in the last 30 days.
+        UsersNotAssignedToAnySubscriptionInsight: Detects users not assigned to any subscription.
+        UsersDowngradeFromE3ToE1Insight: Flags users downgraded from Microsoft 365 E3 to E1 licenses.
+        UsersDowngradeFromE5ToE3Insight: Identifies users downgraded from Microsoft 365 E5 to E3 licenses.
+        UsersDowngradeFromE5ToE1Insight: Highlights users downgraded from Microsoft 365 E5 to E1 licenses.
+        UsersUpgradeFromE3ToE5Insight: Tracks users upgraded from Microsoft 365 E3 to E5 licenses.
+        UsersDowngradeToAdobeSingleAppInsight: Identifies users downgraded to Adobe single-app licenses.
+        UsersWithM365AndDisabledAzureAdInsight: Detects users with Microsoft 365 licenses but disabled Azure AD accounts.
+        UsersWithM365AndDisabledAzureAdInsightFamily: Identifies users with Microsoft 365 licenses and disabled Azure AD accounts across the organization.
+    FamilyUserDetail:
+      type: object
+      properties:
+        applicationName:
+          type: string
+          example: Zoom.
+          description: Application name.
+        lastActive:
+          type: string
+          format: date-time
+          example: '2030-01-02T15:04:05'
+          description: Last date of activity.
+        lastActiveValueInInt:
+          type: integer
+          format: int32
+          example: 1
+          description: Last active value in int.
+        lastActiveValueType:
+          type: integer
+          format: int32
+          example: 1
+          description: Last active value type.
+        subscriptionName:
+          type: string
+          example: Video calls software pro delux edition.
+          description: Full subscription name.
+      required:
+        - applicationName
+        - lastActive
+        - lastActiveValueInInt
+        - lastActiveValueType
+        - subscriptionName
+    FamilyUser:
+      type: object
+      properties:
+        country:
+          type: string
+          description: Country code of the user.
+          example: Se
+        createdDate:
+          type: string
+          format: date-time
+          description: Date the user was added.
+          example: '2030-01-02T15:04:05'
+        department:
+          type: string
+          description: Department of the user.
+          example: Sales.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyUserDetail'
+          description: Additional details.
+        discoveryTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoverySourceV2'
+          example:
+            - SaasConnector
+          description: All discovery sources the item was detected through.
+        displayName:
+          type: string
+          description: Display name of the user.
+          example: John Doe.
+        email:
+          type: string
+          description: User's email address.
+          example: john@example.com
+        id:
+          type: string
+          format: uuid
+          description: The unique ID of the user.
+          example: c6851b0a-6b85-4c8c-9b27-bfa4d357276c
+        isInReview:
+          type: boolean
+          description: '```true``` if user should be reviewed; otherwise, ```false```.'
+          example: true
+        isOnline:
+          type: boolean
+          description: '```true``` if user is working on non-inventoried device; otherwise, ```false```.'
+          example: true
+        isQualified:
+          type: boolean
+          description: '```true``` if the user is included in the cost of Snow''s services; otherwise, ```false```.'
+          example: true
+        lastActive:
+          type: string
+          format: date-time
+          description: Time of last user activity in relevant applications.
+          example: '2030-01-02T15:04:05'
+        manuallyAssigned:
+          type: boolean
+          description: '```true``` if user was manually assigned; otherwise, ```false```.'
+          example: true
+        monthlyCost:
+          type: number
+          format: double
+          description: Monthly cost of user's subscriptions.
+          example: 90.99
+        status:
+          type: string
+          description: Activity status of the user in relevant applications.
+          example: Not monitored.
+        username:
+          type: string
+          description: User's email address.
+          example: john@example.com
+      required:
+        - country
+        - createdDate
+        - department
+        - details
+        - discoveryTypes
+        - displayName
+        - email
+        - id
+        - isInReview
+        - isOnline
+        - isQualified
+        - lastActive
+        - manuallyAssigned
+        - monthlyCost
+        - status
+        - username
+    ServiceNowFamilyUser:
+      type: object
+      properties:
+        roleTypes:
+          type: array
+          items:
+            type: string
+          example:
+            - Admin
+            - Fulfiller
+            - Requester
+          description: Roles types assigned to ServiceNow user.
+        oobRoles:
+          type: array
+          items:
+            type: string
+          example:
+            - pa_viewer
+            - catalog_editor
+            - ais_admin
+          description: Out-of-the-box (OOB) roles.
+        customRoles:
+          type: array
+          items:
+            type: string
+          example:
+            - catalog
+            - client_user
+            - awa_admin
+          description: ServiceNow custom roles.
+        webServiceUser:
+          type: boolean
+          description: '```true``` if this is a service account; otherwise, ```false```.'
+          example: true
+        applicationTypes:
+          type: array
+          items:
+            type: string
+          example:
+            - Incident management
+            - Request management
+            - Case management
+            - Security operations
+          description: Categories of applications user is using.
+        groups:
+          type: array
+          items:
+            type: string
+          example:
+            - Analyst
+            - Application dev
+            - Legal service management team
+          description: List of groups user belongs to.
+      required:
+        - roleTypes
+        - oobRoles
+        - customRoles
+        - webServiceUser
+        - applications
+        - groups
+    SalesforceOrganization:
+      title: SalesforceOrganization
+      description: Salesforce organization.
+      type: object
+      properties:
+        active:
+          type: integer
+          format: int32
+          example: 10
+          description: Number of subscriptions with user activity within the last 30 days.
+        id:
+          type: string
+          format: uuid
+          example: 2f86b198-04f3-4770-ad08-b32518206da0
+          description: The unique ID of the Organization.
+        inactive:
+          type: integer
+          format: int32
+          example: 10
+          description: Number of subscriptions with user activity more than 30 days.
+        name:
+          type: string
+          example: Salesforce organization name
+          description: Name of the organization.
+        noActivity:
+          type: integer
+          format: int32
+          example: 1
+          description: Number of subscriptions with no recorded user activity.
+        potentialSavings:
+          type: number
+          format: double
+          example: 100
+          description: Cost of subscriptions that are unassigned or where assigned users are inactive or have no activity.
+        subscriptionIds:
+          type: array
+          description: IDs of subscriptions in the organization.
+          items:
+            type: string
+            example: 2f86b198-04f3-4770-ad08-b32518206da0
+            description: The unique ID of the subscription.
+        subscriptions:
+          type: integer
+          format: int32
+          example: 20
+          description: Total number of subscriptions in the organization.
+        totalCost:
+          type: number
+          format: double
+          example: 100
+          description: Monthly purchased value for the organization's subscriptions.
+        totalCostPerYear:
+          type: number
+          format: double
+          example: 100
+          description: Yearly purchased value for the organization's subscriptions.
+        usage:
+          type: number
+          format: double
+          example: 0.1
+          description: Ratio of active users to the total of active, inactive, and users with no activity, in assigned subscriptions.
+        users:
+          type: integer
+          format: int32
+          example: 20
+          description: Total number of users connected to the organization.
+        utilization:
+          type: number
+          format: double
+          example: 98
+          description: Ratio of assigned subscriptions to the total quantity of purchased subscriptions.
+      required:
+        - active
+        - id
+        - inactive
+        - name
+        - noActivity
+        - potentialSavings
+        - subscriptionIds
+        - subscriptions
+        - totalCost
+        - totalCostPerYear
+        - usage
+        - users
+        - utilization
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
