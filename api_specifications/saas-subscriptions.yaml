@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: "SaaS: Subscriptions API"
+  title: "SaaS: Subscriptions"
   description: API for interacting with SaaS Subscriptions.
-  version: 1.0.0
+  version: 1.1.0
   contact:
     name: Flexera
     url: https://www.flexera.com
@@ -67,8 +67,6 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
-        - bearerAuth:
-            - saas.consolidation.view.crud
       tags:
         - Subscriptions
   /api/saas/consolidated-view/v1/subscriptions/{subscriptionId}/users/{userIds}:
@@ -90,6 +88,8 @@ paths:
           description: The unique ID of the of the subscriptions.
           schema:
             type: array
+            items: 
+              type: string
             example:
               [
                 d69809c5-e4c0-4d22-be9f-f541f6a265ee,
@@ -105,8 +105,6 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       security:
-        - bearerAuth:
-            - saas.consolidation.view.r
         - bearerAuth:
             - saas.consolidation.view.crud
       tags:
@@ -132,6 +130,9 @@ paths:
           content:
             application/json:
               schema:
+                required:
+                  - pagination
+                  - items
                 properties:
                   pagination:
                     $ref: "#/components/schemas/Pagination"
@@ -140,9 +141,6 @@ paths:
                     description: A collection of subscription users.
                     items:
                       $ref: "#/components/schemas/User"
-                required:
-                - items
-                - pagination
         "400":
           $ref: "#/components/responses/400"
         "404":
@@ -152,8 +150,6 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
-        - bearerAuth:
-            - saas.consolidation.view.crud
       tags:
         - Subscriptions
 tags:
@@ -228,9 +224,11 @@ components:
               type: integer
               format: int32
               description: The HTTP status code.
+              example: 400
             message:
               type: string
               description: The error message.
+              example: "Filter field name needs to be formatted as a string."
     User:
       title: User
       description: "A discovered user in your SaaS estate."
@@ -250,8 +248,16 @@ components:
           example: Engineering
           type: string
         discoveryTypes:
-          description: The unique IDs of the discovery source types where the user was detected. For information on IDs, see [Discovery sources](https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources)..
+          description: The unique IDs of the discovery source types where the user was detected. For information on discovery source types, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
           example: [1, 2]
+          x-enumDescriptions:
+            "0": SaaS connector - Represents integration with SaaS applications for automated data collection and management.
+            "1": Manually added - Indicates resources or applications manually added by users without automated discovery.
+            "2": Browser unverified - Refers to browser-based applications that have not been verified for compliance or usage.
+            "3": SSO - Represents Single Sign-On integrations for centralized user authentication.
+            "4": Device - Refers to physical or virtual devices managed within the IT environment.
+            "7": Browser verified - Denotes browser-based applications that have been verified for compliance or usage.
+            "8": CASB - Represents Cloud Access Security Broker integrations to enhance cloud security and compliance.
           type: array
           items:
             type: integer
@@ -356,84 +362,10 @@ components:
       required:
         - subscriptionId
         - subscriptionName
-        - lastActive     
-    UserSubscription:
-      title: UserSubscription
-      type: object
-      properties:
-        applicationId:
-          description: The unique ID of the application for which the subscription is purchased.
-          example: def96bf0-bfd1-4bf9-8b1c-aa78a32bc0ed
-          type: string
-        applicationName:
-          description: The application for which the subscription is purchased.
-          example: Microsoft Copilot
-          type: string
-        discoverySource:
-          description: The discovery source that detected the item.
-          example: "O365 Connector"
-          type: string
-        discoveryType:
-          description: The unique ID of the discovery source type where the user was detected. For information on IDs, see [Discovery sources](https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources).
-          example: 0
-          type: integer
-          format: int32
-        firstDiscovered:
-          description: The time the item was first detected by a discovery source.
-          example: "2024-07-17T08:21:17.359Z"
-          type: string
-          format: date-time
-        id:
-          description: The unique ID of the subscription.
-          example: ac2c7870-6457-4a99-bafb-467eaf5de8e4
-          type: string
-        lastActivity:
-          description: The date of the last user activity in relevant applications.
-          example: "2024-06-28T00:00:00Z"
-          type: string
-          format: date-time
-        name:
-          description: The name of the subscription type.
-          example: "Copilot"
-          type: string
-        potentialSavings:
-          description: The monthly subscription costs for users who are inactive or have no activity.
-          example: 100.00
-          type: number
-          format: double
-        totalCostPerMonth:
-          description: The monthly cost for the subscription.
-          example: 100.00
-          type: number
-          format: double
-        vendor:
-          description: The vendor of the application for which the subscription is purchased.
-          example: "Microsoft Corporation"
-          type: string
-        vendorId:
-          description: The unique ID of the vendor.
-          example: 8cab5d46-18fd-462f-9ae8-6cac8ba12054
-          type: string
-      required:
-        - totalCostPerMonth
-        - applicationId
-        - applicationName
-        - id
-        - discoveryType
-        - lastActivity
-        - vendorId
-        - vendor
-        - name
-        - activity
-        - discoverySource
-        - firstDiscovered
-        - potentialSavings
+        - lastActive
     SubscriptionInsightUsersResponse:
       title: SubscriptionInsightUsersResponse
       description: A collection of users that relate to a subscription insight.
-      required:
-        - items
-        - pagination
       type: object
       properties:
         items:
@@ -442,16 +374,19 @@ components:
           items:
             allOf:
               - $ref: "#/components/schemas/User"
-              - properties:
+              - properties:                                     
                   details:
                     type: array
-                    description: "A collection of the user's subscriptions that relate to the insight."
+                    description: "A collection of the user's subscriptions that related to the insight."
                     items:
                       $ref: "#/components/schemas/SubscriptionInsightsUserDetail"
-                required:
+                required:              
                   - details
         pagination:
           $ref: "#/components/schemas/Pagination"
+      required:
+        - items
+        - pagination
     Pagination:
       type: object
       description: The pagination details.

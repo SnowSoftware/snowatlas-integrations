@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: "SaaS: Users API"
+  title: "SaaS: Users"
   description: API for interacting with SaaS Users.
-  version: 1.0.0
+  version: 1.1.0
   contact:
     name: Flexera
     url: https://www.flexera.com
@@ -16,6 +16,9 @@ servers:
           - eastus2
           - uksouth
         default: westeurope
+tags:
+  - name: Tasks
+  - name: Users
 paths:
   /api/saas/consolidated-view/v1/users:
     get:
@@ -61,8 +64,6 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
-        - bearerAuth:
-            - saas.consolidation.view.crud
       tags:
         - Users
   /api/saas/consolidated-view/v1/users/kpi:
@@ -97,8 +98,6 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
-        - bearerAuth:
-            - saas.consolidation.view.crud
       tags:
         - Users
   /api/saas/consolidated-view/v1/users/{userId}:
@@ -130,8 +129,6 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
-        - bearerAuth:
-            - saas.consolidation.view.crud
       tags:
         - Users
     patch:
@@ -223,8 +220,6 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
-        - bearerAuth:
-            - saas.consolidation.view.crud
       tags:
         - Users
   /api/saas/consolidated-view/v1/users/{userId}/subscriptions:
@@ -280,12 +275,11 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
-        - bearerAuth:
-            - saas.consolidation.view.crud
       tags:
         - Users
   /api/saas/consolidated-view/v1/users/{userId}/discovery-sources:
     get:
+      x-internal: true
       summary: Get user discovery sources
       description: Returns a collection of discovery sources for the given user.
       operationId: getSaasConsolidatedViewV1UserDiscoverySources
@@ -337,12 +331,105 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
+      tags:
+        - Users
+  /api/saas/consolidated-view/v1/users/bulk-update:
+    post:
+      summary: Bulk update users
+      description: Modifies a collection of user properties the provided applications.
+      operationId: bulkUpdateUsers
+      requestBody:
+        content: {
+          "application/json": {
+            "schema": {
+              $ref: '#/components/schemas/BulkUpdateUsersRequest'
+            }
+          }
+        }
+      responses:
+        "202": {
+          "description": "Accepted: Your request requires more time for the service to process.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkUpdateUsersResponse"
+              }
+            }
+          }
+        }
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+      security:
         - bearerAuth:
+            - saas.consolidation.view.r       
             - saas.consolidation.view.crud
       tags:
         - Users
-tags:
-  - name: Users
+  /api/saas/consolidated-view/v1/users/bulk-update/{id}:
+    get:
+      summary: Get bulk update users summary
+      description: Returns the details of a completed async bulk update operation.
+      operationId: getbulkUpdateAsyncOperationUsersSummary
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique ID of the summary.
+          schema: {
+            "type": "string"
+          }
+      responses:
+        '200': {
+          "description": "OK: Your request succeeded.",
+          "content": {
+            "application/json": {
+              "schema": {
+                $ref: '#/components/schemas/BulkUpdateUsersSummaryResponse'
+              }
+            }
+          }
+        }
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+      tags:
+        - Users
+  /api/saas/consolidated-view/v1/tasks/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique ID of the task.
+          schema:
+            type: string
+      summary: Get task
+      description: Returns the details of the given task.
+      operationId: getTask
+      tags:
+        - Tasks
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
 components:
   parameters:
     PageSize:
@@ -364,8 +451,6 @@ components:
         format: int64
         default: 1
   responses:
-    "204":
-      description: "No Content: Your request succeeded, but the response message was empty."
     "400":
       description: "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request."
       content:
@@ -396,13 +481,50 @@ components:
             error:
               code: 500
               message: The service encountered an unexpected condition that prevented it from fulfilling the request.
-  schemas:
+  schemas:    
+    Task:
+      type: object
+      required:
+        - id
+        - name
+        - status
+        - _links
+      properties:
+        id:
+          description: The unique ID of the task.
+          type: string
+          example: 483c67cf-e247-4a82-bef7-b86a29560788
+        name:
+          description: The system-assigned task name.
+          type: string
+          example: Export users
+        status:
+          description: The status of the task.
+          x-enumDescriptions:
+            Running: The task is currently running.
+            Complete: The task has completed.
+            Failed: The task ended in a failed state.
+          type: string
+          example: Complete
+        description:
+          description: The detailed description of task status.
+          type: string
+          example: The export completed successfully.
+        _links:
+          type: array
+          description: A collection of links to related resources.
+          items:
+            $ref: '#/components/schemas/Link'
+          example:
+            - href: /api/saas/consolidated-view/v1/users/bulk-update/483c67cf-e247-4a82-bef7-b86a29560788
+              rel: bulk-update-users
+              method: GET
     ActiveChartData:
       title: ActiveChartData
       type: object
       properties:
         active:
-          description: "The total number of users in the system that were active on the corresponding date."
+          description: "The total number of users in the system that were active on corresponding date."
           example: 10
           type: integer
           format: int32
@@ -412,7 +534,7 @@ components:
           type: string
           format: date-time
         total:
-          description: "The total number of users in the system on the corresponding date."
+          description: "The total number of users in the system on corresponding date."
           example: 10
           type: integer
           format: int32
@@ -438,7 +560,7 @@ components:
           example: saas.collectors.m365
           type: string
         type:
-          description: The unique identifier of the discovery source type. For more information, see [Discovery sources](https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources).
+          description: The unique identifier of the discovery source type,  see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
           example: 1
           type: integer
           format: int32
@@ -463,9 +585,11 @@ components:
               type: integer
               format: int32
               description: The HTTP status code.
+              example: 400
             message:
               type: string
               description: The error message.
+              example: "Filter field name needs to be formatted as a string."
     InactiveChartData:
       title: InactiveChartData
       type: object
@@ -531,8 +655,16 @@ components:
           example: Engineering
           type: string
         discoveryTypes:
-          description: The unique IDs of the discovery source types where the user was detected. For information on IDs, see [Discovery sources](https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources).
+          description: The unique IDs of the discovery source types where the user was detected. For information on discovery source types, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
           example: [1, 2]
+          x-enumDescriptions:
+            "0": SaaS connector - Represents integration with SaaS applications for automated data collection and management.
+            "1": Manually added - Indicates resources or applications manually added by users without automated discovery.
+            "2": Browser unverified - Refers to browser-based applications that have not been verified for compliance or usage.
+            "3": SSO - Represents Single Sign-On integrations for centralized user authentication.
+            "4": Device - Refers to physical or virtual devices managed within the IT environment.
+            "7": Browser verified - Denotes browser-based applications that have been verified for compliance or usage.
+            "8": CASB - Represents Cloud Access Security Broker integrations to enhance cloud security and compliance.
           type: array
           items:
             type: integer
@@ -662,8 +794,17 @@ components:
       type: object
       properties:
         discoveryTypes:
-          description: The type of discovery sources for the application. For more information, see [Discovery sources](https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources).
+          description: The type of discovery sources for the application, For information on discovery source types, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
           type: array
+          example: [1, 2]
+          x-enumDescriptions:
+            "0": SaaS connector - Represents integration with SaaS applications for automated data collection and management.
+            "1": Manually added - Indicates resources or applications manually added by users without automated discovery.
+            "2": Browser unverified - Refers to browser-based applications that have not been verified for compliance or usage.
+            "3": SSO - Represents Single Sign-On integrations for centralized user authentication.
+            "4": Device - Refers to physical or virtual devices managed within the IT environment.
+            "7": Browser verified - Denotes browser-based applications that have been verified for compliance or usage.
+            "8": CASB - Represents Cloud Access Security Broker integrations to enhance cloud security and compliance.
           items:
             type: integer
             format: int32
@@ -694,7 +835,7 @@ components:
         - discoveryTypes
         - lastActive
         - vendorId
-        - vendor
+        - vendor 
     UserSubscription:
       title: UserSubscription
       type: object
@@ -712,7 +853,7 @@ components:
           example: "O365 Connector"
           type: string
         discoveryType:
-          description: The unique ID of the discovery source type where the user was detected. For information on IDs, see [Discovery sources](https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources).
+          description: The unique ID of the discovery source type where the user was detected. For information on IDs, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
           example: 0
           type: integer
           format: int32
@@ -787,7 +928,7 @@ components:
           description: "Number of active users 30 days ago."
           example: 10
         currentActiveChartData:
-          description: "Today's data for active users."
+          description: "Todays data for active users."
           type: array
           items:
             $ref: "#/components/schemas/ActiveChartData"
@@ -867,7 +1008,7 @@ components:
         - currentInactiveChartData
         - total
         - active
-        - totalChartData
+        - totalChartData 
     Pagination:
       type: object
       description: The pagination details.
@@ -894,6 +1035,117 @@ components:
           format: int64
           description: The total number of items.
           example: 1
+    BulkUpdateUsersRequest:
+      type: object
+      required:
+        - scope
+        - body
+      properties:
+        filter:
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          type: string
+          example: "name -eq Per"
+        scope:
+          description: The scope of the update operation.
+          x-enumDescriptions:
+            Only: The operation is performed only on the users whose IDs are specified..
+            All: The operation is performed on all users.
+            AllExcept: The operation is performed on every user except those who IDs are specified.
+          type: string
+          "enum": [
+            "Only",
+            "All",
+            "AllExcept"
+          ]
+          example: All
+        ids:
+          description: The IDs that the operation is performed on.
+          type: array
+          items:
+            type: string
+            example: a7a75b83-2690-4cc9-b652-a0fbe93dba4a
+        body: 
+          $ref: "#/components/schemas/UserStatus"
+    UserStatus:
+      description: The update to be applied to all IDs.
+      type: object
+      properties:
+        onlineOnly:
+          description: "```true``` if the user is marked as online only; otherwise, ```false```."
+          type: boolean
+          example: true
+        review:
+          description: "```true``` if the user is marked as for review; otherwise, ```false```."
+          type: boolean
+          example: true
+        qualified:
+          description: "```true``` if the user is marked as qualified; otherwise, ```false```."
+          type: boolean
+          example: true
+    BulkUpdateUsersResponse:
+      type: object
+      required:
+        - id
+        - _links
+      properties:
+        id:
+          description: The unique ID of the bulk operation.
+          type: string
+          example: 483c67cf-e247-4a82-bef7-b86a29560788
+        _links:
+          type: array
+          description: A collection of links to related resources.
+          items:
+            $ref: '#/components/schemas/Link'
+          example:
+            - href: "api/saas/consolidated-view/v1/tasks/483c67cf-e247-4a82-bef7-b86a29560788"
+              rel: self
+              method: GET
+    Link:
+      type: object
+      required:
+        - href
+        - rel
+        - method
+      properties:
+        href:
+          type: string
+          description: The associated relative URL.
+          example: api/saas/consolidated-view/v1/...
+        rel:
+          type: string
+          description: Specifies the relationship between the current document and the linked document/resource.
+          example: self
+        method:
+          type: string
+          description: The method to access related resources.
+          example: GET
+    BulkUpdateUsersSummaryResponse:
+      type: object
+      properties:
+        successCount:
+          description: The number of items that succeeded in the operation.
+          type: integer
+          format: int64
+          example: 10
+        failedCount:
+          description: The number of items that failed in the operation.
+          type: integer
+          format: int64
+          example: 10
+        failed:
+          description: The IDs of the failed items.
+          type: array
+          items: 
+            type: string
+          example: [ e192ea5e-363c-47e4-82e3-d2587afada8c, 07d30e31-3d4b-49e3-8000-4faa0653e7dc ]
+        failureReason:
+          description: The reason the bulk operation failed.
+          type: string
+          example: "These users failed for reasons x and y."
+      required:
+        - successCount
+        - failedCount
   securitySchemes:
     bearerAuth:
       type: http

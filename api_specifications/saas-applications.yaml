@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: "SaaS: Applications"
   description: API for interacting with SaaS applications.
-  version: 1.1.0
+  version: 1.2.0
   contact:
     name: Flexera
     url: https://www.flexera.com
@@ -17,6 +17,161 @@ servers:
           - uksouth
         default: westeurope
 paths:
+  /api/saas/consolidated-view/v1/applications:
+    get:
+      summary: Get applications
+      description: Returns the details of a list of applications.
+      operationId: getApplications
+      tags:
+        - Applications
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/FilterQuery'
+        - $ref: '#/components/parameters/SortQuery'
+      responses:
+        "200":
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationsList'
+        "400":
+          $ref: '#/components/responses/400'
+        "500":
+          $ref: '#/components/responses/500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+  /api/saas/consolidated-view/v1/applications/{applicationId}:
+    get:
+      summary: Get application
+      description: Returns the details of an application.
+      operationId: getApplication
+      tags:
+        - Applications
+      parameters:
+        - $ref: '#/components/parameters/ApplicationIdPath'
+      responses:
+        "200":
+          description: "OK: Your request succeeded."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        "400":
+          $ref: '#/components/responses/400'
+        "404":
+          $ref: '#/components/responses/404'
+        "500":
+          $ref: '#/components/responses/500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+    patch:
+      summary: Update application
+      description: Modifies an application.
+      operationId: updateApplication
+      tags:
+        - Applications
+      parameters:
+        - $ref: '#/components/parameters/ApplicationIdPath'
+      requestBody:
+        required: true
+        description: An application to be updated.
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/ApplicationPatch'
+      responses:
+        "200":
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        "400":
+          $ref: '#/components/responses/400'
+        "404":
+          $ref: '#/components/responses/404'
+        "500":
+          $ref: '#/components/responses/500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.crud
+  /api/saas/consolidated-view/v1/applications/{applicationId}/kpi:
+    get:
+      summary: Get application KPIs
+      description: Returns the details of an applications KPIs.
+      operationId: getSaasConsolidatedViewV1ApplicationsIdKpi
+      parameters:
+        - $ref: '#/components/parameters/ApplicationIdPath'
+      tags:
+        - Applications
+      responses:
+        "200":
+          description: "OK: Your request succeeded."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationKPI'
+        "400":
+          $ref: '#/components/responses/400'
+        "404":
+          $ref: '#/components/responses/404'
+        "500":
+          $ref: '#/components/responses/500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+  /api/saas/consolidated-view/v1/overview/applications/kpi:
+    get:
+      summary: Get applications overview KPIs
+      description: Returns the details of the applications overview key performance indicators.
+      operationId: getApplicationOverview
+      tags:
+        - Applications
+      parameters:
+        - $ref: '#/components/parameters/FromDateQuery'
+        - $ref: '#/components/parameters/ToDateQuery'
+      responses:
+        "200":
+          description: "OK: Your request succeeded."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationsOverviewKPI'
+        "400":
+          $ref: '#/components/responses/400'
+        "500":
+          $ref: '#/components/responses/500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+  /api/saas/consolidated-view/v1/applications/kpi:
+    get:
+      summary: Get applications KPIs
+      description: Returns the details of the KPIs for all applications.
+      operationId: getApplicationsKpi
+      tags:
+        - Applications
+      parameters:
+        - $ref: '#/components/parameters/FromDateQuery'
+        - $ref: '#/components/parameters/ToDateQuery'
+      responses:
+        "200":
+          description: "OK: Your request succeeded."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationsKPI'
+        "400":
+          $ref: '#/components/responses/400'
+        "500":
+          $ref: '#/components/responses/500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
   /api/saas/consolidated-view/v1/applications/{applicationId}/users:
     get:
       summary: Get application users
@@ -58,12 +213,72 @@ paths:
       security:
         - bearerAuth:
             - saas.consolidation.view.r
+      tags:
+        - Applications
+  /api/saas/consolidated-view/v1/applications/bulk-update:
+    post:
+      summary: Bulk update applications
+      description: Modifies a collection of application properties the provided applications.
+      operationId: bulkUpdateApplications
+      requestBody:
+        content: {
+          "application/json": {
+            "schema": {
+              $ref: '#/components/schemas/BulkUpdateApplicationsRequest'
+            }
+          }
+        }
+      responses:
+        "202": {
+          "description": "Accepted: Your request requires more time for the service to process.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkUpdateApplicationsResponse"
+              }
+            }
+          }
+        }
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+      security:
         - bearerAuth:
             - saas.consolidation.view.crud
       tags:
         - Applications
+  /api/saas/consolidated-view/v1/tasks/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique ID of the task.
+          schema:
+            type: string
+      summary: Get task
+      description: Returns the details of the given task.
+      operationId: getTask
+      tags:
+        - Tasks
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
 tags:
   - name: Applications
+  - name: Tasks
 components:
   parameters:
     PageSize:
@@ -84,9 +299,48 @@ components:
         type: integer
         format: int64
         default: 1
+    FilterQuery:
+      required: false
+      in: query
+      name: filter
+      description: "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results)."
+      schema:
+        type: string
+        example: '(displayName -eq Teams) -and (status -in [Active, Inactive])'
+    SortQuery:
+      required: false
+      in: query
+      name: sort
+      description: "For more information on sorting capability and examples, see [Sort API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#sort-api-call-results)."
+      schema:
+        type: string
+        example: 'displayName:asc,status:dsc'
+    FromDateQuery:
+      required: true
+      in: query
+      name: fromDate
+      description: Starting date from which to calculate KPI.
+      schema:
+        type: string
+        example: 2024-11-26
+        format: date
+    ToDateQuery:
+      required: true
+      in: query
+      name: toDate
+      description: Starting date until which to calculate KPI.
+      schema:
+        type: string
+        example: 2024-11-26
+        format: date
+    ApplicationIdPath:
+      description: The unique ID of the application.
+      required: true
+      name: applicationId
+      in: path
+      schema:
+        type: string
   responses:
-    "204":
-      description: "No Content: Your request succeeded, but the response message was empty."
     "400":
       description: "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request."
       content:
@@ -118,6 +372,331 @@ components:
               code: 500
               message: The service encountered an unexpected condition that prevented it from fulfilling the request.
   schemas:
+    Task:
+      type: object
+      required:
+        - id
+        - name
+        - status
+        - _links
+      properties:
+        id:
+          description: The unique ID of the task.
+          type: string
+          example: 483c67cf-e247-4a82-bef7-b86a29560788
+        name:
+          description: The system-assigned task name.
+          type: string
+          example: Bulk update applications
+        status:
+          description: The status of the task.
+          x-enumDescriptions:
+            Running: The task is currently running.
+            Complete: The task has completed.
+            Failed: The task ended in a failed state.
+          type: string
+          example: Complete
+        description:
+          description: The detailed description of task status.
+          type: string
+          example: The export completed successfully.
+        _links:
+          type: array
+          description: A collection of links to related resources.
+          items:
+            $ref: '#/components/schemas/Link'
+          example:
+            - href: /api/saas/consolidated-view/v1/applications/bulk-update/483c67cf-e247-4a82-bef7-b86a29560788
+              rel: bulk-update-users
+              method: GET
+    ApplicationsCategory:
+      title: ApplicationsCategory
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of category.
+          example: Communication
+        total:
+          type: integer
+          format: int32
+          description: Total number of categories for stated application.
+          example: 10
+      required:
+        - name
+        - total
+    ApplicationsUserCount:
+      title: ApplicationsCategory
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of application.
+          example: Communication
+        totalUsers:
+          type: integer
+          format: int32
+          description: Total number of users of stated application.
+          example: 10
+      required:
+        - name
+        - totalUsers
+    ApplicationsKPI:
+      title: ApplicationsKPI
+      type: object
+      properties:
+        totalApplications:
+          type: integer
+          format: int32
+          description: Total number of applications.
+          example: 15
+        totalApplicationsTrend:
+          type: integer
+          format: int32
+          description: Trend of total number of applications.
+          example: 7
+        unsanctioned:
+          type: integer
+          format: int32
+          description: Number of unsanctioned applications.
+          example: 2
+        appCategories:
+          type: array
+          description: A collection of application categories.
+          items:
+            $ref: '#/components/schemas/ApplicationsCategory'
+        aiAppCategories:
+          type: array
+          description: A collection of application AI categories.
+          items:
+            $ref: '#/components/schemas/ApplicationsCategory'
+        appCategoriesUnsanctioned:
+          type: array
+          description: A collection of categories of unsanctioned applications.
+          items:
+            $ref: '#/components/schemas/ApplicationsCategory'
+        aiAppCategoriesUnsanctioned:
+          type: array
+          description: A collection of AI categories of unsanctioned applications.
+          items:
+            $ref: '#/components/schemas/ApplicationsCategory'
+        activeUserApplications:
+          type: array
+          description: A collection of user counts for each application.
+          items:
+            $ref: '#/components/schemas/ApplicationsUserCount'
+        activeUserApplicationsUnsanctioned:
+          type: array
+          description: A collection of user counts for each unsanctioned application.
+          items:
+            $ref: '#/components/schemas/ApplicationsUserCount'
+      required:
+        - totalApplications
+        - totalApplicationsTrend
+        - unsanctioned
+        - appCategories
+        - aiAppCategories
+        - appCategoriesUnsanctioned
+        - aiAppCategoriesUnsanctioned
+        - activeUserApplications
+        - activeUserApplicationsUnsanctioned
+    ApplicationKPI:
+      title: ApplicationKPI
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID of the application.
+          example: e5ea6f20-47ad-41be-a3c5-839409d89791
+        monthlyCost:
+          $ref: '#/components/schemas/KpiPairFloat'
+        subscriptionTypes:
+          $ref: '#/components/schemas/KpiPairInt'
+        subscriptions:
+          $ref: '#/components/schemas/KpiPairInt'
+        totalUsers:
+          $ref: '#/components/schemas/KpiPairInt'
+        unassignedSubscriptions:
+          $ref: '#/components/schemas/KpiPairInt'
+      required:
+        - id
+        - monthlyCost
+        - subscriptions
+        - subscriptionTypes
+        - totalUsers
+        - unassignedSubscriptions
+    KpiPairFloat:
+      title: KpiPairFloat
+      description: KPI pair of values in floating-point format.
+      type: object
+      properties:
+        value30DaysAgo:
+          description: Value 30 days ago.
+          type: number
+          format: double
+          example: 20.0
+        valueCurrent:
+          description: Current value.
+          type: number
+          format: double
+          example: 10.0
+      required:
+        - valueCurrent
+        - value30DaysAgo
+    KpiPairInt:
+      title: KpiPairInt
+      description: KPI pair of values in integer format.
+      type: object
+      properties:
+        value30DaysAgo:
+          description: Value 30 days ago.
+          type: integer
+          format: int32
+          example: 20
+        valueCurrent:
+          description: Current value.
+          type: integer
+          format: int32
+          example: 10
+      required:
+        - valueCurrent
+        - value30DaysAgo
+    ApplicationsOverviewKPI:
+      title: ApplicationsOverviewKPI
+      description: Overview of the application kpi.
+      type: object
+      properties:
+        applicationDiscoveryLastSevenDays:
+          description: The number of applications that are not approved but have user
+            activity in them.
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationDiscoveryLastSevenDays'
+        notApproved:
+          title: NotApproved
+          description: The number of applications that are not approved but have user
+            activity in them.
+          type: object
+        total:
+          type: array
+          description: Total number of applications from all vendors compared to 30 days.
+          items:
+            $ref: '#/components/schemas/Total'
+      required:
+        - total
+        - notApproved
+        - applicationDiscoveryLastSevenDays
+    ApplicationDiscoveryLastSevenDays:
+      title: ApplicationDiscoveryLastSevenDays
+      type: object
+      properties:
+        browserMeteringCount:
+          description: The number of applications discovered by the browser extension.
+          type: integer
+          format: int32
+          example: 250
+        connectorCount:
+          description: The number of applications discovered by a SaaS connector.
+          type: integer
+          format: int32
+          example: 250
+        date:
+          description: The date when the application was first discovered.
+          type: string
+          format: date-time
+          example: 2024-03-04T14:07:14.755837Z
+        deviceCount:
+          description: The number of applications discovered in device application.
+            usage.
+          type: integer
+          format: int32
+          example: 250
+        manuallyAddedCount:
+          description: The number of applications that are added manually.
+          type: integer
+          format: int32
+          example: 250
+        ssoCount:
+          description: The number of applications discovered as being accessed by single sign-on.
+          type: integer
+          format: int32
+          example: 250
+      required:
+        - browserMeteringCount
+        - ssoCount
+        - deviceCount
+        - date
+        - connectorCount
+        - manuallyAddedCount
+    Total:
+      title: Total
+      description: Total number of applications from all vendors compared to 30 days.
+        ago.
+      type: object
+      properties:
+        trend:
+          description: The change in the number of applications from all vendors compared.
+            to 30 days ago.
+          type: integer
+          format: int32
+          example: -1000
+        value:
+          description: The number of applications from all vendors.
+          type: integer
+          format: int32
+          example: 250
+      required:
+        - value
+        - trend
+    ApplicationPatchWebsite:
+      title: ApplicationPatchWebsite
+      type: object
+      properties:
+        website:
+          type: string
+          description: Website of application.
+          example: "http://www.adobe.com/"
+        privacyPolicy:
+          type: string
+          description: Location of the applications privacy policy.
+          example: "https://www.adobe.com/privacy.html"
+        categoryName:
+          type: string
+          description: Category of application.
+          example: Digital Content Editing Platform
+    ApplicationPatch:
+      type: object
+      properties:
+        primaryOwnerId:
+          type: string
+          description: The unique ID of the primary owner.
+          example: 906b7a69-597e-4e13-bbda-5fb2dd903cc6
+        sanctioned:
+          type: boolean
+          description: "```true``` if application is sanctioned; otherwise, ```false```."
+          example: true
+        singleSignOn:
+          type: boolean
+          description: "```true``` if application has single sign on supported; otherwise, ```false```."
+          example: true
+        notes:
+          type: string
+          description: Notes about the application.
+          example: Notes about Illustrator.
+        description:
+          type: string
+          description: Description of the application.
+          example: Illustrator CC is a vector graphics editor and design program used by professionals to create digital graphics, illustrations, and typography. It is part of the Adobe Creative Cloud suite and is widely used for creating high-quality artwork for various me.
+        aiCategory:
+          type: string
+          description: AI category of the application.
+          example: Graphic Design
+        aiSubcategory:
+          type: string
+          description: AI sub-category of the application.
+          example: Vector Graphic Design
+        websiteDate:
+          $ref: '#/components/schemas/ApplicationPatchWebsite'
     ErrorResponse:
       type: object
       required:
@@ -134,12 +713,231 @@ components:
               type: integer
               format: int32
               description: The HTTP status code.
+              example: 400
             message:
               type: string
               description: The error message.
+              example: "Filter field name needs to be formatted as a string."
+    Pagination:
+      type: object
+      description: The pagination details.
+      required:
+        - page_size
+        - page_number
+      properties:
+        page_size:
+          type: integer
+          description: The page size you requested.
+          example: 100
+        page_number:
+          type: integer
+          format: int64
+          description: The page number you requested.
+          example: 1
+        total_pages:
+          type: integer
+          format: int64
+          description: The total number of pages.
+          example: 1
+        total_items:
+          type: integer
+          format: int64
+          description: The total number of items.
+          example: 1
+    License:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID of the license.
+          example: e2e901ba-ad57-4433-a6ba-50178134852a
+        total:
+          type: integer
+          format: int32
+          description: Total assignable licenses.
+          example: 32
+        assigned:
+          type: integer
+          format: int32
+          description: Assigned licenses.
+          example: 27
+        productId:
+          type: string
+          description: The unique ID of the product.
+          example: 6a24e288-03f2-4237-8f1e-d6ed4e1ea0f4
+        collectionTargetId:
+          type: string
+          description: The unique ID of the collection.
+          example: 4770a19c-c789-4c10-82dd-062a4a23d6bb
+      required:
+        - id
+    Application:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID of the application.
+          example: 19bb4eb7-3012-435a-9845-55626ef40460
+        name:
+          type: string
+          description: Name of the application.
+          example: Teams
+        vendor:
+          type: string
+          description: Name of the vendor of the application.
+          example: Microsoft Corp.
+        vendorId:
+          type: string
+          description: The unique ID of the vendor of the application.
+          example: 365540e0-3150-48b9-9841-dbff43925065
+        licenses:
+          type: array
+          description: Licenses under which application may be used.
+          items:
+            $ref: '#/components/schemas/License'
+        licenseCount:
+          type: integer
+          format: int32
+          description: Count of all licences.
+          example: 10
+        total:
+          type: integer
+          format: int32
+          description: Total amount.
+          example: 25
+        purchased:
+          type: integer
+          format: int32
+          description: How many are purchased.
+          example: 12
+        available:
+          type: integer
+          format: int32
+          description: How many are available.
+          example: 13
+        yearlyCost:
+          type: number
+          format: float32
+          description: Yearly cost of the usage.
+          example: 6.45
+        assigned:
+          type: integer
+          format: int32
+          description: How many are already assigned.
+          example: 5
+        active:
+          type: integer
+          format: int32
+          description: How many are actively being used.
+          example: 11
+        bundle:
+          type: boolean
+          description: "```true``` if application is part of the bundle; otherwise, ```false```."
+          example: true
+        inactive:
+          type: integer
+          format: int32
+          description: How many are inactive.
+          example: 7
+        utilization:
+          type: number
+          description: Percentage being used.
+          example: 76.98
+        totalUniqueUsers:
+          type: integer
+          format: int32
+          description: Number of unique users.
+          example: 21
+        discoveryTypes:
+          type: array
+          description: A collection of discovery types.
+          items:
+            type: integer
+            format: int32
+            example: 1
+        discoveryDate:
+          type: string
+          format: date
+          description: Date of discovery.
+          example: 2024-10-01
+        discoverySource:
+          type: string
+          description: Source of discovery.
+          example: Manual.
+        categoryName:
+          type: string
+          description: Category of application.
+          example: Digital Content Editing Platform
+        website:
+          type: string
+          description: Website of application.
+          example: "http://www.adobe.com/"
+        privacyPolicy:
+          type: string
+          description: Location of the applications privacy policy.
+          example: "https://www.adobe.com/privacy.html"
+        primaryOwnerId:
+          type: string
+          description: The unique ID of the primary owner.
+          example: 906b7a69-597e-4e13-bbda-5fb2dd903cc6
+        primaryOwnerName:
+          type: string
+          description: Name of primary owner.
+          example: Ryan Renolds
+        sanctioned:
+          type: boolean
+          description: "```true``` if application is sanctioned; otherwise, ```false```."
+          example: true
+        singleSignOn:
+          type: boolean
+          description: "```true``` if application has single sign on supported; otherwise, ```false```."
+          example: true
+        notes:
+          type: string
+          description: Notes about the application.
+          example: Notes about Illustrator.
+        disServiceId:
+          type: string
+          description: The unique ID of the DIS service.
+          example: a1a6f610-3a09-4ae4-87a0-7d4bf6218962
+        totalUniqueUsersFromActivities:
+          type: integer
+          format: int32
+          description: Total number of users based on the user activity.
+          example: 12
+        description:
+          type: string
+          description: Description of the application.
+          example: Illustrator CC is a vector graphics editor and design program used by professionals to create digital graphics, illustrations, and typography. It is part of the Adobe Creative Cloud suite and is widely used for creating high-quality artwork for various me.
+        aiCategory:
+          type: string
+          description: AI category of the application.
+          example: Graphic Design
+        aiSubcategory:
+          type: string
+          description: AI sub-category of the application.
+          example: Vector Graphic Design
+      required:
+        - id
+        - name
+        - vendor
+        - vendorId
+    ApplicationsList:
+      type: object
+      properties:
+        items:
+          description: A collection of applications.
+          type: array
+          items:
+            $ref: '#/components/schemas/Application'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      required:
+        - items
+        - pagination
     User:
       title: User
-      description: "A discovered user in your SaaS estate." 
+      description: "A discovered user in your SaaS estate."
       type: object
       properties:
         country:
@@ -156,8 +954,16 @@ components:
           example: Engineering
           type: string
         discoveryTypes:
-          description: The unique IDs of the discovery source types where the user was detected. For information on IDs, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
+          description: The unique IDs of the discovery source types where the user was detected. For information on discovery source types, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
           example: [1, 2]
+          x-enumDescriptions:
+            "0": SaaS connector - Represents integration with SaaS applications for automated data collection and management.
+            "1": Manually added - Indicates resources or applications manually added by users without automated discovery.
+            "2": Browser unverified - Refers to browser-based applications that have not been verified for compliance or usage.
+            "3": SSO - Represents Single Sign-On integrations for centralized user authentication.
+            "4": Device - Refers to physical or virtual devices managed within the IT environment.
+            "7": Browser verified - Denotes browser-based applications that have been verified for compliance or usage.
+            "8": CASB - Represents Cloud Access Security Broker integrations to enhance cloud security and compliance.
           type: array
           items:
             type: integer
@@ -241,32 +1047,90 @@ components:
         - licenseCount
         - isOnline
         - totalDaysUsed
-    Pagination:
+    BulkUpdateApplicationsRequest:      
       type: object
-      description: The pagination details.
       required:
-        - page_size
-        - page_number
+        - scope
+        - body
       properties:
-        page_size:
-          type: integer
-          description: The page size you requested.
-          example: 100
-        page_number:
-          type: integer
-          format: int64
-          description: The page number you requested.
-          example: 1
-        total_pages:
-          type: integer
-          format: int64
-          description: The total number of pages.
-          example: 1
-        total_items:
-          type: integer
-          format: int64
-          description: The total number of items.
-          example: 1
+        filter:
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          type: string
+          example: "name -eq Per"
+        scope:
+          description: The scope of the update operation.
+          x-enumDescriptions:
+            Only: The operation is performed only on the applications whose IDs are specified.
+            All: The operation is performed on all applications.
+            AllExcept: The operation is performed on every application except those whose IDs are specified.
+          type: string
+          "enum": [
+            "Only",
+            "All",
+            "AllExcept"
+          ]
+          example: All
+        ids:
+          description: The IDs that the operation is performed on.
+          type: array
+          items:
+            type: string
+            example: 19bb4eb7-3012-435a-9845-55626ef40460
+        body: 
+          $ref: "#/components/schemas/ApplicationMarkers"
+    ApplicationMarkers:
+      description: The update to be applied to all IDs.
+      type: object
+      properties:
+        singleSignOn:
+          description: "```true``` if the application is marked as single sign-on only; otherwise, ```false```."
+          type: boolean
+          example: true
+        approved:
+          description: "```true``` if the application is marked as for approved; otherwise, ```false```."
+          type: boolean
+          example: true
+      required:
+        - singleSignOn
+        - approved
+    BulkUpdateApplicationsResponse:
+      type: object
+      required:
+        - id
+        - _links
+      properties:
+        id:
+          description: The unique ID of the bulk operation.
+          type: string
+          example: 483c67cf-e247-4a82-bef7-b86a29560788
+        _links:
+          type: array
+          description: A collection of links to related resources.
+          items:
+            $ref: '#/components/schemas/Link'
+          example:
+            - href: "api/saas/consolidated-view/v1/tasks/483c67cf-e247-4a82-bef7-b86a29560788"
+              rel: self
+              method: GET
+    Link:
+      type: object
+      required:
+        - href
+        - rel
+        - method
+      properties:
+        href:
+          type: string
+          description: The associated relative URL.
+          example: api/saas/consolidated-view/v1/...
+        rel:
+          type: string
+          description: Specifies the relationship between the current document and the linked document/resource.
+          example: self
+        method:
+          type: string
+          description: The method to access related resources.
+          example: GET
   securitySchemes:
     bearerAuth:
       type: http
