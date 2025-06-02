@@ -1,0 +1,1287 @@
+{
+	"info": {
+		"_postman_id": "1bd3f93d-3943-42a8-80d4-a6b21d79d828",
+		"name": "Snow_Atlas_Users_Computers_Beta - Demo",
+		"description": "Postman used in demo on March 26,2025",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27884554"
+	},
+	"item": [
+		{
+			"name": "Get Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.collectionVariables.set(\"Token\", jsonData.access_token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/idp/api/connect/token",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"idp",
+						"api",
+						"connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users w/filter email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.collectionVariables.set(\"userId\", (jsonData.items[0].id));",
+							"// Check if items array exists and has at least one item",
+							"if (jsonData.items && jsonData.items.length > 0) {",
+							"pm.collectionVariables.set(\"userId\", jsonData.items[0].id);",
+							"console.log(\"userId set:\", jsonData.items[0].id);",
+							"} else {",
+							"console.log(\"No user found for the given email.\");",
+							"}",
+							"",
+							"pm.test(\"Response status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"  pm.expect(pm.response.responseTime).to.be.below(400);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Validate the schema of the response\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData).to.have.property('_links').that.is.an('array');",
+							"    pm.expect(responseData).to.have.property('items').that.is.an('array');",
+							"    pm.expect(responseData).to.have.property('pagination').that.is.an('object');",
+							"});",
+							"",
+							"",
+							"pm.test(\"Items array exists and has at least one item\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.items).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Pagination object contains expected fields\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData.pagination).to.exist;",
+							"    pm.expect(responseData.pagination).to.have.property('page_number');",
+							"    pm.expect(responseData.pagination).to.have.property('page_size');",
+							"    pm.expect(responseData.pagination).to.have.property('total_items');",
+							"    pm.expect(responseData.pagination).to.have.property('total_pages');",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/sam/estate/v1/user-accounts?filter=email -eq \"mattieskopasanen@corp.com\"",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"sam",
+						"estate",
+						"v1",
+						"user-accounts"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "email -eq \"mattieskopasanen@corp.com\""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User - Detail View",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.collectionVariables.set(\"userId\", (jsonData.items[0].id));",
+							"// Check if items array exists and has at least one item",
+							"if (jsonData.items && jsonData.items.length > 0) {",
+							"pm.collectionVariables.set(\"userId\", jsonData.items[0].id);",
+							"console.log(\"userId set:\", jsonData.items[0].id);",
+							"} else {",
+							"console.log(\"No user found for the given email.\");",
+							"}",
+							"",
+							"pm.test(\"Response status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"  pm.expect(pm.response.responseTime).to.be.below(400);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Validate the schema of the response\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData).to.have.property('_links').that.is.an('array');",
+							"    pm.expect(responseData).to.have.property('items').that.is.an('array');",
+							"    pm.expect(responseData).to.have.property('pagination').that.is.an('object');",
+							"});",
+							"",
+							"",
+							"pm.test(\"Items array exists and has at least one item\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.items).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Pagination object contains expected fields\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData.pagination).to.exist;",
+							"    pm.expect(responseData.pagination).to.have.property('page_number');",
+							"    pm.expect(responseData.pagination).to.have.property('page_size');",
+							"    pm.expect(responseData.pagination).to.have.property('total_items');",
+							"    pm.expect(responseData.pagination).to.have.property('total_pages');",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/sam/estate/v1/view/user-accounts/{{userId}}/details",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"sam",
+						"estate",
+						"v1",
+						"view",
+						"user-accounts",
+						"{{userId}}",
+						"details"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Custom Field Data Types",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"// Find the item where name is “String”",
+							"var dataTypeItem = jsonData.items.find(item => item.name === \"String\");",
+							"if (dataTypeItem) {",
+							"pm.collectionVariables.set(\"dataTypeId\", dataTypeItem.id);",
+							"console.log(\"dataTypeId set:\", dataTypeItem.id);",
+							"} else {",
+							"console.log(\"No matching item found for name ‘String’.\");",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/custom-fields/v1/custom-fields-data-types",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields-data-types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Custom Field Asset Types",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"// Find the item where name is “String”",
+							"var assetTypeItem = jsonData.items.find(item => item.name === \"User\");",
+							"if (assetTypeItem) {",
+							"pm.collectionVariables.set(\"assetTypeId\", assetTypeItem.id);",
+							"console.log(\"assetTypeId set:\", assetTypeItem.id);",
+							"} else {",
+							"console.log(\"No matching item found for name ‘String’.\");",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/custom-fields/v1/custom-fields-asset-types",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields-asset-types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Custom Fields",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/custom-fields/v1/custom-fields",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Custom Fields - Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.collectionVariables.set(\"customFieldId\", (jsonData.id));",
+							"// Check if items array exists and has at least one item",
+							"if (jsonData && jsonData.length > 0) {",
+							"pm.collectionVariables.set(\"customFieldId\", jsonData.id);",
+							"console.log(\"customFieldId set:\", jsonData.id);",
+							"} else {",
+							"console.log(\"No user found for the given email.\");",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"UserStatus\",\n  \"description\": \"last status of the user\",\n  \"dataTypeId\": \"{{dataTypeId}}\",\n  \"assetTypesIds\": [\n    \"{{assetTypeId}}\"\n  ],\n  \"isRequired\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/custom-fields/v1/custom-fields",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Custom Fields w/filter",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/custom-fields/v1/custom-fields?filter=name -eq \"UserStatus\"",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "name -eq \"UserStatus\""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Custom Field - User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"customFieldId\": \"{{customFieldId}}\",\n  \"assetId\": \"{{userId}}\",\n  \"assetTypeId\":  \"{{assetTypeId}}\",\n  \"value\": \"Is Awesome!!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/custom-fields/v1/custom-fields-values",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields-values"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Custom Field - Assets by Value",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/custom-fields/v1/custom-fields-values?filter=value -eq \"Is Awesome!!\"",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields-values"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "value -eq \"Is Awesome!!\""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Custom Field",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Blank out the custom field var",
+							"pm.collectionVariables.set(\"customFieldId\", (\"\"));",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/custom-fields/v1/custom-fields/{{customFieldId}}",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"custom-fields",
+						"v1",
+						"custom-fields",
+						"{{customFieldId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "**Get Organizations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/organizations/v1/tree",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"organizations",
+						"v1",
+						"tree"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "**Set User Organization - demonode2",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"path\": \"/organizationId\",\n    \"value\": \"25b49c0e-e7ab-4acc-b61c-fd091bdd4b2a\",\n    \"op\": \"replace\"\n  }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/sam/estate/v1/user-accounts/{{userId}}",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"sam",
+						"estate",
+						"v1",
+						"user-accounts",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "**Set User Organization - demonode",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"path\": \"/organizationId\",\n    \"value\": \"ecf1e008-d87f-4b75-b65b-6e2db2ede313\",\n    \"op\": \"replace\"\n  }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/sam/estate/v1/user-accounts/{{userId}}",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"sam",
+						"estate",
+						"v1",
+						"user-accounts",
+						"{{userId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get SaaS Application list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/saas/consolidated-view/v1/applications",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"saas",
+						"consolidated-view",
+						"v1",
+						"applications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get SAM Agreements list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/sam/v2/agreements",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"sam",
+						"v2",
+						"agreements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/sam/estate/v1/user-accounts?page_size=100&page_number=1",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"sam",
+						"estate",
+						"v1",
+						"user-accounts"
+					],
+					"query": [
+						{
+							"key": "page_size",
+							"value": "100"
+						},
+						{
+							"key": "page_number",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Computers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/sam/estate/v1/computers?page_size=100&page_number=1",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"sam",
+						"estate",
+						"v1",
+						"computers"
+					],
+					"query": [
+						{
+							"key": "page_size",
+							"value": "100"
+						},
+						{
+							"key": "page_number",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a computer details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/sam/estate/v1/computers/c3b38fee-ba98-45d6-a38c-ceffc52bb320",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"sam",
+						"estate",
+						"v1",
+						"computers",
+						"c3b38fee-ba98-45d6-a38c-ceffc52bb320"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Computers w/filter hostname",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/sam/estate/v1/computers?filter=hostname -eq \"CORP23C9816\"",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"sam",
+						"estate",
+						"v1",
+						"computers"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "hostname -eq \"CORP23C9816\""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Application Registry w/name filter \"Postman\"",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/sam/software-registry/v1/applications?filter=name -contains \"postman\"",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"sam",
+						"software-registry",
+						"v1",
+						"applications"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "name -contains \"postman\""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Application Registry w/name filter \"Microsoft Outlook\"",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/sam/software-registry/v1/applications?filter=name -contains \"Microsoft Outlook\"",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"sam",
+						"software-registry",
+						"v1",
+						"applications"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "name -contains \"Microsoft Outlook\""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Application Registry w/name filter \"Atlassian\"",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{Token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{Region}}.{{domain}}/api/sam/software-registry/v1/applications?filter=name -contains \"Microsoft Outlook\"",
+					"protocol": "https",
+					"host": [
+						"{{Region}}",
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"sam",
+						"software-registry",
+						"v1",
+						"applications"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "name -contains \"Microsoft Outlook\""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.variables.get(\"variable_key\");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "domain",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "Region",
+			"value": ""
+		},
+		{
+			"key": "client_id",
+			"value": ""
+		},
+		{
+			"key": "client_secret",
+			"value": ""
+		},
+		{
+			"key": "Token",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "dataTypeId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "customFieldId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "assetTypeId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
