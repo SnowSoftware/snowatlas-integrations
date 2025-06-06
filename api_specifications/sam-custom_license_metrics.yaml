@@ -3,7 +3,7 @@ info:
   title: 'SAM: Custom license metrics'
   description: API for interacting with custom license metrics.
   contact:
-    name: Flexera.
+    name: Flexera
     url: https://www.flexera.com
   version: 1.0.0
 servers:
