@@ -1,0 +1,1753 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SAM: Custom fields",
+    "description": "API for interacting with custom fields.",
+    "contact": {
+      "name": "Flexera",
+      "url": "https://www.flexera.com"
+    },
+    "version": "0.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://{region}.snowsoftware.io",
+      "variables": {
+        "region": {
+          "enum": [
+            "westeurope",
+            "australiasoutheast",
+            "eastus2",
+            "uksouth"
+          ],
+          "default": "westeurope"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/api/custom-fields/v1/custom-fields-asset-types/{id}": {
+      "get": {
+        "tags": [
+          "Asset types"
+        ],
+        "summary": "Get asset type",
+        "description": "Returns the details of a given asset type.",
+        "operationId": "getAssetType",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the asset type.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAssetTypeItemResponseV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customfields.customfield.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/custom-fields/v1/custom-fields-asset-types": {
+      "get": {
+        "tags": [
+          "Asset types"
+        ],
+        "summary": "Get asset types",
+        "description": "Returns a collection of asset types.",
+        "operationId": "getAssetTypes",
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAssetTypeCollectionResponseV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customfields.customfield.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/custom-fields/v1/custom-fields": {
+      "get": {
+        "tags": [
+          "Custom fields"
+        ],
+        "summary": "Get custom fields",
+        "description": "Returns a collection of customfields.",
+        "operationId": "getCustomFields",
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCustomFieldCollectionResponseV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customfields.customfield.r"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Custom fields"
+        ],
+        "summary": "Add custom field",
+        "description": "Creates a custom field.",
+        "operationId": "addCustomField",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostCustomFieldRequestV1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created: Your request created something new. Usually, this is a call that used the POST method and will allow a GET method to retrieve it later.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostCustomFieldResponseV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customfields.customfield.c"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/custom-fields/v1/custom-fields/{id}": {
+      "get": {
+        "tags": [
+          "Custom fields"
+        ],
+        "summary": "Get custom field",
+        "description": "Returns the details of a given customfield.",
+        "operationId": "getCustomField",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the custom field.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCustomFieldItemResponseV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customfields.customfield.r"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Custom fields"
+        ],
+        "summary": "Replace custom field",
+        "description": "Replaces a custom field.",
+        "operationId": "replaceCustomField",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the custom field.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PutCustomFieldResponseV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customfields.customfield.crud"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Custom fields"
+        ],
+        "summary": "Delete custom field",
+        "description": "Removes the given custom field.",
+        "operationId": "deleteCustomField",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the custom field.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content: Your request succeeded, but the response message was empty."
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customfields.customfield.crud"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/custom-fields/v1/custom-fields-values": {
+      "get": {
+        "tags": [
+          "Custom field values"
+        ],
+        "summary": "Get custom field values",
+        "description": "Returns a collection of customfield values.",
+        "operationId": "getCustomFieldValues",
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetValuesResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customfields.customfield.r"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Custom field values"
+        ],
+        "summary": "Add custom field value",
+        "description": "Creates a custom field value.",
+        "operationId": "addCustomFieldValue",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostValueRequestV1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created: Your request created something new. Usually, this is a call that used the POST method and will allow a GET method to retrieve it later.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostValueResponseV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customfields.customfield.c"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/custom-fields/v1/custom-fields-values/{id}": {
+      "get": {
+        "tags": [
+          "Custom field values"
+        ],
+        "summary": "Get custom field value",
+        "description": "Returns the details of a given customfield value.",
+        "operationId": "getCustomFieldValue",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the custom field value.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetValueResponseV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customfields.customfield.r"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Custom field values"
+        ],
+        "summary": "Replace custom field value",
+        "description": "Replaces a custom field value.",
+        "operationId": "replaceCustomFieldValue",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the custom field value.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PutValueResponseV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customfields.customfield.crud"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Custom field values"
+        ],
+        "summary": "Delete custom field value",
+        "description": "Removes the given custom field value.",
+        "operationId": "deleteCustomFieldValue",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the custom field value.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content: Your request succeeded, but the response message was empty."
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customfields.customfield.crud"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/custom-fields/v1/custom-fields-data-types": {
+      "get": {
+        "tags": [
+          "Data types"
+        ],
+        "summary": "Get data types",
+        "description": "Returns a collection of data types.",
+        "operationId": "getDataTypes",
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDataTypeCollectionResponseV1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customfields.customfield.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/custom-fields/v1/custom-fields-data-types/{id}": {
+      "get": {
+        "tags": [
+          "Data types"
+        ],
+        "summary": "Get data type",
+        "description": "Returns the details of a given data type.",
+        "operationId": "getDataType",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique ID of the data type.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDataTypeItemResponseV1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.customfields.customfield.r"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Link": {
+        "type": "object",
+        "description": "Represents a hypermedia link referenced from a IResource, according to HATEOAS.",
+        "additionalProperties": false,
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "The associated relative URL.",
+            "nullable": true,
+            "example": "/api/custom-fields/v1/custom-fields"
+          },
+          "rel": {
+            "type": "string",
+            "description": "Specifies the relationship between the current document and the linked document/resource.",
+            "nullable": true,
+            "example": "self"
+          },
+          "method": {
+            "type": "string",
+            "description": "The method to access related resources.",
+            "nullable": true,
+            "example": "GET"
+          }
+        }
+      },
+      "GetAssetTypeResponse": {
+        "type": "object",
+        "description": "Response containing single asset type.",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the asset type.",
+            "format": "guid",
+            "minLength": 1,
+            "example": "a8411272-aa0d-42f3-823f-0fb1ceee16c0"
+          },
+          "name": {
+            "type": "string",
+            "description": "Asset type name.",
+            "nullable": true,
+            "example": "A name"
+          }
+        }
+      },
+      "GetAssetTypeItemResponseV1": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GetAssetTypeResponse"
+          },
+          {
+            "type": "object",
+            "description": "Represents response after querying asset type.",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "description": "A collection of links to related resources.",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "description": "The error details.",
+        "additionalProperties": false,
+        "required": [
+          "code"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "The HTTP status code.",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "The error message.",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfError": {
+        "type": "object",
+        "description": "The error response.",
+        "additionalProperties": false,
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "description": "The error.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Error"
+              }
+            ]
+          }
+        }
+      },
+      "ErrorResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ErrorResponseOfError"
+          },
+          {
+            "type": "object",
+            "description": "The error response.",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "Pagination": {
+        "type": "object",
+        "description": "The pagination details.",
+        "additionalProperties": false,
+        "required": [
+          "page_size",
+          "page_number"
+        ],
+        "properties": {
+          "page_size": {
+            "type": "integer",
+            "description": "The page size you requested.",
+            "format": "int32",
+            "example": 25
+          },
+          "page_number": {
+            "type": "integer",
+            "description": "The page number you requested.",
+            "format": "int32",
+            "example": 1
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "The total number of pages.",
+            "format": "int32",
+            "nullable": true,
+            "example": 5
+          },
+          "total_items": {
+            "type": "integer",
+            "description": "The total number of items.",
+            "format": "int32",
+            "nullable": true,
+            "example": 100
+          }
+        }
+      },
+      "FilteredResponseOfGetAssetTypeResponse": {
+        "type": "object",
+        "description": "Filtered response.",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "A collection of items.",
+            "items": {
+              "$ref": "#/components/schemas/GetAssetTypeResponse"
+            }
+          },
+          "pagination": {
+            "description": "The pagination details.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Pagination"
+              }
+            ]
+          }
+        }
+      },
+      "FilteredHateoasResponseOfGetAssetTypeResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfGetAssetTypeResponse"
+          },
+          {
+            "type": "object",
+            "description": "Extends FilteredResponse`1.",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "description": "A collection of links to related resources.",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "GetAssetTypeCollectionResponseV1": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredHateoasResponseOfGetAssetTypeResponse"
+          },
+          {
+            "type": "object",
+            "description": "Represents asset type collection.",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "GetDataTypeResponse": {
+        "type": "object",
+        "description": "Response containing single data type.",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the data type.",
+            "format": "guid",
+            "minLength": 1,
+            "example": "ab3263e4-a4dc-483e-ab4b-3ddd298f558e"
+          },
+          "name": {
+            "type": "string",
+            "description": "Data type name.",
+            "nullable": true,
+            "example": "A name"
+          }
+        }
+      },
+      "GetCustomFieldResponse": {
+        "type": "object",
+        "description": "Represents response after querying custom fields.",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the custom field.",
+            "format": "guid",
+            "minLength": 1,
+            "example": "a8411272-aa0d-42f3-823f-0fb1ceee16c0"
+          },
+          "name": {
+            "type": "string",
+            "description": "Custom field name.",
+            "nullable": true,
+            "example": "A name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Custom field description.",
+            "nullable": true,
+            "example": "A long description."
+          },
+          "isRequired": {
+            "type": "boolean",
+            "description": "```true``` if required; otherwise, ```false```.",
+            "example": false
+          },
+          "defaultValue": {
+            "type": "string",
+            "description": "Custom field default value.",
+            "nullable": true,
+            "example": "A default value"
+          },
+          "isMultipleChoice": {
+            "type": "boolean",
+            "description": "```true``` if it has multiple possible values; otherwise, ```false```.",
+            "example": false
+          },
+          "multipleChoice": {
+            "type": "array",
+            "description": "Custom field possible values.",
+            "nullable": true,
+            "example": [
+              "Value 1",
+              "Value 2"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "assetTypes": {
+            "type": "array",
+            "description": "Custom field asset types.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/GetAssetTypeResponse"
+            }
+          },
+          "dataType": {
+            "description": "Custom field data type.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GetDataTypeResponse"
+              }
+            ]
+          }
+        }
+      },
+      "FilteredResponseOfGetCustomFieldResponse": {
+        "type": "object",
+        "description": "Filtered response.",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "A collection of items.",
+            "items": {
+              "$ref": "#/components/schemas/GetCustomFieldResponse"
+            }
+          },
+          "pagination": {
+            "description": "The pagination details.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Pagination"
+              }
+            ]
+          }
+        }
+      },
+      "FilteredHateoasResponseOfGetCustomFieldResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfGetCustomFieldResponse"
+          },
+          {
+            "type": "object",
+            "description": "Extends FilteredResponse`1.",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "description": "A collection of links to related resources.",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "GetCustomFieldCollectionResponseV1": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredHateoasResponseOfGetCustomFieldResponse"
+          },
+          {
+            "type": "object",
+            "description": "Represents custom field collection.",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "GetCustomFieldItemResponseV1": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GetCustomFieldResponse"
+          },
+          {
+            "type": "object",
+            "description": "Represents response after querying custom field.",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "description": "A collection of links to related resources.",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "PostCustomFieldRequestV1": {
+        "type": "object",
+        "description": "Request to create custom field.",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "dataTypeId",
+          "assetTypesIds"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Custom field name.",
+            "minLength": 1,
+            "example": "Field 1"
+          },
+          "description": {
+            "type": "string",
+            "description": "Custom field description.",
+            "example": "Some long description."
+          },
+          "dataTypeId": {
+            "type": "string",
+            "description": "The unique ID of the data type.",
+            "format": "guid",
+            "minLength": 1,
+            "example": "ab3263e4-a4dc-483e-ab4b-3ddd298f558e"
+          },
+          "assetTypesIds": {
+            "type": "array",
+            "description": "Collection of asset type ids.",
+            "example": [
+              "34469e92-5132-4269-8392-ef0b7652833f"
+            ],
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          "isRequired": {
+            "type": "boolean",
+            "description": "```true``` if required; otherwise, ```false```.",
+            "example": true
+          },
+          "defaultValue": {
+            "type": "string",
+            "description": "Default value of custom field.",
+            "nullable": true,
+            "example": "A value"
+          },
+          "multipleChoice": {
+            "type": "array",
+            "description": "Collection of choices.",
+            "example": [
+              "Choice 1",
+              "Choice 2"
+            ],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PostCustomFieldResponseV1": {
+        "type": "object",
+        "description": "Response containing id of created custom field.",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the custom field.",
+            "format": "guid",
+            "minLength": 1,
+            "example": "ab3263e4-a4dc-483e-ab4b-3ddd298f558e"
+          }
+        }
+      },
+      "PutCustomFieldResponseV1": {
+        "type": "object",
+        "description": "Represents response after updating custom field.",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the custom field.",
+            "format": "guid",
+            "minLength": 1,
+            "example": "a8411272-aa0d-42f3-823f-0fb1ceee16c0"
+          }
+        }
+      },
+      "GetValueResponse": {
+        "type": "object",
+        "description": "Represents response after querying custom field values.",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the custom field's value.",
+            "format": "guid",
+            "minLength": 1,
+            "example": "ab3263e4-a4dc-483e-ab4b-3ddd298f558e"
+          },
+          "customFieldId": {
+            "type": "string",
+            "description": "The unique ID of the custom field.",
+            "format": "guid",
+            "example": "ab3263e4-a4dc-483e-ab4b-3ddd298f558e"
+          },
+          "customFieldName": {
+            "type": "string",
+            "description": "Custom field name.",
+            "nullable": true,
+            "example": "Some name"
+          },
+          "assetId": {
+            "type": "string",
+            "description": "The unique ID of the custom field's asset.",
+            "format": "guid",
+            "example": "ab3263e4-a4dc-483e-ab4b-3ddd298f558e"
+          },
+          "assetType": {
+            "description": "Custom field value's asset type.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GetAssetTypeResponse"
+              }
+            ]
+          },
+          "value": {
+            "type": "string",
+            "description": "Custom field's value.",
+            "nullable": true,
+            "example": "A value"
+          }
+        }
+      },
+      "FilteredResponseOfGetValueResponse": {
+        "type": "object",
+        "description": "Filtered response.",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "A collection of items.",
+            "items": {
+              "$ref": "#/components/schemas/GetValueResponse"
+            }
+          },
+          "pagination": {
+            "description": "The pagination details.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Pagination"
+              }
+            ]
+          }
+        }
+      },
+      "GetValuesResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfGetValueResponse"
+          },
+          {
+            "type": "object",
+            "description": "Represents custom field values collection.",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "GetValueResponseV1": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GetValueResponse"
+          },
+          {
+            "type": "object",
+            "description": "Represents response after querying custom field. Includes Link collection to related resources.",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "description": "A collection of links to related resources.",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "PostValueRequestV1": {
+        "type": "object",
+        "description": "Request to create custom field value.",
+        "additionalProperties": false,
+        "required": [
+          "customFieldId",
+          "assetId",
+          "assetTypeId",
+          "value"
+        ],
+        "properties": {
+          "customFieldId": {
+            "type": "string",
+            "description": "The unique ID of the custom field.",
+            "format": "guid",
+            "minLength": 1,
+            "example": "ab3263e4-a4dc-483e-ab4b-3ddd298f558e"
+          },
+          "assetId": {
+            "type": "string",
+            "description": "The unique ID of the asset.",
+            "format": "guid",
+            "minLength": 1,
+            "example": "34469e92-5132-4269-8392-ef0b7652833f"
+          },
+          "assetTypeId": {
+            "type": "string",
+            "description": "The unique ID of the asset type.",
+            "format": "guid",
+            "minLength": 1,
+            "example": "efdd2bd1-4d22-42f9-b3cd-dffda7374ad9"
+          },
+          "value": {
+            "type": "string",
+            "description": "Custom field value.",
+            "minLength": 1,
+            "example": "A value"
+          }
+        }
+      },
+      "PostValueResponseV1": {
+        "type": "object",
+        "description": "Response containing id of created custom field value.",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the custom field value.",
+            "format": "guid",
+            "minLength": 1,
+            "example": "ab3263e4-a4dc-483e-ab4b-3ddd298f558e"
+          }
+        }
+      },
+      "PutValueResponseV1": {
+        "type": "object",
+        "description": "Represents response after updating custom field's value.",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the custom field's value.",
+            "format": "guid",
+            "minLength": 1,
+            "example": "a8411272-aa0d-42f3-823f-0fb1ceee16c0"
+          }
+        }
+      },
+      "FilteredResponseOfGetDataTypeResponse": {
+        "type": "object",
+        "description": "Filtered response.",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "A collection of items.",
+            "items": {
+              "$ref": "#/components/schemas/GetDataTypeResponse"
+            }
+          },
+          "pagination": {
+            "description": "The pagination details.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Pagination"
+              }
+            ]
+          }
+        }
+      },
+      "FilteredHateoasResponseOfGetDataTypeResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfGetDataTypeResponse"
+          },
+          {
+            "type": "object",
+            "description": "Extends FilteredResponse`1.",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "description": "A collection of links to related resources.",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "GetDataTypeCollectionResponseV1": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredHateoasResponseOfGetDataTypeResponse"
+          },
+          {
+            "type": "object",
+            "description": "Represents data type collection.",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "GetDataTypeItemResponseV1": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GetDataTypeResponse"
+          },
+          {
+            "type": "object",
+            "description": "Represents response after querying data type.",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "description": "A collection of links to related resources.",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Asset types"
+    },
+    {
+      "name": "Custom field values"
+    },
+    {
+      "name": "Custom fields"
+    },
+    {
+      "name": "Data types"
+    }
+  ]
+}
