@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: 'Product name: Custom License Metrics API'
+  title: 'SAM: Custom license metrics'
   description: API for interacting with custom license metrics.
   contact:
     name: Snow Software, Inc.
