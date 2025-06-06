@@ -3,8 +3,8 @@ info:
   title: 'SAM: Custom license metrics'
   description: API for interacting with custom license metrics.
   contact:
-    name: Snow Software, Inc.
-    url: https://www.snowsoftware.com
+    name: Flexera.
+    url: https://www.flexera.com
   version: 1.0.0
 servers:
   - url: 'https://{region}.snowsoftware.io'
