@@ -1,115 +1,39 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "SAM: Applications",
-    "description": "API for interacting with applications.",
-    "version": "1.0.0",
+    "title": "SAM Applications",
     "contact": {
-      "name": "Flexera",
-      "url": "https://www.flexera.com"
-}
+      "name": "Snow Software, Inc.",
+      "url": "https://www.snowsoftware.com"
+    },
+    "version": "1.0.0"
   },
   "servers": [
     {
-        "url": "https://{region}.snowsoftware.io",
-        "variables": {
-            "region": {
-                "enum": [
-                    "westeurope",
-                    "australiasoutheast",
-                    "eastus2",
-                    "uksouth"
-                ],
-                "default": "westeurope"
-            }
+      "url": "https://{region}.snowsoftware.io",
+      "description": "You can find your **Data region** in the **Snow Atlas settings** menu, in **License details**. Your **Data region** is on the **General information** tab. For further information, see [General information](https://docs.snowsoftware.com/snow-atlas/en/UUID-2d4ce22b-e2a9-b7b0-44b8-0ecc55c2959f.html#UUID-2d4ce22b-e2a9-b7b0-44b8-0ecc55c2959f_section-idm4543865842761633102149279789 \"https://docs.snowsoftware.com/snow-atlas/en/UUID-2d4ce22b-e2a9-b7b0-44b8-0ecc55c2959f.html#UUID-2d4ce22b-e2a9-b7b0-44b8-0ecc55c2959f_section-idm4543865842761633102149279789\").",
+      "variables": {
+        "region": {
+          "enum": [
+            "westeurope",
+            "australiasoutheast",
+            "eastus2",
+            "uksouth"
+          ],
+          "default": "westeurope"
         }
+      }
     }
   ],
   "paths": {
-    "/api/sam/software-registry/v1/applications": {
+    "/api/sam/software-registry/v1/applications/{id:uuid}/alert-settings": {
       "get": {
-        "description": "Returns a collection of registry applications.",
-        "summary": "Get registry applications",
-        "operationId": "applications",
-        "parameters": [
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "The maximum number of items in the response.",
-            "schema": {
-              "type": "integer",
-              "default": 100
-            }
-          },
-          {
-            "name": "page_number",
-            "in": "query",
-            "description": "The page number.",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK: Your request succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HateoasCollectionOfApplicationCollection"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                  }
-                }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error: Your request failed due to an internal error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                  }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "BearerAuth": [
-              "sam.application.r"
-            ]
-          }
-        ]
-      }
-    },
-    "/api/sam/software-registry/v1/applications/{id}": {
-      "get": {
-        "description": "Returns the details of a registry application.",
-        "summary": "Get registry application",
-        "operationId": "applications2",
+        "summary": "",
+        "description": "Returns the alert settings for an application.",
+        "operationId": "alert-settings",
         "parameters": [
           {
             "name": "id",
-            "description": "The unique ID of the application.",
-            "example": "5be51be2-35ff-48f2-9214-00002248b242",
             "in": "path",
             "required": true,
             "schema": {
@@ -168,34 +92,112 @@
         ]
       }
     },
-    "/api/sam/software-registry/v1/article-numbers": {
+    "/api/sam/software-registry/v1/applications-allowlist": {
       "get": {
-        "description": "Returns a collection of application article numbers.",
-        "summary": "Get article numbers",
-        "operationId": "article-numbers",
+        "summary": "",
+        "description": "Returns a collection of allowed applications.",
+        "operationId": "applications-allowlist",
         "parameters": [
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "The maximum number of items in the response.",
-            "schema": {
-              "type": "integer",
-              "default": 100
-            }
-          },
           {
             "name": "page_number",
             "in": "query",
             "description": "The page number.",
             "schema": {
               "type": "integer",
-              "default": 1
+              "default": 1,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The maximum number of items in the response.",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 1.0
             }
           },
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "The fields which you can use to filter the results. Format of the query string parameter:\n```\n?filter=<filter name> <operator> <value>\n```\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HateoasCollectionOfAllowedApplicationIdentifier"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.application.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/software-registry/v1/article-numbers": {
+      "get": {
+        "summary": "",
+        "description": "Returns a collection of application article numbers.",
+        "operationId": "article-numbers",
+        "parameters": [
+          {
+            "name": "page_number",
+            "in": "query",
+            "description": "The page number.",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The maximum number of items in the response.",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "The fields which you can use to filter the results. Format of the query string parameter:\n```\n?filter=<filter name> <operator> <value>\n```\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).\n",
             "schema": {
               "type": "string"
             }
@@ -244,14 +246,13 @@
     },
     "/api/sam/software-registry/v1/article-numbers/{id}": {
       "get": {
-        "description": "Returns the details of a given application article number.",
-        "summary": "Get article number",
+        "summary": "",
+        "description": "Returns details of an application article number.",
         "operationId": "article-numbers2",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique ID of the application article number for which details will be returned.",
             "required": true,
             "schema": {
               "type": "string"
@@ -309,19 +310,20 @@
         ]
       }
     },
-    "/api/sam/software-registry/v1/applications/{id}/compatibility": {
+    "/api/sam/software-registry/v1/applications": {
       "get": {
-        "description": "Returns a collection of applications that are compatible with a given application.",
-        "summary": "Get compatible applications",
-        "operationId": "compatibility",
+        "summary": "",
+        "description": "Returns a collection of applications.",
+        "operationId": "applications",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "The unique ID of the compatible application.",
-            "required": true,
+            "name": "page_number",
+            "in": "query",
+            "description": "The page number.",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "default": 1,
+              "minimum": 1.0
             }
           },
           {
@@ -330,7 +332,72 @@
             "description": "The maximum number of items in the response.",
             "schema": {
               "type": "integer",
-              "default": 100
+              "default": 100,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "The fields which you can use to filter the results. Format of the query string parameter:\n```\n?filter=<filter name> <operator> <value>\n```\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HateoasCollectionOfApplicationCollection"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.application.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/software-registry/v1/applications/{id:uuid}/compatibility": {
+      "get": {
+        "summary": "",
+        "description": "Returns a collection of compatible applications.",
+        "operationId": "compatibility",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -339,13 +406,24 @@
             "description": "The page number.",
             "schema": {
               "type": "integer",
-              "default": 1
+              "default": 1,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The maximum number of items in the response.",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 1.0
             }
           },
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "The fields which you can use to filter the results. Format of the query string parameter:\n```\n?filter=<filter name> <operator> <value>\n```\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).\n",
             "schema": {
               "type": "string"
             }
@@ -392,17 +470,15 @@
         ]
       }
     },
-    "/api/sam/software-registry/v1/applications/{id}/compatibility/{compatibilityId}": {
+    "/api/sam/software-registry/v1/applications/{id:uuid}/compatibility/{compatibilityId}": {
       "get": {
-        "description": "Returns the details of a compatible application.",
-        "summary": "Get compatible application",
+        "summary": "",
+        "description": "Returns details of a compatible application.",
         "operationId": "compatibility2",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique ID of the application.",
-            "example": "5be51be2-35ff-48f2-9214-00002248b242",
             "required": true,
             "schema": {
               "type": "string"
@@ -411,8 +487,6 @@
           {
             "name": "compatibilityId",
             "in": "path",
-            "description": "The unique ID of the compatible application.",
-            "example": "",
             "required": true,
             "schema": {
               "type": "string"
@@ -470,37 +544,256 @@
         ]
       }
     },
-    "/api/sam/software-registry/v1/families": {
+    "/api/sam/software-registry/v1/applications/{id:uuid}": {
       "get": {
-        "description": "Returns a collection of applications families.",
-        "summary": "Get families",
-        "operationId": "families",
+        "summary": "",
+        "description": "Returns details of an application.",
+        "operationId": "applications2",
         "parameters": [
           {
-            "name": "page_size",
-            "in": "query",
-            "description": "The maximum number of items in the response.",
+            "name": "id",
+            "in": "path",
+            "required": true,
             "schema": {
-              "type": "integer",
-              "default": 100
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Application"
+                }
+              }
             }
           },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.application.r"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Application"
+        ],
+        "summary": "Update application details.",
+        "description": "Updates application details.",
+        "operationId": "updateApplication",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateApplication"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Application"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.application.u"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/software-registry/v1/applications-denylist": {
+      "get": {
+        "summary": "",
+        "description": "Returns a collection of denied applications.",
+        "operationId": "applications-denylist",
+        "parameters": [
           {
             "name": "page_number",
             "in": "query",
             "description": "The page number.",
             "schema": {
               "type": "integer",
-              "default": 1
+              "default": 1,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The maximum number of items in the response.",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 1.0
             }
           },
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "The fields which you can use to filter the results. Format of the query string parameter:\n```\n?filter=<filter name> <operator> <value>\n```\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).\n",
             "schema": {
-              "type": "string",
-              "example": ""
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HateoasCollectionOfDeniedApplicationIdentifier"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.application.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/software-registry/v1/families": {
+      "get": {
+        "summary": "",
+        "description": "Returns a collection of application families.",
+        "operationId": "families",
+        "parameters": [
+          {
+            "name": "page_number",
+            "in": "query",
+            "description": "The page number.",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The maximum number of items in the response.",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "The fields which you can use to filter the results. Format of the query string parameter:\n```\n?filter=<filter name> <operator> <value>\n```\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).\n",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -547,14 +840,13 @@
     },
     "/api/sam/software-registry/v1/families/{id}": {
       "get": {
-        "description": "Returns the details of a given applications family.",
-        "summary": "Get family",
+        "summary": "",
+        "description": "Returns details of an application family.",
         "operationId": "families2",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique ID of the applications family.",
             "required": true,
             "schema": {
               "type": "string"
@@ -612,29 +904,18 @@
         ]
       }
     },
-    "/api/sam/software-registry/v1/applications/{id}/group": {
+    "/api/sam/software-registry/v1/applications/{id:uuid}/group": {
       "get": {
-        "description": "Returns a collection of application groups for a given application.",
-        "summary": "Get groups",
+        "summary": "",
+        "description": "Returns a collection of application groups.",
         "operationId": "group",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique ID of the application.",
-            "example": "5be51be2-35ff-48f2-9214-00002248b242",
             "required": true,
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "The maximum number of items in the response.",
-            "schema": {
-              "type": "integer",
-              "default": 100
             }
           },
           {
@@ -643,13 +924,24 @@
             "description": "The page number.",
             "schema": {
               "type": "integer",
-              "default": 1
+              "default": 1,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The maximum number of items in the response.",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 1.0
             }
           },
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "The fields which you can use to filter the results. Format of the query string parameter:\n```\n?filter=<filter name> <operator> <value>\n```\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).\n",
             "schema": {
               "type": "string"
             }
@@ -706,29 +998,68 @@
         ]
       }
     },
-    "/api/sam/software-registry/v1/applications/{id}/metrics": {
+    "/api/sam/software-registry/v1/applications-metadata": {
       "get": {
-        "description": "Returns a collection of application metrics for a given application.",
-        "summary": "Get metrics",
+        "tags": [
+          "Application",
+          "Metadata"
+        ],
+        "summary": "Applications enriched with metadata.",
+        "description": "Returns a collection of applications that have been enriched with metadata.",
+        "operationId": "applicationMetadata",
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HateoasCollectionOfMetadataApplicationIdentifier"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.application.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/software-registry/v1/applications/{id:uuid}/metrics": {
+      "get": {
+        "summary": "",
+        "description": "Returns a collection of application metrics.",
         "operationId": "metrics",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique ID of the application.",
-            "example": "5be51be2-35ff-48f2-9214-00002248b242",
             "required": true,
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "The maximum number of items in the response.",
-            "schema": {
-              "type": "integer",
-              "default": 100
             }
           },
           {
@@ -737,13 +1068,24 @@
             "description": "The page number.",
             "schema": {
               "type": "integer",
-              "default": 1
+              "default": 1,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The maximum number of items in the response.",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 1.0
             }
           },
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "The fields which you can use to filter the results. Format of the query string parameter:\n```\n?filter=<filter name> <operator> <value>\n```\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).\n",
             "schema": {
               "type": "string"
             }
@@ -790,17 +1132,15 @@
         ]
       }
     },
-    "/api/sam/software-registry/v1/applications/{id}/metrics/{metricId}": {
+    "/api/sam/software-registry/v1/applications/{id:uuid}/metrics/{metricId}": {
       "get": {
-        "description": "Returns the details of an application metric.",
-        "summary": "Get metric",
+        "summary": "",
+        "description": "Returns details of an application metric.",
         "operationId": "metrics2",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique ID of the application.",
-            "example": "5be51be2-35ff-48f2-9214-00002248b242",
             "required": true,
             "schema": {
               "type": "string"
@@ -809,8 +1149,6 @@
           {
             "name": "metricId",
             "in": "path",
-            "description": "The unique ID of the application metric.",
-            "example": "",
             "required": true,
             "schema": {
               "type": "string"
@@ -868,17 +1206,150 @@
         ]
       }
     },
-    "/api/sam/software-registry/v1/applications/{id}/store": {
+    "/api/sam/software-registry/v1/applications/{id:uuid}/skus": {
       "get": {
-        "description": "Returns the details of an application store for a given application.",
-        "summary": "Get store",
+        "summary": "",
+        "description": "Returns details of an application SKU.",
+        "operationId": "skus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HateoasCollectionOfStockKeepingUnit"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.application.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/software-registry/v1/skus/{id:uuid}/applications": {
+      "get": {
+        "tags": [
+          "Stock keeping units"
+        ],
+        "summary": "Get a list of applications for SKU",
+        "description": "Returns a collection of applications for a given Stock Keeping Unit.",
+        "operationId": "applications3",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HateoasCollectionOfSkuApplication"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.application.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/software-registry/v1/applications/{id:uuid}/store": {
+      "get": {
+        "summary": "",
+        "description": "Returns details of an application store.",
         "operationId": "store",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique ID of the application.",
-            "example": "5be51be2-35ff-48f2-9214-00002248b242",
             "required": true,
             "schema": {
               "type": "string"
@@ -936,34 +1407,121 @@
         ]
       }
     },
-    "/api/sam/software-registry/v1/types": {
-      "get": {
-        "description": "Returns a collection of application types.",
-        "summary": "Get applications types",
-        "operationId": "types",
+    "/api/sam/software-registry/v1/applications-using-custom-metrics": {
+      "post": {
+        "summary": "",
+        "description": "Returns a collection of applications referencing the given custom metrics.",
+        "operationId": "applications-using-custom-metrics",
         "parameters": [
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "The maximum number of items in the response.",
-            "schema": {
-              "type": "integer",
-              "default": 100
-            }
-          },
           {
             "name": "page_number",
             "in": "query",
             "description": "The page number.",
             "schema": {
               "type": "integer",
-              "default": 1
+              "default": 1,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The maximum number of items in the response.",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 1.0
             }
           },
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "The fields which you can use to filter the results. Format of the query string parameter:\n```\n?filter=<filter name> <operator> <value>\n```\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationsUsingCustomMetricRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HateoasCollectionOfApplicationsCustomMetric"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.application.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/software-registry/v1/types": {
+      "get": {
+        "summary": "",
+        "description": "Returns a collection of application types.",
+        "operationId": "types",
+        "parameters": [
+          {
+            "name": "page_number",
+            "in": "query",
+            "description": "The page number.",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The maximum number of items in the response.",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "The fields which you can use to filter the results. Format of the query string parameter:\n```\n?filter=<filter name> <operator> <value>\n```\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).\n",
             "schema": {
               "type": "string"
             }
@@ -971,7 +1529,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK: Your request succeeded.",
+            "description": "",
             "content": {
               "application/json": {
                 "schema": {
@@ -1010,29 +1568,18 @@
         ]
       }
     },
-    "/api/sam/software-registry/v1/applications/{id}/types": {
+    "/api/sam/software-registry/v1/applications/{id:uuid}/types": {
       "get": {
+        "summary": "",
         "description": "Returns a collection of application types for a given application.",
-        "summary": "Get application types",
         "operationId": "types2",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique ID of the application.",
-            "example": "5be51be2-35ff-48f2-9214-00002248b242",
             "required": true,
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "The maximum number of items in the response.",
-            "schema": {
-              "type": "integer",
-              "default": 100
             }
           },
           {
@@ -1041,13 +1588,24 @@
             "description": "The page number.",
             "schema": {
               "type": "integer",
-              "default": 1
+              "default": 1,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The maximum number of items in the response.",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 1.0
             }
           },
           {
             "name": "filter",
             "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "description": "The fields which you can use to filter the results. Format of the query string parameter:\n```\n?filter=<filter name> <operator> <value>\n```\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).\n",
             "schema": {
               "type": "string"
             }
@@ -1106,14 +1664,13 @@
     },
     "/api/sam/software-registry/v1/types/{id}": {
       "get": {
-        "description": "Returns the details of a given application type.",
-        "summary": "Get application type",
+        "summary": "",
+        "description": "Returns details of an application type.",
         "operationId": "types3",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique ID of the application type.",
             "required": true,
             "schema": {
               "type": "string"
@@ -1171,111 +1728,15 @@
         ]
       }
     },
-    "/api/sam/software-registry/v1/applications/{id}/bundle": {
+    "/api/sam/software-registry/v1/applications/{id:uuid}/bundle/{childId}": {
       "get": {
-        "description": "Returns a collection of application bundles, or product suites, for a given application.",
-        "summary": "Get bundles",
-        "operationId": "bundle2",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "The unique ID of the application.",
-            "example": "5be51be2-35ff-48f2-9214-00002248b242",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "The maximum number of items in the response.",
-            "schema": {
-              "type": "integer",
-              "default": 100
-            }
-          },
-          {
-            "name": "page_number",
-            "in": "query",
-            "description": "The page number.",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "filter",
-            "in": "query",
-            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK: Your request succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HateoasCollectionOfBundle"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error: Your request failed due to an internal error.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "BearerAuth": [
-              "sam.application.r"
-            ]
-          }
-        ]
-      }
-    },
-    "/api/sam/software-registry/v1/applications/{id}/bundle/{childId}": {
-      "get": {
-        "description": "Returns the details of a given application bundle, or product suite, for a given application.",
-        "summary": "Get bundle",
+        "summary": "",
+        "description": "Returns details of an application bundle.",
         "operationId": "bundle",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "The unique ID of the application.",
-            "example": "5be51be2-35ff-48f2-9214-00002248b242",
             "required": true,
             "schema": {
               "type": "string"
@@ -1284,8 +1745,6 @@
           {
             "name": "childId",
             "in": "path",
-            "description": "The unique ID of the child application in the bundle or product suite for the application.",
-            "example": "",
             "required": true,
             "schema": {
               "type": "string"
@@ -1343,19 +1802,18 @@
         ]
       }
     },
-    "/api/sam/software-registry/v1/platforms": {
+    "/api/sam/software-registry/v1/applications/{id:uuid}/bundle": {
       "get": {
-        "description": "Returns a collection of application platforms.",
-        "summary": "Get platforms",
-        "operationId": "platforms",
+        "summary": "",
+        "description": "Returns a collection of application bundles.",
+        "operationId": "bundle2",
         "parameters": [
           {
-            "name": "page_size",
-            "in": "query",
-            "description": "The maximum number of items in the response.",
+            "name": "id",
+            "in": "path",
+            "required": true,
             "schema": {
-              "type": "integer",
-              "default": 100
+              "type": "string"
             }
           },
           {
@@ -1364,7 +1822,104 @@
             "description": "The page number.",
             "schema": {
               "type": "integer",
-              "default": 1
+              "default": 1,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The maximum number of items in the response.",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "The fields which you can use to filter the results. Format of the query string parameter:\n```\n?filter=<filter name> <operator> <value>\n```\nFilter name | Description | Data type | Example\n:--- | --- | --- | ---\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HateoasCollectionOfBundle"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.application.r"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/software-registry/v1/platforms": {
+      "get": {
+        "summary": "",
+        "description": "Returns a collection of application platforms.",
+        "operationId": "platforms",
+        "parameters": [
+          {
+            "name": "page_number",
+            "in": "query",
+            "description": "The page number.",
+            "schema": {
+              "type": "integer",
+              "default": 1,
+              "minimum": 1.0
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "The maximum number of items in the response.",
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 1.0
             }
           }
         ],
@@ -1412,191 +1967,9 @@
   },
   "components": {
     "schemas": {
-      "Pagination": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "page_size": {
-            "type": "integer",
-            "description": "The page size you requested.",
-            "default": 100,
-            "format": "int32",
-            "example": 100
-          },
-          "page_number": {
-            "type": "integer",
-            "description": "The page number you requested.",
-            "default": 1,
-            "format": "int32",
-            "example": 1
-          },
-          "total_pages": {
-            "type": "integer",
-            "description": "The total number of pages.",
-            "format": "int32",
-            "example": 751,
-            "nullable": true
-          }
-        }
-      },
-      "Link": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "href": {
-            "description": "The associated relative URL.",
-            "type": "string",
-            "example": "api/sam/software-registry/v1/...",
-            "nullable": true
-          },
-          "rel": {
-            "description": "Specifies the relationship between the current document and the linked document/resource.",
-            "type": "string",
-            "example": "self",
-            "nullable": true
-          },
-          "method": {
-            "description": "The method to access related resources.",
-            "type": "string",
-            "example": "GET",
-            "nullable": true
-          }
-        }
-      },
-      "ArticleNumberType": {
-        "type": "string",
-        "description": "The type of the article number.",
-        "x-enumNames": [
-          "Reseller",
-          "Manufacturer",
-          "SKU"
-        ],
-        "enum": [
-          "Reseller",
-          "Manufacturer",
-          "SKU"
-        ]
-      },
-      "HateoasResource": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "_links": {
-            "description": "A collection of links to related resources.",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Link"
-            }
-          }
-        }
-      },
-      "ApplicationArticleNumber": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/HateoasResource"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "id": {
-                "description": "The unique ID of the article number.",
-                "example": "aedf5fac-b720-4a0f-a052-e38537a87cfb",
-                "type": "string",
-                "format": "guid"
-              },
-              "applicationId": {
-                "description": "The unique ID of the application.",
-                "example": "5be51be2-35ff-48f2-9214-00002248b242",
-                "type": "string",
-                "format": "guid"
-              },
-              "type": {
-                "$ref": "#/components/schemas/ArticleNumberType"
-              },
-              "articleNumber": {
-                "description": "The article number.",
-                "example": "Article Number 1",
-                "type": "string"
-              }
-            }
-          }
-        ]
-      },
-      "FilteredResponseOfApplicationArticleNumber": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "pagination": {
-            "description": "The pagination details.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Pagination"
-              }
-            ]
-          },
-          "items": {
-            "type": "array",
-            
-            "items": {
-              "$ref": "#/components/schemas/ApplicationArticleNumber"
-            }
-          }
-        }
-      },
-      "HateoasCollectionOfApplicationArticleNumber": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/FilteredResponseOfApplicationArticleNumber"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "_links": {
-                "description": "A collection of links to related resources.",
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Link"
-                }
-              }
-            }
-          }
-        ]
-      },
-      "ErrorContent": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "code": {
-            "type": "integer",
-            "description": "The HTTP status code.",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string",
-            "description": "The error message.",
-            "nullable": true
-          }
-        }
-      },
-      "ErrorResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "error": {
-            "description": "The error details.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ErrorContent"
-              }
-            ]
-          }
-        }
-      },
       "PlatformType": {
         "type": "string",
-        "description": "The platform type.",
+        "description": "",
         "x-enumNames": [
           "Windows",
           "MacOSX",
@@ -1641,21 +2014,446 @@
         "additionalProperties": false,
         "properties": {
           "id": {
-            "description": "The unique ID of the metric.",
-            "example": "5891a1d8-7fb0-45bd-b1f6-01c943f9c572",
             "type": "string",
             "format": "guid"
           },
           "name": {
-            "description": "The name of the metric.",
-            "example": "Installations",
             "type": "string"
           },
           "isDefault": {
-            "description": "```true``` if the metric is the default for the application; otherwise, ```false```.",
             "type": "boolean"
           }
         }
+      },
+      "Link": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "href": {
+            "type": "string",
+            "nullable": true
+          },
+          "rel": {
+            "type": "string",
+            "nullable": true
+          },
+          "method": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "HateoasResource": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "_links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            }
+          }
+        }
+      },
+      "Application": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HateoasResource"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "guid"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string",
+                "nullable": true
+              },
+              "metrics": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ApplicationMetric"
+                }
+              },
+              "manufacturerId": {
+                "type": "string",
+                "format": "guid"
+              },
+              "manufacturer": {
+                "type": "string"
+              },
+              "manufacturerWebsite": {
+                "type": "string",
+                "nullable": true
+              },
+              "language": {
+                "type": "string"
+              },
+              "overridesApplicationId": {
+                "type": "string",
+                "format": "guid",
+                "nullable": true
+              },
+              "isOs": {
+                "type": "boolean"
+              },
+              "isGroup": {
+                "type": "boolean"
+              },
+              "isBundle": {
+                "type": "boolean"
+              },
+              "isHidden": {
+                "type": "boolean"
+              },
+              "isNoLicenseRequired": {
+                "type": "boolean"
+              },
+              "isGloballyGeneratedApplication": {
+                "type": "boolean"
+              },
+              "familyId": {
+                "type": "string",
+                "format": "guid",
+                "nullable": true
+              },
+              "editionIndex": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "versionIndex": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "isWebApplication": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "updatedDate": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "releaseDate": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "endOfSupportDate": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "endOfLifeDate": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "endOfExtendedSupportDate": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "isEndOfLife": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isEndOfSupport": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isEndOfExtendedSupport": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isReleaseDateNotAnnounced": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isEndOfSupportDateNotAnnounced": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isEndOfLifeDateNotAnnounced": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isEndOfExtendedSupportDateNotAnnounced": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "platform": {
+                "$ref": "#/components/schemas/PlatformType"
+              },
+              "applicationTypes": {
+                "type": "string",
+                "nullable": true
+              },
+              "downgradeTo": {
+                "type": "string",
+                "nullable": true
+              },
+              "upgradeTo": {
+                "type": "string",
+                "nullable": true
+              },
+              "downgradeInstance": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "isLicensedBasedOnCoreFactors": {
+                "type": "boolean"
+              },
+              "media": {
+                "type": "string",
+                "nullable": true
+              },
+              "isSecondaryUseRightsEnabled": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "serialNumbersLicenseKeys": {
+                "type": "string",
+                "nullable": true
+              },
+              "isSimultaneousMultipleEditionsAllowed": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isSimultaneousMultipleVersionsAllowed": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isApplyMetricsToUpgradeDowngradePathAllowed": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isApplyMetricsToCrossEditionPathAllowed": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "systemOwner": {
+                "type": "string",
+                "nullable": true
+              },
+              "systemOwnerPhone": {
+                "type": "string",
+                "nullable": true
+              },
+              "systemOwnerEmail": {
+                "type": "string",
+                "nullable": true
+              },
+              "licenseCostBase": {
+                "type": "number",
+                "format": "decimal",
+                "nullable": true
+              },
+              "applicationUrl": {
+                "type": "string",
+                "nullable": true
+              },
+              "privacyPolicyUrl": {
+                "type": "string",
+                "nullable": true
+              },
+              "termsAndConditionsUrl": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "ErrorContent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorContent"
+          }
+        }
+      },
+      "Pagination": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "page_size",
+          "page_number"
+        ],
+        "properties": {
+          "page_size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "page_number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "total_pages": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "total_items": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
+      "AllowedApplicationIdentifier": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HateoasResource"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "applicationId": {
+                "type": "string",
+                "format": "guid"
+              }
+            }
+          }
+        ]
+      },
+      "FilteredResponseOfAllowedApplicationIdentifier": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AllowedApplicationIdentifier"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "HateoasCollectionOfAllowedApplicationIdentifier": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfAllowedApplicationIdentifier"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ArticleNumberType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Reseller",
+          "Manufacturer",
+          "SKU"
+        ],
+        "enum": [
+          "Reseller",
+          "Manufacturer",
+          "SKU"
+        ]
+      },
+      "ApplicationArticleNumber": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HateoasResource"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "guid"
+              },
+              "applicationId": {
+                "type": "string",
+                "format": "guid"
+              },
+              "type": {
+                "$ref": "#/components/schemas/ArticleNumberType"
+              },
+              "articleNumber": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "FilteredResponseOfApplicationArticleNumber": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApplicationArticleNumber"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "HateoasCollectionOfApplicationArticleNumber": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfApplicationArticleNumber"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
       },
       "ApplicationCollection": {
         "allOf": [
@@ -1666,151 +2464,121 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "editionIndex": {
-                "description": "The edition index of the application.",
-                "example": 100,
-                "type": "integer",
-                "format": "int32"
-              },
-              "familyId": {
-                "description": "The unique ID of the application family.",
-                "example": "8496c20f-f639-4047-a4c0-b2f698e7442f",
-                "type": "string",
-                "format": "guid",
-                "nullable": true
-              },
               "id": {
-                "description": "The unique ID of the application.",
-                "example": "5be51be2-35ff-48f2-9214-00002248b242",
                 "type": "string",
                 "format": "guid"
               },
-              "isBundle": {
-                "description": "```true``` if the application is part of a product suite; otherwise, ```false```.",
-                "type": "boolean"
-              },
-              "isEndOfExtendedSupport": {
-                "description": "```true``` if the application has reached the end of the extended support period; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "isEndOfExtendedSupportDateNotAnnounced": {
-                "description": "```true``` if a date for when the extended support period will end has not been announced; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "isEndOfLife": {
-                "description": "```true``` if the application has reached its end of life; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "isEndOfLifeDateNotAnnounced": {
-                "description": "```true``` if a date for when the application will reach its end of life has not been announced; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "isEndOfSupport": {
-                "description": "```true``` if the application has reached the end of the support period; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "isEndOfSupportDateNotAnnounced": {
-                "description": "```true``` if a date for when the support period will end has not been announced; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "isGloballyGeneratedApplication": {
-                "description": "```true``` if the application is globally generated; otherwise, ```false```.",
-                "type": "boolean"
-              },
-              "isGroup": {
-                "description": "```true``` if the application is part of a group of applications; otherwise, ```false```.",
-                "type": "boolean"
-              },
-              "isHidden": {
-                "description": "```true``` if the application is hidden; otherwise, ```false```.",
-                "type": "boolean"
-              },
-              "isNoLicenseRequired": {
-                "description": "```true``` if the application does not require a license; otherwise, ```false```.",
-                "type": "boolean"
-              },
-              "isOs": {
-                "description": "```true``` if the application is an operating system; otherwise, ```false```.",
-                "type": "boolean"
-              },
-              "isReleaseDateNotAnnounced": {
-                "description": "```true``` if the release date for the application has not been announced; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "isWebApplication": {
-                "description": "```true``` if the application is online; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "manufacturer": {
-                "description": "The name of the application manufacturer.",
-                "example": "UNETsystem",
+              "name": {
                 "type": "string"
               },
               "metrics": {
                 "type": "array",
-                "description": "The metrics of the application.",
                 "items": {
                   "$ref": "#/components/schemas/ApplicationMetric"
                 }
               },
-              "name": {
-                "description": "The name of the application.",
-                "example": "Anyclick AUS 5",
+              "manufacturerId": {
+                "type": "string",
+                "format": "guid"
+              },
+              "manufacturer": {
                 "type": "string"
               },
-              "platform": {
-                "$ref": "#/components/schemas/PlatformType"
-              },
-              "updatedDate": {
-                "description": "The date the application was last updated.",
-                "type": "string",
-                "format": "date-time",
-                "nullable": true
-              },
-              "versionIndex": {
-                "description": "The version index.",
-                "example": 1050,
-                "type": "integer",
-                "format": "int32"
-              },
               "overridesApplicationId": {
-                "description": "The unique ID of the application that overrides this application.",
-                "example": "b0aef8cf-9338-4183-9569-96e81f5ea66e",
                 "type": "string",
                 "format": "guid",
                 "nullable": true
               },
+              "isOs": {
+                "type": "boolean"
+              },
+              "isGroup": {
+                "type": "boolean"
+              },
+              "isBundle": {
+                "type": "boolean"
+              },
+              "isHidden": {
+                "type": "boolean"
+              },
+              "isNoLicenseRequired": {
+                "type": "boolean"
+              },
+              "isGloballyGeneratedApplication": {
+                "type": "boolean"
+              },
+              "familyId": {
+                "type": "string",
+                "format": "guid",
+                "nullable": true
+              },
+              "editionIndex": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "versionIndex": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "isWebApplication": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "updatedDate": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
               "releaseDate": {
-                "description": "The date the application was released.",
                 "type": "string",
                 "format": "date-time",
                 "nullable": true
               },
               "endOfSupportDate": {
-                "description": "The date on which support for the application ends.",
                 "type": "string",
                 "format": "date-time",
                 "nullable": true
               },
               "endOfLifeDate": {
-                "description": "The end-of-life date for the application.",
                 "type": "string",
                 "format": "date-time",
                 "nullable": true
               },
               "endOfExtendedSupportDate": {
-                "description": "The date on which extended support for the application ends.",
                 "type": "string",
                 "format": "date-time",
                 "nullable": true
+              },
+              "isEndOfLife": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isEndOfSupport": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isEndOfExtendedSupport": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isReleaseDateNotAnnounced": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isEndOfSupportDateNotAnnounced": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isEndOfLifeDateNotAnnounced": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "isEndOfExtendedSupportDateNotAnnounced": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "platform": {
+                "$ref": "#/components/schemas/PlatformType"
               }
             }
           }
@@ -1819,21 +2587,19 @@
       "FilteredResponseOfApplicationCollection": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
         "properties": {
-          "pagination": {
-            "description": "The pagination details.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Pagination"
-              }
-            ]
-          },
           "items": {
             "type": "array",
-            
             "items": {
               "$ref": "#/components/schemas/ApplicationCollection"
             }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
           }
         }
       },
@@ -1847,7 +2613,6 @@
             "additionalProperties": false,
             "properties": {
               "_links": {
-                "description": "A collection of links to related resources.",
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/Link"
@@ -1859,7 +2624,7 @@
       },
       "CompatibilityType": {
         "type": "string",
-        "description": "The type of compatibility for the application.",
+        "description": "",
         "x-enumNames": [
           "Downgrade",
           "Upgrade"
@@ -1879,14 +2644,10 @@
             "additionalProperties": false,
             "properties": {
               "applicationId": {
-                "description": "The unique ID of the application.",
-                "example": "b814cda1-2c2a-455c-b288-57b642982eb0",
                 "type": "string",
                 "format": "guid"
               },
               "compatibleApplicationId": {
-                "description": "The unique ID of the compatible application.",
-                "example": "ff8cbc59-bfc3-4733-adc3-7f4d80b88f91",
                 "type": "string",
                 "format": "guid"
               },
@@ -1894,10 +2655,12 @@
                 "$ref": "#/components/schemas/CompatibilityType"
               },
               "compatibilityOrder": {
-                "description": "The order of the compatibility for the application.",
-                "example": 2,
                 "type": "integer",
                 "format": "int32"
+              },
+              "compatibilityApplicationName": {
+                "type": "string",
+                "nullable": true
               }
             }
           }
@@ -1906,21 +2669,19 @@
       "FilteredResponseOfApplicationCompatibility": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
         "properties": {
-          "pagination": {
-            "description": "The pagination details.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Pagination"
-              }
-            ]
-          },
           "items": {
             "type": "array",
-            
             "items": {
               "$ref": "#/components/schemas/ApplicationCompatibility"
             }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
           }
         }
       },
@@ -1934,7 +2695,6 @@
             "additionalProperties": false,
             "properties": {
               "_links": {
-                "description": "A collection of links to related resources.",
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/Link"
@@ -1944,331 +2704,23 @@
           }
         ]
       },
-      "Application": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/HateoasResource"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "id": {
-                "description": "The unique ID of the application.",
-                "example": "b814cda1-2c2a-455c-b288-57b642982eb0",
-                "type": "string",
-                "format": "guid"
-              },
-              "name": {
-                "description": "The name of the application.",
-                "example": "Oracle Database 21c",
-                "type": "string"
-              },
-              "description": {
-                "description": "The description of the application.",
-                "example": "Database by Oracle",
-                "type": "string",
-                "nullable": true
-              },
-              "metrics": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/ApplicationMetric"
-                }
-              },
-              "manufacturer": {
-                "description": "The manufacturer of the application.",
-                "example": "UNETsystem",
-                "type": "string"
-              },
-              "manufacturerWebsite": {
-                "description": "The website of the manufacturer of the application.",
-                "example": "www.ourcoolapp.com",
-                "type": "string",
-                "nullable": true
-              },
-              "language": {
-                "description": "The language that the application uses.",
-                "example": "English",
-                "type": "string"
-              },
-              "overridesApplicationId": {
-                "description": "The unique ID of the application that overrides this application.",
-                "example": "b0aef8cf-9338-4183-9569-96e81f5ea66e",
-                "type": "string",
-                "format": "guid",
-                "nullable": true
-              },
-              "isOs": {
-                "description": "```true``` if the application is an operating system; otherwise, ```false```.",
-                "type": "boolean"
-              },
-              "isGroup": {
-                "description": "```true``` if the application is part of a group of applications; otherwise, ```false```.",
-                "type": "boolean"
-              },
-              "isBundle": {
-                "description": "```true``` if the application is part of a product suite; otherwise, ```false```.",
-                "type": "boolean"
-              },
-              "isHidden": {
-                "description": "```true``` if the application is hidden; otherwise, ```false```.",
-                "type": "boolean"
-              },
-              "isNoLicenseRequired": {
-                "description": "```true``` if the application does not require a license; otherwise, ```false```.",
-                "type": "boolean"
-              },
-              "isGloballyGeneratedApplication": {
-                "description": "```true``` if the application is globally generated; otherwise, ```false```.",
-                "type": "boolean"
-              },
-              "familyId": {
-                "description": "The unique ID of the application family.",
-                "example": "e5f53402-a698-40d3-b502-5b70b2dda5b2",
-                "type": "string",
-                "format": "guid",
-                "nullable": true
-              },
-              "editionIndex": {
-                "description": "The edition index of the application.",
-                "example": 23,
-                "type": "integer",
-                "format": "int32"
-              },
-              "versionIndex": {
-                "description": "The version index of the application.",
-                "example": 4,
-                "type": "integer",
-                "format": "int32"
-              },
-              "isWebApplication": {
-                "description": "```true``` if the application is online; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "updatedDate": {
-                "description": "The date the application data was last updated.",
-                "type": "string",
-                "format": "date-time",
-                "nullable": true
-              },
-              "releaseDate": {
-                "description": "The date the application was released.",
-                "type": "string",
-                "format": "date-time",
-                "nullable": true
-              },
-              "endOfSupportDate": {
-                "description": "The date on which support for the application ends.",
-                "type": "string",
-                "format": "date-time",
-                "nullable": true
-              },
-              "endOfLifeDate": {
-                "description": "The end-of-life date for the application.",
-                "type": "string",
-                "format": "date-time",
-                "nullable": true
-              },
-              "endOfExtendedSupportDate": {
-                "description": "The date on which extended support for the application ends.",
-                "type": "string",
-                "format": "date-time",
-                "nullable": true
-              },
-              "isEndOfLife": {
-                "description": "```true``` if the application has reached its end of life; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "isEndOfSupport": {
-                "description": "```true``` if the application has reached the end of the support period; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "isEndOfExtendedSupport": {
-                "description": "```true``` if the application has reached the end of the extended support period; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "isReleaseDateNotAnnounced": {
-                "description": "```true``` if the release date for the application has not been announced; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "isEndOfSupportDateNotAnnounced": {
-                "description": "```true``` if a date for when the support period will end has not been announced; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "isEndOfLifeDateNotAnnounced": {
-                "description": "```true``` if a date for when the application will reach its end of life has not been announced; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "isEndOfExtendedSupportDateNotAnnounced": {
-                "description": "```true``` if a date for when the extended support period will end has not been announced; otherwise, ```false```.",
-                "type": "boolean",
-                "nullable": true
-              },
-              "platform": {
-                "$ref": "#/components/schemas/PlatformType"
-              }
-            }
-          }
-        ]
-      },
-      "ApplicationFamily": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/HateoasResource"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "id": {
-                "description": "The unique ID of the application family.",
-                "example": "ba593a8f-1563-432a-8fe4-f0ae3cc60979",
-                "type": "string",
-                "format": "guid"
-              },
-              "manufacturer": {
-                "description": "The manufacturer of the application family.",
-                "example": "Adobe",
-                "type": "string"
-              },
-              "name": {
-                "description": "The name of the application family.",
-                "example": "Creative Cloud",
-                "type": "string"
-              },
-              "description": {
-                "description": "The description of the application family.",
-                "example": "Includes Photoshop, Illustrator, Premiere Pro.",
-                "type": "string",
-                "nullable": true
-              }
-            }
-          }
-        ]
-      },
-      "FilteredResponseOfApplicationFamily": {
+      "Compatibility": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "pagination": {
-            "description": "The pagination details.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Pagination"
-              }
-            ]
+          "id": {
+            "type": "string",
+            "format": "guid"
           },
-          "items": {
-            "type": "array",
-            
-            "items": {
-              "$ref": "#/components/schemas/ApplicationFamily"
-            }
+          "sortOrder": {
+            "type": "integer",
+            "format": "int32"
           }
         }
-      },
-      "HateoasCollectionOfApplicationFamily": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/FilteredResponseOfApplicationFamily"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "_links": {
-                "description": "A collection of links to related resources.",
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Link"
-                }
-              }
-            }
-          }
-        ]
-      },
-      "ApplicationGroup": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/HateoasResource"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "id": {
-                "description": "The unique ID of the application group.",
-                "example": "a5aa7b50-f304-42b2-b5a1-69d16e13bec1",
-                "type": "string",
-                "format": "guid"
-              },
-              "childId": {
-                "description": "The unique ID of the child of the application group.",
-                "example": "72758ca4-c50e-4b31-bcb7-3a840e0af27f",
-                "type": "string",
-                "format": "guid"
-              },
-              "childName": {
-                "description": "The name of the child of the application group.",
-                "example": "Application group child",
-                "type": "string"
-              }
-            }
-          }
-        ]
-      },
-      "FilteredResponseOfApplicationGroup": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "pagination": {
-            "description": "The pagination details.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Pagination"
-              }
-            ]
-          },
-          "items": {
-            "type": "array",
-            
-            "items": {
-              "$ref": "#/components/schemas/ApplicationGroup"
-            }
-          }
-        }
-      },
-      "HateoasCollectionOfApplicationGroup": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/FilteredResponseOfApplicationGroup"
-          },
-          {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "_links": {
-                "description": "A collection of links to related resources.",
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Link"
-                }
-              }
-            }
-          }
-        ]
       },
       "MetricSetting": {
         "type": "string",
-        "description": "The setting of the metric.",
+        "description": "",
         "x-enumNames": [
           "None",
           "UsersWithUsage",
@@ -2288,7 +2740,7 @@
       },
       "MetricSettingIntervalType": {
         "type": "string",
-        "description": "The interval type of the metric setting.",
+        "description": "",
         "x-enumNames": [
           "Continuous",
           "PeriodIncludingCurrentMonth",
@@ -2302,6 +2754,408 @@
           "None"
         ]
       },
+      "MetricData": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "isDefault": {
+            "type": "boolean"
+          },
+          "metricSetting": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MetricSetting"
+              }
+            ]
+          },
+          "metricSettingIntervalType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MetricSettingIntervalType"
+              }
+            ]
+          },
+          "metricSettingInterval": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "minimumRequirement": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "licenseCost": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "licenseCostCurrency": {
+            "type": "string"
+          },
+          "customCompareValueTypeId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateApplication": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "serialNumbersLicenseKeys": {
+            "type": "string",
+            "nullable": true
+          },
+          "media": {
+            "type": "string",
+            "nullable": true
+          },
+          "systemOwner": {
+            "type": "string",
+            "nullable": true
+          },
+          "systemOwnerEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "systemOwnerPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "applicationUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "privacyPolicyUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "termsAndConditionsUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "alertNotUsed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "alertOverlicensing": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "alertUnderlicensing": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isApplyMetricsToUpgradeDowngradePathAllowed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isApplyMetricsToCrossEditionPathAllowed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isSimultaneousMultipleEditionsAllowed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isSimultaneousMultipleVersionsAllowed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isSecondaryUseRightsEnabled": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isNoLicenseRequired": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "releaseDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "endOfLifeDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "endOfSupportDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "endOfExtendedSupportDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "downgradeInstance": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "applicationCompatability": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Compatibility"
+            }
+          },
+          "metrics": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/MetricData"
+            }
+          }
+        }
+      },
+      "DeniedApplicationIdentifier": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HateoasResource"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "applicationId": {
+                "type": "string",
+                "format": "guid"
+              }
+            }
+          }
+        ]
+      },
+      "FilteredResponseOfDeniedApplicationIdentifier": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeniedApplicationIdentifier"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "HateoasCollectionOfDeniedApplicationIdentifier": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfDeniedApplicationIdentifier"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ApplicationFamily": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HateoasResource"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "guid"
+              },
+              "manufacturer": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "FilteredResponseOfApplicationFamily": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApplicationFamily"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "HateoasCollectionOfApplicationFamily": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfApplicationFamily"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ApplicationGroup": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HateoasResource"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "guid"
+              },
+              "childId": {
+                "type": "string",
+                "format": "guid"
+              },
+              "childName": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "FilteredResponseOfApplicationGroup": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApplicationGroup"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "HateoasCollectionOfApplicationGroup": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfApplicationGroup"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "MetadataApplicationIdentifier": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HateoasResource"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "applicationId": {
+                "type": "string",
+                "format": "guid"
+              }
+            }
+          }
+        ]
+      },
+      "FilteredResponseOfMetadataApplicationIdentifier": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MetadataApplicationIdentifier"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "HateoasCollectionOfMetadataApplicationIdentifier": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfMetadataApplicationIdentifier"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
       "Metric": {
         "allOf": [
           {
@@ -2312,29 +3166,22 @@
             "additionalProperties": false,
             "properties": {
               "id": {
-                "description": "The unique ID of the metric.",
-                "example": "5891a1d8-7fb0-45bd-b1f6-01c943f9c572",
                 "type": "string",
                 "format": "guid"
               },
               "name": {
-                "description": "The name of the metric.",
-                "example": "Metric name",
                 "type": "string"
               },
               "isDefault": {
-                "description": "```true``` if the metric is the default for this application; otherwise, ```false```.",
                 "type": "boolean"
               },
               "minimumRequirement": {
-                "description": "The minimum requirement for the metric.",
-                "example": 56,
                 "type": "integer",
                 "format": "int32",
                 "nullable": true
               },
               "metricSetting": {
-                
+                "nullable": true,
                 "oneOf": [
                   {
                     "$ref": "#/components/schemas/MetricSetting"
@@ -2342,7 +3189,7 @@
                 ]
               },
               "metricSettingIntervalType": {
-                
+                "nullable": true,
                 "oneOf": [
                   {
                     "$ref": "#/components/schemas/MetricSettingIntervalType"
@@ -2350,39 +3197,32 @@
                 ]
               },
               "metricSettingInterval": {
-                "description": "The interval setting of the metric.",
-                "example": 4,
                 "type": "integer",
                 "format": "int32",
                 "nullable": true
               },
               "customCompareValueType": {
-                "description": "The type of the custom compare value of the metric.",
-                "example": "Custom compare value type",
                 "type": "string"
               },
+              "customCompareValueTypeId": {
+                "type": "string",
+                "format": "guid",
+                "nullable": true
+              },
               "concurrencyInterval": {
-                "description": "The concurrency interval of the metric.",
-                "example": 6,
                 "type": "integer",
                 "format": "int32",
                 "nullable": true
               },
               "licenseCost": {
-                "description": "The license cost of the metric.",
-                "example": 299,
                 "type": "number",
                 "format": "decimal",
                 "nullable": true
               },
               "licenseCostCurrency": {
-                "description": "The currency of the license cost of the metric.",
-                "example": "USD",
                 "type": "string"
               },
               "licenseCostBase": {
-                "description": "The base of the license cost of the metric.",
-                "example": 50.2,
                 "type": "number",
                 "format": "decimal",
                 "nullable": true
@@ -2394,21 +3234,19 @@
       "FilteredResponseOfMetric": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
         "properties": {
-          "pagination": {
-            "description": "The pagination details.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Pagination"
-              }
-            ]
-          },
           "items": {
             "type": "array",
-            
             "items": {
               "$ref": "#/components/schemas/Metric"
             }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
           }
         }
       },
@@ -2422,7 +3260,186 @@
             "additionalProperties": false,
             "properties": {
               "_links": {
-                "description": "A collection of links to related resources.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "StockKeepingUnit": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HateoasResource"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "guid"
+              },
+              "sku": {
+                "type": "string"
+              },
+              "productName": {
+                "type": "string"
+              },
+              "metricId": {
+                "type": "string",
+                "format": "guid"
+              },
+              "assignmentTypeId": {
+                "type": "string",
+                "format": "guid"
+              },
+              "language": {
+                "type": "string"
+              },
+              "channel": {
+                "type": "string"
+              },
+              "isLicense": {
+                "type": "boolean"
+              },
+              "isMedia": {
+                "type": "boolean"
+              },
+              "isUpgrade": {
+                "type": "boolean"
+              },
+              "hasUpgradeRights": {
+                "type": "boolean"
+              },
+              "hasDowngradeRights": {
+                "type": "boolean"
+              },
+              "hasCrossEditionRights": {
+                "type": "boolean"
+              },
+              "hasCrossPlatformRights": {
+                "type": "boolean"
+              },
+              "hasVmUseRights": {
+                "type": "boolean"
+              },
+              "vmUseRightAssignmentLimitation": {
+                "type": "integer",
+                "format": "int32",
+                "nullable": true
+              },
+              "quantity": {
+                "type": "integer",
+                "format": "int32",
+                "nullable": true
+              },
+              "isTrusted": {
+                "type": "boolean"
+              },
+              "isLicenseBundle": {
+                "type": "boolean",
+                "nullable": true
+              },
+              "updatedDate": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "FilteredResponseOfStockKeepingUnit": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StockKeepingUnit"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "HateoasCollectionOfStockKeepingUnit": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfStockKeepingUnit"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "SkuApplication": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HateoasResource"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "skuId": {
+                "type": "string",
+                "format": "guid"
+              },
+              "applicationId": {
+                "type": "string",
+                "format": "guid"
+              }
+            }
+          }
+        ]
+      },
+      "FilteredResponseOfSkuApplication": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkuApplication"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "HateoasCollectionOfSkuApplication": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfSkuApplication"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/Link"
@@ -2442,142 +3459,166 @@
             "additionalProperties": false,
             "properties": {
               "applicationId": {
-                "description": "The unique ID of the store from which the application was purchased or rented.",
-                "example": "b4135599-2f9a-4ebc-ad8e-351575eacb70",
                 "type": "string",
                 "format": "guid"
               },
               "name": {
-                "description": "The name of the store from which the application was purchased or rented.",
-                "example": "Joe's Computers",
                 "type": "string"
               },
               "description": {
-                "description": "A description of the store from which the application was purchased or rented.",
-                "example": "307 Main Street",
                 "type": "string"
               },
               "purchasePriceBase": {
-                "description": "The base price to purchase the application from the store.",
-                "example": 649.99,
                 "type": "number",
                 "format": "decimal",
                 "nullable": true
               },
               "rentalPriceBase": {
-                "description": "The base price to rent the application from the store.",
-                "example": 75.00,
                 "type": "number",
                 "format": "decimal",
                 "nullable": true
               },
               "rentalPaymentPeriod": {
-                "description": "The payment period to rent the application from the store.",
-                "example": 6,
                 "type": "integer",
                 "format": "int32",
                 "nullable": true
               },
               "imageName": {
-                "description": "The name of the image for the store.",
-                "example": "Store image",
                 "type": "string"
               },
               "isOrganizationalApprovalRequired": {
-                "description": "```true``` if purchasing the application requires organizational approval; otherwise, ```false```.",
                 "type": "boolean"
               },
               "isApplicationOwnerApprovalRequired": {
-                "description": "```true``` if purchasing the application requires approval from the application owner; otherwise, ```false```.",
                 "type": "boolean"
               },
               "applicationOwnerUsername": {
-                "description": "The name of the user who can provide approval to purchase the application from the store.",
-                "example": "Ellie",
                 "type": "string"
               },
               "isSecondApprovalRequired": {
-                "description": "```true``` if purchasing the application from the store requires approval from a second approver; otherwise, ```false```.",
                 "type": "boolean"
               },
               "secondApprovalUsername": {
-                "description": "The name of the user who can provide second approval to purchase the application from the store.",
-                "example": "Bob",
                 "type": "string"
               },
               "isThirdApprovalRequired": {
-                "description": "```true``` if purchasing the application from the store requires approval from a third approver; otherwise, ```false```.",
                 "type": "boolean"
               },
               "thirdApprovalUsername": {
-                "description": "The name of the user who can provide third approval to purchase the application from the store.",
-                "example": "Parveen",
                 "type": "string"
               },
               "provisioningGroupType": {
-                "description": "The type of the provisioning group for the application from the store.",
-                "example": 72,
                 "type": "integer",
                 "format": "int32"
               },
               "provisioningGroupOU": {
-                "description": "The organizational unit of the provisioning group for the application from the store.",
-                "example": "Name of organizational unit",
                 "type": "string"
               },
               "computerGroupName": {
-                "description": "The name of the computer group from the store.",
-                "example": "Sales",
                 "type": "string"
               },
               "userGroupName": {
-                "description": "The name of the user group from the store.",
-                "example": "Technology",
                 "type": "string"
               },
               "status": {
-                "description": "The status of the store.",
-                "example": 3,
                 "type": "integer",
                 "format": "int32",
                 "nullable": true
               },
               "publishLevel": {
-                "description": "The publishing level of the store.",
-                "example": 5,
                 "type": "integer",
                 "format": "int32"
               },
               "uninstallOption": {
-                "description": "The uninstall option of the store.",
-                "example": 1,
                 "type": "integer",
                 "format": "int32"
               },
               "daysUntilUninstall": {
-                "description": "The number of days until the application is uninstalled.",
-                "example": 103,
                 "type": "integer",
                 "format": "int32",
                 "nullable": true
               },
               "daysUntilUninstallNotification": {
-                "description": "The number of days until the uninstall notification.",
-                "example": 96,
                 "type": "integer",
                 "format": "int32",
                 "nullable": true
               },
               "subscriptionExtensionsDays": {
-                "description": "The number of days the subscription is extended.",
-                "example": 101,
                 "type": "integer",
                 "format": "int32",
                 "nullable": true
               },
               "isUserUninstallApprovalRequired": {
-                "description": "```true``` if uninstalling the application from the store requires approval; otherwise, ```false```.",
                 "type": "boolean"
+              }
+            }
+          }
+        ]
+      },
+      "ApplicationsUsingCustomMetricRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "customMetricIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        }
+      },
+      "ApplicationsCustomMetric": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "customMetricId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "applicationId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "applicationName": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "FilteredResponseOfApplicationsCustomMetric": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApplicationsCustomMetric"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        }
+      },
+      "HateoasCollectionOfApplicationsCustomMetric": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FilteredResponseOfApplicationsCustomMetric"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "_links": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Link"
+                }
               }
             }
           }
@@ -2593,25 +3634,18 @@
             "additionalProperties": false,
             "properties": {
               "id": {
-                "description": "The unique ID of the application type.",
-                "example": "42767697-4849-4c42-bc79-6586e0c3722c",
                 "type": "string",
                 "format": "guid"
               },
-              "name": {
-                "description": "The name of the application type.",
-                "example": "Access software",
-                "type": "string"
-              },
               "parentId": {
-                "description": "The unique ID of the parent application.",
-                "example": "8dbec2e4-c131-4183-b2ee-9b05b53ec210",
                 "type": "string",
                 "format": "guid",
                 "nullable": true
               },
+              "name": {
+                "type": "string"
+              },
               "updatedDate": {
-                "description": "The date on which the application type was updated.",
                 "type": "string",
                 "format": "date-time"
               }
@@ -2622,21 +3656,19 @@
       "FilteredResponseOfApplicationType": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
         "properties": {
-          "pagination": {
-            "description": "The pagination details.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Pagination"
-              }
-            ]
-          },
           "items": {
             "type": "array",
-            
             "items": {
               "$ref": "#/components/schemas/ApplicationType"
             }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
           }
         }
       },
@@ -2650,7 +3682,6 @@
             "additionalProperties": false,
             "properties": {
               "_links": {
-                "description": "A collection of links to related resources.",
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/Link"
@@ -2670,23 +3701,17 @@
             "additionalProperties": false,
             "properties": {
               "id": {
-                "description": "The unique ID of the application.",
-                "example": "5be51be2-35ff-48f2-9214-00002248b242",
                 "type": "string",
                 "format": "guid"
               },
               "childId": {
-                "description": "The unique ID of the child application in the bundle or product suite for the application.",
-                "example": "59e6cbf6-f8e1-4199-96a9-788f03dc2950",
                 "type": "string",
                 "format": "guid"
               },
               "isMandatory": {
-                "description": "```true``` if the child application is a mandatory part of the bundle or product suite; otherwise, ```false```.",
                 "type": "boolean"
               },
               "isOptionalComponentRequired": {
-                "description": "```true``` if the child application is a required component of the bundle or product suite; otherwise, ```false```.",
                 "type": "boolean"
               }
             }
@@ -2696,21 +3721,19 @@
       "FilteredResponseOfBundle": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
         "properties": {
-          "pagination": {
-            "description": "The pagination details.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Pagination"
-              }
-            ]
-          },
           "items": {
             "type": "array",
-            
             "items": {
               "$ref": "#/components/schemas/Bundle"
             }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
           }
         }
       },
@@ -2724,7 +3747,6 @@
             "additionalProperties": false,
             "properties": {
               "_links": {
-                "description": "A collection of links to related resources.",
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/Link"
@@ -2744,9 +3766,7 @@
             "additionalProperties": false,
             "properties": {
               "name": {
-                "description": "The type of platform on which the application can run.",
-                "type": "string",
-                "example": "Windows"
+                "type": "string"
               }
             }
           }
@@ -2755,21 +3775,19 @@
       "FilteredResponseOfPlatformType": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "items",
+          "pagination"
+        ],
         "properties": {
-          "pagination": {
-            "description": "The pagination details.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Pagination"
-              }
-            ]
-          },
           "items": {
             "type": "array",
-            
             "items": {
               "$ref": "#/components/schemas/PlatformType2"
             }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
           }
         }
       },
@@ -2783,7 +3801,6 @@
             "additionalProperties": false,
             "properties": {
               "_links": {
-                "description": "A collection of links to related resources.",
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/Link"
