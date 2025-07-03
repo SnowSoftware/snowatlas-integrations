@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: 'SAM: Custom license metrics'
-  description: API for interacting with custom license metrics.
+  title: 'SAM: Custom metrics'
+  description: API for interacting with custom metrics.
   contact:
     name: Flexera
     url: https://www.flexera.com
@@ -16,12 +16,17 @@ servers:
           - eastus2
           - uksouth
         default: westeurope
+tags:
+  - name: Custom metrics
+    description: Operations related to custom metrics.
 paths:
   /api/custom-metrics/v1/custom-metrics:
     get:
-      summary: Get custom license metrics
-      description: Returns a collection of custom license metrics.
+      summary: Get custom metrics
+      description: Returns a collection of custom metrics.
       operationId: getCustomLicenseMetrics
+      tags:
+        - Custom metrics
       parameters: 
         - $ref: '#/components/parameters/PageSize'
         - $ref: '#/components/parameters/PageNumber'
@@ -54,9 +59,11 @@ paths:
         - BearerAuth: []
         
     post:
-      summary: Add custom license metric
-      description: Creates a custom license metric.
+      summary: Add custom metric
+      description: Creates a custom metric.
       operationId: addCustomLicenseMetric
+      tags:
+        - Custom metrics
       requestBody:
         content:
           application/json:
@@ -85,9 +92,11 @@ paths:
         - BearerAuth: []
         
     delete:
-      summary: Delete custom license metrics
-      description: Delete a collection of custom license metrics.
+      summary: Delete custom metrics
+      description: Delete a collection of custom metrics.
       operationId: deleteCustomLicenseMetrics
+      tags:
+        - Custom metrics
       requestBody:
         content:
           application/json:
@@ -108,14 +117,16 @@ paths:
         
   /api/custom-metrics/v1/custom-metrics/{customMetricId}:
     get:
-      summary: Get custom license metric
-      description: Returns the details of a given custom license metric.
+      summary: Get custom metric
+      description: Returns the details of a given custom metric.
       operationId: getCustomLicenseMetric
+      tags:
+        - Custom metrics
       parameters:
         - name: customMetricId
           in: path
           required: true
-          description: The unique ID of the custom license metric.
+          description: The unique ID of the custom metric.
           schema:
             type: string
             format: uuid
@@ -139,14 +150,16 @@ paths:
         
     
     put:
-      summary: Replace custom license metric
-      description: Replaces a custom license metric.
+      summary: Replace custom metric
+      description: Replaces a custom metric.
       operationId: replaceCustomLicenseMetric
+      tags:
+        - Custom metrics
       parameters:
         - name: customMetricId
           in: path
           required: true
-          description: The unique ID of the custom license metric.
+          description: The unique ID of the custom metric.
           schema:
             type: string
             format: uuid
@@ -174,14 +187,16 @@ paths:
         - BearerAuth: []
         
     delete:
-      summary: Delete custom license metric
-      description: Removes the given custom license metric.
+      summary: Delete custom metric
+      description: Removes the given custom metric.
       operationId: deleteCustomLicenseMetric
+      tags:
+        - Custom metrics
       parameters:
         - name: customMetricId
           in: path
           required: true
-          description: The unique ID of the custom license metric.
+          description: The unique ID of the custom metric.
           schema:
             type: string
             format: uuid
@@ -229,8 +244,10 @@ components:
   schemas:
     Link: 
       type: object
-      description: Represents a hypermedia link referenced from a IResource, according to HATEOAS.
-      additionalProperties: false
+      required:
+        - href
+        - rel
+        - method
       properties: 
         href:
           type: string
@@ -304,27 +321,28 @@ components:
           
     GetCustomLicenseMetricResponse:
       type: object
-      description: Response containing single custom license metric.
+      description: Response containing single custom metric.
       additionalProperties: false
       required:
         - id
         - name
         - description
         - customFieldId
+        - _links
       properties:
         id:
           type: string
-          description: The unique ID of the custom license metric.
+          description: The unique ID of the custom metric.
           format: uuid
           minLength: 1
           example: a8411272-aa0d-42f3-823f-0fb1ceee16c0
         name:
           type: string
-          description: Name of the custom license metric.
+          description: Name of the custom metric.
           example: Name
         description:
           type: string
-          description: Description of the custom license metric.
+          description: Description of the custom metric.
           example: Description
         customFieldId:
           type: string
@@ -342,12 +360,12 @@ components:
       allOf:
         - $ref: '#/components/schemas/GetCustomLicenseMetricResponse'
         - type: object
-          description: Represents response after querying custom license metric.
+          description: Represents response after querying custom metric.
           additionalProperties: false
           
     PostCustomLicenseMetricRequestV1:
       type: object
-      description: Request to create custom license metric.
+      description: Request to create custom metric.
       additionalProperties: false
       required:
         - name
@@ -355,11 +373,11 @@ components:
       properties:
         name:
           type: string
-          description: Name of the custom license metric.
+          description: Name of the custom metric.
           example: Name
         description:
           type: string
-          description: Description of the custom license metric.
+          description: Description of the custom metric.
           example: Name
         customFieldId:
           type: string
@@ -370,21 +388,21 @@ components:
           
     PostCustomLicenseMetricResponseV1:
       type: object
-      description: Response containing id of created custom license metric.
+      description: Response containing id of created custom metric.
       additionalProperties: false
       required:
         - id
       properties:
         id:
           type: string
-          description: The unique ID of the custom license metric.
+          description: The unique ID of the custom metric.
           format: uuid
           minLength: 1
           example: ab3263e4-a4dc-483e-ab4b-3ddd298f558e
           
     PutCustomLicenseMetricRequestV1:
       type: object
-      description: Request to update custom license metric.
+      description: Request to update custom metric.
       additionalProperties: false
       required:
         - name
@@ -392,11 +410,11 @@ components:
       properties:
         name:
           type: string
-          description: Name of the custom license metric.
+          description: Name of the custom metric.
           example: Name
         description:
           type: string
-          description: Description of the custom license metric.
+          description: Description of the custom metric.
           example: Name
         customFieldId:
           type: string
@@ -407,25 +425,26 @@ components:
           
     PutCustomLicenseMetricResponseV1:
       type: object
-      description: Response containing the updated custom license metric.
+      description: Response containing the updated custom metric.
       additionalProperties: false
       required:
         - id
       properties:
         id:
           type: string
-          description: The unique ID of the custom license metric.
+          description: The unique ID of the custom metric.
           format: uuid
           minLength: 1
           example: ab3263e4-a4dc-483e-ab4b-3ddd298f558e
     
     GetCustomLicenseMetricCollectionResponseV1:
       type: object
-      description: Response containing collection of custom license metrics.
+      description: Response containing collection of custom metrics.
       additionalProperties: false
       required:
         - items
         - pagination
+        - _links
       properties:
         items:
           type: array
@@ -444,14 +463,14 @@ components:
             
     DeleteCustomLicenseMetricsRequestV1:
       type: object
-      description: Response containing the updated custom license metric.
+      description: Response containing the updated custom metric.
       additionalProperties: false
       required:
         - ids
       properties:
         ids:
           type: array
-          description: The unique ID of the custom license metric.
+          description: The unique ID of the custom metric.
           items:
             type: string
             format: uuid
@@ -469,7 +488,7 @@ components:
               code: 400
               message: Filter field name needs to be formatted as a string.
     '403':
-      description: 'Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don''t have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.'
+      description: 'User has been authenticated, but is not allowed to perform the operation'
       content:
         application/json:
           schema:
