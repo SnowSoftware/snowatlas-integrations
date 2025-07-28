@@ -1,0 +1,351 @@
+openapi: 3.0.3
+info:
+  title: 'SaaS: Custom fields'
+  description: API for interacting with SaaS Custom fields.
+  version: 1.0.1
+  contact:
+    name: Flexera
+    url: https://www.flexera.com
+servers:
+  - url: https://{region}.snowsoftware.io
+    variables:
+      region:
+        enum:
+          - westeurope
+          - australiasoutheast
+          - eastus2
+          - uksouth
+        default: westeurope
+tags:
+  - name: Custom-Fields
+paths:
+  /api/saas/consolidated-view/v2/custom-fields/values:
+    patch:
+      summary: Update custom field values
+      description: Modifies one or more custom field values for the given resource.
+      operationId: updateCustomFieldsValues
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomFieldsRequest'
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpsertCustomFieldValueMessage'
+        '400':
+          $ref: '#/components/responses/400Response'
+        '500':
+          $ref: '#/components/responses/500Response'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+        - bearerAuth:
+            - saas.consolidation.view.crud
+      tags:
+        - Custom-Fields
+  /api/saas/consolidated-view/v2/custom-fields:
+    get:
+      summary: Get custom fields
+      description: Returns a collection of custom fields.
+      operationId: getcustomfields
+      parameters:
+        - name: filter
+          in: query
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          schema:
+            type: string
+            example: '?filter=''SaaSCategory -eq Application'''
+        - $ref: '#/components/parameters/PageNumberQuery'
+        - $ref: '#/components/parameters/PageSizeQuery'
+        - $ref: '#/components/parameters/SortQuery'
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                required:
+                  - pagination
+                  - items
+                properties:
+                  pagination:
+                    $ref: '#/components/schemas/PaginationResponse'
+                  items:
+                    description: A collection of custom fields.
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CustomField'
+        '400':
+          $ref: '#/components/responses/400Response'
+        '500':
+          $ref: '#/components/responses/500Response'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+        - bearerAuth:
+            - saas.consolidation.view.crud
+      tags:
+        - Custom-Fields
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    CustomFieldValue:
+      title: Custom Field Object
+      description: The custom field details for a resource.
+      type: object
+      properties:
+        name:
+          description: The name of the custom field.
+          example: color
+          type: string
+        value:
+          description: The value assigned to the custom field.
+          example: string
+          type: string
+        dataType:
+          description: The data type of the custom field.
+          example: string
+          type: string
+        currencyCode:
+          description: The code representing the currency used in monetary custom fields.
+          example: EUR
+          type: string
+      required:
+        - name
+        - value
+    UpdateCustomFieldsRequest:
+      type: object
+      required:
+        - id
+        - saasCategory
+        - customFields
+      properties:
+        id:
+          description: The unique ID of the resource.
+          type: string
+          example: 483c67cf-e247-4a82-bef7-b86a29560788
+        saasCategory:
+          description: The category of the custom field.
+          x-enumDescriptions:
+            Application: Update operation is performed for the application ID provided.
+            Subscription: Update operation is performed for the subscription ID provided.
+            User: Update operation is performed for the user ID provided.
+          type: string
+          enum:
+            - Application
+            - License
+            - User
+          example: Application
+        customFields:
+          description: The values of custom fields.
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomFieldValue'
+    UpsertCustomFieldValueMessage:
+      title: Upsert Custom Field Value Message
+      description: The payload carrying the values for custom fields to be inserted or updated.
+      type: object
+      properties:
+        tenantId:
+          description: The identifier of the tenant where the values are saved.
+          example: 2f86b198-04f3-4770-ad08-b32518206da0
+          type: string
+        saasCategory:
+          description: The category of the custom field.
+          x-enumDescriptions:
+            Application: Update operation is performed for the application ID provided.
+            Subscription: Update operation is performed for the subscription ID provided.
+            User: Update operation is performed for the user ID provided.
+          type: string
+          enum:
+            - Application
+            - License
+            - User
+          example: User
+        objectID:
+          description: The ID of the resource.
+          type: string
+          example: 483c67cf-e247-4a82-bef7-b86a29560788
+        customFields:
+          description: The values of custom fields.
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomFieldValue'
+        requesterId:
+          description: The identifier of the user who initiated the update request.
+          example: 483c67cf-e247-4a82-bef7-b86a29560788
+          type: string
+      required:
+        - tenantId
+        - requesterId
+        - saasCategory
+        - objectID
+        - customFields
+    ValidationError:
+      type: object
+      description: Validation error.
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code.
+          format: int32
+          example: 400
+        message:
+          type: string
+          description: The error message.
+          example: Filter field name needs to be formatted as a string.
+      required:
+        - code
+        - message
+    ErrorValidationResponse:
+      title: ErrorValidationResponse
+      description: Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ValidationError'
+      required:
+        - error
+    InternalError:
+      type: object
+      description: Internal error.
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code.
+          format: int32
+          example: 500
+        message:
+          type: string
+          description: The error message.
+          example: The service encountered an unexpected condition that prevented it from fulfilling the request.
+      required:
+        - code
+        - message
+    ErrorResponse:
+      description: Internal Server Error - Your request failed due to an internal error.
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/InternalError'
+      required:
+        - error
+    PaginationResponse:
+      description: The pagination details.
+      type: object
+      required:
+        - page_size
+        - page_number
+      properties:
+        page_size:
+          type: integer
+          description: The page size you requested.
+          example: 100
+        page_number:
+          type: integer
+          format: int64
+          description: The page number you requested.
+          example: 1
+        total_pages:
+          type: integer
+          format: int64
+          description: The total number of pages.
+          example: 1
+        total_items:
+          type: integer
+          format: int64
+          description: The total number of items.
+          example: 1
+    CustomField:
+      title: Custom Field
+      description: The details of a custom field.
+      type: object
+      properties:
+        id:
+          description: The unique ID of the custom field.
+          example: 2f86b198-04f3-4770-ad08-b32518206da0
+          type: string
+        dataType:
+          description: The data type of the custom field value.
+          example: string
+          type: string
+        predefinedValues:
+          description: The predefined values for the custom field.
+          type: array
+          example:
+            - blue
+            - red
+            - yellow
+          items:
+            type: string
+        saasCategory:
+          description: The category for the custom field.
+          example: saas-users
+          type: string
+        defaultValue:
+          description: The default value for the custom field.
+          example: blue
+          type: string
+        fieldName:
+          description: The name displayed for the custom field.
+          example: color
+          type: string
+        isCurrency:
+          description: Flag indicating whether the custom field represents a currency value.
+          example: true
+          type: boolean
+      required:
+        - id
+        - tenantId
+        - predefinedValues
+        - defaultValue
+        - saasCategory
+        - fieldName
+        - dataType
+        - isCurrency
+  responses:
+    400Response:
+      description: 'Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorValidationResponse'
+    500Response:
+      description: 'Internal Server Error: Your request failed due to an internal error.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    PageNumberQuery:
+      name: page_number
+      description: The page number.
+      in: query
+      schema:
+        type: integer
+        format: int32
+        default: 1
+    PageSizeQuery:
+      name: page_size
+      description: The maximum number of items in the response.
+      in: query
+      schema:
+        type: integer
+        format: int32
+        default: 100
+    SortQuery:
+      name: sort
+      in: query
+      description: For more information on sorting capability and examples, see [Sort API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#sort-api-call-results).
+      required: false
+      schema:
+        type: string
+        example: '?sort=field1:asc'
