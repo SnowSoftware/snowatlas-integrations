@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: "SaaS: Subscriptions"
+  title: 'SaaS: Subscriptions'
   description: API for interacting with SaaS Subscriptions.
-  version: 1.1.0
+  version: 1.1.1
   contact:
     name: Flexera
     url: https://www.flexera.com
@@ -16,6 +16,8 @@ servers:
           - eastus2
           - uksouth
         default: westeurope
+tags:
+  - name: Subscriptions
 paths:
   /api/saas/consolidated-view/v1/subscriptions/{subscriptionId}/insights/{insightRuleId}/users:
     get:
@@ -23,47 +25,25 @@ paths:
       description: Returns a collection of users for a subscription insight.
       operationId: getSaasConsolidatedViewV1ApplicationsIdInsightsInsightruleidUsers
       responses:
-        "200":
-          description: "OK: Your request succeeded."
+        '200':
+          description: 'OK: Your request succeeded.'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SubscriptionInsightUsersResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
+                $ref: '#/components/schemas/SubscriptionInsightUsersResponse'
+        '400':
+          $ref: '#/components/responses/400Response'
+        '404':
+          $ref: '#/components/responses/404Response'
+        '500':
+          $ref: '#/components/responses/500Response'
       parameters:
-        - name: subscriptionId
-          in: path
-          required: true
-          schema:
-            type: string
-          example: a7a75b83-2690-4cc9-b652-a0fbe93dba4a
-          description: The unique ID of the subscription.
-        - name: insightRuleId
-          in: path
-          required: true
-          schema:
-            type: string
-          example: 577ee610-95f2-4883-abaa-d702e73c3a10
-          description: The unique ID of the insight.
-        - $ref: "#/components/parameters/PageSize"
-        - $ref: "#/components/parameters/PageNumber"
-        - name: filter
-          description: "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results)."
-          in: query
-          schema:
-            type: string
-            example: ?filter=field1 -eq "abc"
-        - name: sort
-          description: "For more information on sorting capability and examples, see [Sort API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#sort-api-call-results)."
-          in: query
-          schema:
-            type: string
-            example: ?sort=field1:asc
+        - $ref: '#/components/parameters/SubscriptionIdPath'
+        - $ref: '#/components/parameters/InsightRuleIdPath'
+        - $ref: '#/components/parameters/PageNumberQuery'
+        - $ref: '#/components/parameters/PageSizeQuery'
+        - $ref: '#/components/parameters/FilterQuery'
+        - $ref: '#/components/parameters/SortQuery'
       security:
         - bearerAuth:
             - saas.consolidation.view.r
@@ -75,35 +55,17 @@ paths:
       description: Removes the given one or more assigned users from a subscription.
       operationId: deleteSaasConsolidatedViewV1UsersDelete
       parameters:
-        - name: subscriptionId
-          in: path
-          required: true
-          schema:
-            type: string
-          example: a7a75b83-2690-4cc9-b652-a0fbe93dba4a
-          description: The unique ID of the subscription.
-        - name: userIds
-          in: path
-          required: true
-          description: The unique ID of the of the subscriptions.
-          schema:
-            type: array
-            items: 
-              type: string
-            example:
-              [
-                d69809c5-e4c0-4d22-be9f-f541f6a265ee,
-                f90eeb4b-614b-432c-b506-4203a2db60c8,
-              ]
+        - $ref: '#/components/parameters/SubscriptionIdPath'
+        - $ref: '#/components/parameters/UserIdsPath'
       responses:
-        "204":
-          $ref: "#/components/responses/204"
-        "400":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
+        '204':
+          $ref: '#/components/responses/204Response'
+        '400':
+          $ref: '#/components/responses/400Response'
+        '404':
+          $ref: '#/components/responses/404Response'
+        '500':
+          $ref: '#/components/responses/500Response'
       security:
         - bearerAuth:
             - saas.consolidation.view.crud
@@ -115,18 +77,12 @@ paths:
       description: Returns a collection of users assigned to a subscription.
       operationId: getSubscriptionUsers
       parameters:
-        - name: subscriptionId
-          in: path
-          required: true
-          schema:
-            type: string
-          example: a7a75b83-2690-4cc9-b652-a0fbe93dba4a
-          description: The unique ID of the user.
-        - $ref: "#/components/parameters/PageSize"
-        - $ref: "#/components/parameters/PageNumber"
+        - $ref: '#/components/parameters/SubscriptionIdPath'
+        - $ref: '#/components/parameters/PageNumberQuery'
+        - $ref: '#/components/parameters/PageSizeQuery'
       responses:
-        "200":
-          description: "OK: Your request succeeded."
+        '200':
+          description: 'OK: Your request succeeded.'
           content:
             application/json:
               schema:
@@ -135,103 +91,133 @@ paths:
                   - items
                 properties:
                   pagination:
-                    $ref: "#/components/schemas/Pagination"
+                    $ref: '#/components/schemas/PaginationResponse'
                   items:
                     type: array
                     description: A collection of subscription users.
                     items:
-                      $ref: "#/components/schemas/User"
-        "400":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
+                      $ref: '#/components/schemas/SubscriptionUser'
+        '400':
+          $ref: '#/components/responses/400Response'
+        '404':
+          $ref: '#/components/responses/404Response'
+        '500':
+          $ref: '#/components/responses/500Response'
       security:
         - bearerAuth:
             - saas.consolidation.view.r
       tags:
         - Subscriptions
-tags:
-  - name: Subscriptions
+  /api/saas/consolidated-view/v1/subscriptions/{subscriptionId}/users/consumption:
+    get:
+      summary: Get subscription user consumptions
+      description: Returns a collection of subscription users and their consumption details.
+      operationId: getSaasConsolidatedViewV1SubscriptionUsersConsumption
+      parameters:
+        - $ref: '#/components/parameters/SubscriptionIdPath'
+        - $ref: '#/components/parameters/PageNumberQuery'
+        - $ref: '#/components/parameters/PageSizeQuery'
+        - $ref: '#/components/parameters/FilterQuery'
+        - $ref: '#/components/parameters/SortQuery'
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                required:
+                  - pagination
+                  - items
+                properties:
+                  pagination:
+                    $ref: '#/components/schemas/PaginationResponse'
+                  items:
+                    description: A collection of Users Consumption.
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SubscriptionUserConsumption'
+        '400':
+          $ref: '#/components/responses/400Response'
+        '404':
+          $ref: '#/components/responses/404Response'
+        '500':
+          $ref: '#/components/responses/500Response'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+      tags:
+        - Subscriptions
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   parameters:
-    PageSize:
-      name: page_size
-      in: query
-      required: false
-      description: The maximum number of items in the response.
+    SubscriptionIdPath:
+      in: path
+      name: subscriptionId
+      required: true
       schema:
-        type: integer
-        default: 100
-        maximum: 1000
-    PageNumber:
+        type: string
+      example: a7a75b83-2690-4cc9-b652-a0fbe93dba4a
+      description: The unique ID of the subscription.
+    InsightRuleIdPath:
+      name: insightRuleId
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 577ee610-95f2-4883-abaa-d702e73c3a10
+      description: The unique ID of the insight.
+    PageNumberQuery:
       name: page_number
-      in: query
-      required: false
       description: The page number.
+      in: query
       schema:
         type: integer
-        format: int64
+        format: int32
         default: 1
-  responses:
-    "204":
-      description: "No Content: Your request succeeded, but the response message was empty."
-    "400":
-      description: "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request."
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/ErrorResponse"
-          example:
-            error:
-              code: 400
-              message: Filter field name needs to be formatted as a string.
-    "404":
-      description: "Not Found: The operation you requested failed because a resource associated with your request could not be found."
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/ErrorResponse"
-          example:
-            error:
-              code: 404
-              message: Resource with ID '32aeda0a-80dc-475a-907f-2d250a3a8614' not found.
-    "500":
-      description: "Internal Server Error: Your request failed due to an internal error."
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/ErrorResponse"
-          example:
-            error:
-              code: 500
-              message: The service encountered an unexpected condition that prevented it from fulfilling the request.
+    PageSizeQuery:
+      name: page_size
+      description: The maximum number of items in the response.
+      in: query
+      schema:
+        type: integer
+        format: int32
+        default: 100
+    FilterQuery:
+      name: filter
+      in: query
+      description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+      required: false
+      schema:
+        type: string
+        example: '?filter=field1 -eq ''abc'''
+    SortQuery:
+      name: sort
+      in: query
+      description: For more information on sorting capability and examples, see [Sort API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#sort-api-call-results).
+      required: false
+      schema:
+        type: string
+        example: '?sort=field1:asc'
+    UserIdsPath:
+      in: path
+      name: userIds
+      required: true
+      description: The unique ID of the of the subscriptions.
+      schema:
+        type: array
+        items:
+          type: string
+        example:
+          - d69809c5-e4c0-4d22-be9f-f541f6a265ee
+          - f90eeb4b-614b-432c-b506-4203a2db60c8
   schemas:
-    ErrorResponse:
-      type: object
-      required:
-        - error
-      properties:
-        error:
-          description: The error details.
-          type: object
-          required:
-            - code
-            - message
-          properties:
-            code:
-              type: integer
-              format: int32
-              description: The HTTP status code.
-              example: 400
-            message:
-              type: string
-              description: The error message.
-              example: "Filter field name needs to be formatted as a string."
-    User:
+    SubscriptionUser:
       title: User
-      description: "A discovered user in your SaaS estate."
+      description: A discovered user in your SaaS estate.
       type: object
       properties:
         country:
@@ -240,7 +226,7 @@ components:
           type: string
         createdDate:
           description: The date the user was created.
-          example: "2024-05-25T00:00:00Z"
+          example: '2024-05-25T00:00:00Z'
           type: string
           format: date-time
         department:
@@ -249,15 +235,17 @@ components:
           type: string
         discoveryTypes:
           description: The unique IDs of the discovery source types where the user was detected. For information on discovery source types, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
-          example: [1, 2]
+          example:
+            - 1
+            - 2
           x-enumDescriptions:
-            "0": SaaS connector - Represents integration with SaaS applications for automated data collection and management.
-            "1": Manually added - Indicates resources or applications manually added by users without automated discovery.
-            "2": Browser unverified - Refers to browser-based applications that have not been verified for compliance or usage.
-            "3": SSO - Represents Single Sign-On integrations for centralized user authentication.
-            "4": Device - Refers to physical or virtual devices managed within the IT environment.
-            "7": Browser verified - Denotes browser-based applications that have been verified for compliance or usage.
-            "8": CASB - Represents Cloud Access Security Broker integrations to enhance cloud security and compliance.
+            '0': SaaS connector - Represents integration with SaaS applications for automated data collection and management.
+            '1': Manually added - Indicates resources or applications manually added by users without automated discovery.
+            '2': Browser unverified - Refers to browser-based applications that have not been verified for compliance or usage.
+            '3': SSO - Represents Single Sign-On integrations for centralized user authentication.
+            '4': Device - Refers to physical or virtual devices managed within the IT environment.
+            '7': Browser verified - Denotes browser-based applications that have been verified for compliance or usage.
+            '8': CASB - Represents Cloud Access Security Broker integrations to enhance cloud security and compliance.
           type: array
           items:
             type: integer
@@ -275,24 +263,24 @@ components:
           example: 2f86b198-04f3-4770-ad08-b32518206da0
           type: string
         isEnabled:
-          description: "```true``` if the enabled state of the user in the discovery source is true.; otherwise, ```false```."
+          description: '```true``` if the enabled state of the user in the discovery source is true.; otherwise, ```false```.'
           example: true
           type: boolean
         isInReview:
-          description: "```true``` if user has been marked as one to be analyzed further, or as a reminder for taking action on their subscriptions; otherwise, ```false```."
+          description: '```true``` if user has been marked as one to be analyzed further, or as a reminder for taking action on their subscriptions; otherwise, ```false```.'
           example: true
           type: boolean
         isOnline:
-          description: "```true``` if user has been marked as a SaaS user; who does not have a device that is inventoried in your organization. This is common for, for example, consultants and other temporary staff; otherwise, ```false```."
+          description: '```true``` if user has been marked as a SaaS user; who does not have a device that is inventoried in your organization. This is common for, for example, consultants and other temporary staff; otherwise, ```false```.'
           example: true
           type: boolean
         isQualified:
-          description: "```true``` if has been marked to be included in Snow's services which incur a cost; otherwise, ```false```."
+          description: '```true``` if has been marked to be included in Snow''s services which incur a cost; otherwise, ```false```.'
           example: true
           type: boolean
         lastActive:
           description: The date of last user activity in relevant applications.
-          example: "2024-06-28T00:00:00Z"
+          example: '2024-06-28T00:00:00Z'
           type: string
           format: date-time
         licenseCount:
@@ -302,21 +290,25 @@ components:
           format: int32
         potentialSavings:
           description: The monthly subscription costs for users who are inactive or have no activity.
-          example: 500.0
+          example: 500
           type: number
           format: double
         status:
           description: The activity status of the user in relevant applications.
-          example: "Active"
+          example: Active
           type: string
         userCostPerMonth:
           description: The monthly cost of the user's subscription entitlements.
-          example: 1000.0
+          example: 1000
           type: number
           format: double
         username:
           description: The username of the user.
           example: john.doe_1@org.com
+          type: string
+        employmentStatus:
+          description: The employment status of the user.
+          example: Employed
           type: string
       required:
         - id
@@ -363,33 +355,9 @@ components:
         - subscriptionId
         - subscriptionName
         - lastActive
-    SubscriptionInsightUsersResponse:
-      title: SubscriptionInsightUsersResponse
-      description: A collection of users that relate to a subscription insight.
-      type: object
-      properties:
-        items:
-          description: A collection of the requested paginated items.
-          type: array
-          items:
-            allOf:
-              - $ref: "#/components/schemas/User"
-              - properties:                                     
-                  details:
-                    type: array
-                    description: "A collection of the user's subscriptions that related to the insight."
-                    items:
-                      $ref: "#/components/schemas/SubscriptionInsightsUserDetail"
-                required:              
-                  - details
-        pagination:
-          $ref: "#/components/schemas/Pagination"
-      required:
-        - items
-        - pagination
-    Pagination:
-      type: object
+    PaginationResponse:
       description: The pagination details.
+      type: object
       required:
         - page_size
         - page_number
@@ -413,8 +381,260 @@ components:
           format: int64
           description: The total number of items.
           example: 1
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    SubscriptionInsightUsersResponse:
+      title: SubscriptionInsightUsersResponse
+      description: A collection of users that relate to a subscription insight.
+      type: object
+      properties:
+        items:
+          description: A collection of the requested paginated items.
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/SubscriptionUser'
+              - properties:
+                  details:
+                    type: array
+                    description: A collection of the user's subscriptions that related to the insight.
+                    items:
+                      $ref: '#/components/schemas/SubscriptionInsightsUserDetail'
+                required:
+                  - details
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+      required:
+        - items
+        - pagination
+    ValidationError:
+      type: object
+      description: Validation error.
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code.
+          format: int32
+          example: 400
+        message:
+          type: string
+          description: The error message.
+          example: Filter field name needs to be formatted as a string.
+      required:
+        - code
+        - message
+    ErrorValidationResponse:
+      title: ErrorValidationResponse
+      description: Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ValidationError'
+      required:
+        - error
+    NotFoundError:
+      type: object
+      description: Not found error.
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code.
+          format: int32
+          example: 404
+        message:
+          type: string
+          description: The error message.
+          example: Resource with ID '32aeda0a-80dc-475a-907f-2d250a3a8614' not found.
+      required:
+        - code
+        - message
+    NotFoundResponse:
+      description: The requested resource could not be found.
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/NotFoundError'
+      required:
+        - error
+    InternalError:
+      type: object
+      description: Internal error.
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code.
+          format: int32
+          example: 500
+        message:
+          type: string
+          description: The error message.
+          example: The service encountered an unexpected condition that prevented it from fulfilling the request.
+      required:
+        - code
+        - message
+    ErrorResponse:
+      description: Internal Server Error - Your request failed due to an internal error.
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/InternalError'
+      required:
+        - error
+    SubscriptionUserConsumption:
+      title: SubscriptionUserConsumption
+      type: object
+      properties:
+        activityThreshold:
+          type: integer
+          format: int32
+          example: 10
+          description: Number of activity Threshold.
+        country:
+          description: Name of the country.
+          example: India
+          type: string
+        createdDate:
+          type: string
+          format: date
+          description: Date of created Date.
+          example: '2024-10-01'
+        department:
+          type: string
+          description: Department of the user.
+          example: Sales
+        id:
+          description: The unique ID of the subscription.
+          example: ac2c7870-6457-4a99-bafb-467eaf5de8e4
+          type: string
+        discoveryTypes:
+          type: array
+          description: A collection of discovery types.
+          items:
+            type: integer
+            format: int32
+            example: 1
+        displayName:
+          type: string
+          description: Display name of the user.
+          example: John Doe.
+        email:
+          description: The email address of the user.
+          example: john.doe@organization.com
+          type: string
+        isEnabled:
+          example: true
+          description: '```true``` if user should be Enabled; otherwise, ```false```.'
+          type: boolean
+        isInReview:
+          type: boolean
+          description: '```true``` if user should be reviewed; otherwise, ```false```.'
+          example: true
+        isMonitored:
+          example: true
+          description: '```true``` if user should be Monitored; otherwise, ```false```.'
+          type: boolean
+        isOnline:
+          type: boolean
+          description: '```true``` if user should be online; otherwise, ```false```.'
+          example: true
+        isQualified:
+          description: '```true``` if user should be Qualified; otherwise, ```false```.'
+          example: true
+          type: boolean
+        lastActive:
+          type: string
+          format: date-time
+          description: Time of last user activity in relevant applications.
+          example: '2030-01-02T15:04:05'
+        lastActiveValueInInt:
+          type: integer
+          format: int32
+          example: 1
+          description: Last active value in int.
+        lastActiveValueType:
+          type: integer
+          description: User last active value type.
+          example: 5
+        licenseCount:
+          type: integer
+          format: int32
+          description: Count of all licences.
+          example: 10
+        manuallyAssigned:
+          example: true
+          description: '```true``` if user should be manuallyAssigned; otherwise, ```false```.'
+          type: boolean
+        potentialSavings:
+          description: The monthly subscription costs for users who are inactive or have no activity.
+          example: 500
+          type: number
+          format: double
+        roles:
+          type: array
+          items:
+            type: string
+          description: The list of roles user is assigned to.
+          example:
+            - GCS Support Engineer
+        status:
+          type: string
+          description: Status of the user.
+          example: Active
+        userCostPerMonth:
+          description: The monthly cost of the user entitlements.
+          example: 1000
+          type: number
+          format: double
+        username:
+          description: The user name.
+          example: john.doe@organization.com
+          type: string
+        envelopeusage:
+          description: The usage of the subscription by the user.
+          type: integer
+          format: int32
+          example: 2
+      required:
+        - activityThreshold
+        - country
+        - createdDate
+        - id
+        - department
+        - discoveryTypes
+        - displayName
+        - email
+        - isEnabled
+        - isInReview
+        - isMonitored
+        - isOnline
+        - isQualified
+        - lastActive
+        - lastActiveValueInInt
+        - lastActiveValueType
+        - licenseCount
+        - manuallyAssigned
+        - potentialSavings
+        - role
+        - status
+        - userCostPerMonth
+        - username
+        - envelopeusage
+  responses:
+    400Response:
+      description: 'Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorValidationResponse'
+    404Response:
+      description: 'Not Found: The operation you requested failed because a resource associated with your request could not be found.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFoundResponse'
+    500Response:
+      description: 'Internal Server Error: Your request failed due to an internal error.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    204Response:
+      description: 'No Content: Your request succeeded, but the response message was empty.'
