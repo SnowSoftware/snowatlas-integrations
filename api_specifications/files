@@ -1,0 +1,487 @@
+openapi: 3.0.3
+info:
+  title: 'SAM: Files'
+  description: API for managing SAM files.
+  contact:
+    name: 'Flexera'
+    url: https://www.flexera.com
+  version: '0.1.23'
+servers:
+  - url: 'https://{region}.snowsoftware.io'
+    variables:
+      region:
+        enum:
+          - westeurope
+          - australiasoutheast
+          - eastus2
+          - uksouth
+        default: westeurope
+paths:
+  /api/sam/v1/files/asset/{assetId}:
+    get:
+      tags:
+        - Files collection
+      summary: Get asset files
+      description: Returns a collection of files for the given asset.
+      operationId: getAssetFilesV1
+      parameters:
+        - name: assetId
+          in: path
+          required: true
+          description: The unique ID of the asset.
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/PageNumber'
+        - name: filter
+          in: query
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          required: false
+          schema: {
+            "type": "string"
+          }
+        - name: sort
+          in: query
+          description: For more information on sorting capability and examples, see [Sort API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#sort-api-call-results).
+          required: false
+          schema: {
+            "type": "string"
+          }
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAssetFilesV1'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - BearerAuth: [ ]
+  /api/sam/v1/files/{id}:
+    get:
+      tags:
+        - Files
+      summary: Get file
+      description: Returns the details of the given file.
+      operationId: getFileDetailsV1
+      parameters:
+        - name: id
+          in: path
+          description: The unique ID of the file.
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getFileDetailsV1'
+        '302':
+          description: 'Found: The file details are available at the URL in the Location header.'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - BearerAuth: [ ]
+    put:
+      tags:
+        - Files
+      summary: Replace file metadata
+      description: Replaces file's metadata.
+      operationId: replaceFileForAsset
+      parameters:
+        - name: id
+          in: path
+          description: The unique ID of the file.
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateFileRequestV1'
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getFileDetailsV1'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - BearerAuth: [ ]
+  /api/sam/v1/files:
+    post:
+      tags:
+        - Files
+      summary: Add file
+      description: Creates a single file for an asset.
+      operationId: addFile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createFileRequestV1'
+      responses:
+        '201':
+          description: 'Created: Your request created something new. Usually, this is a call that used the POST method and will allow a GET method to retrieve it later.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateFileResponseV1'
+          headers:
+            Location:
+              description: The relative path to the newly created resource.
+              schema:
+                type: string
+
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - BearerAuth: [ ]
+  /api/sam/v1/files/delete/{id}:
+    delete:
+      tags:
+        - Files
+      summary: Delete file
+      description: Removes the given file.
+      operationId: deleteFileForAsset
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique ID of the file.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: 'No Content: Your request succeeded, but the response message was empty.'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - BearerAuth: [ ]
+components:
+  parameters:
+
+    PageSize:
+      name: page_size
+      in: query
+      required: false
+      description: The maximum number of items in the response.
+      schema: {
+        "type": "integer",
+        "default": 100
+      }
+
+    PageNumber:
+      name: page_number
+      in: query
+      required: false
+      description: The page number.
+      schema: {
+        "type": "integer",
+        "format": "int64",
+        "default": 1
+      }
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    getAssetFilesV1:
+      type: object
+      description: Response containing a list of files.
+      additionalProperties: false
+      required:
+        - items
+        - pagination
+      properties:
+        items:
+          type: array
+          description: A collection of items.
+          items:
+            $ref: '#/components/schemas/getFileDetailsV1'
+        pagination:
+          description: The pagination details.
+          oneOf:
+            - $ref: '#/components/schemas/Pagination'
+
+    getFileDetailsV1:
+      type: object
+      description: Response containing the details of a file.
+      required:
+        - id
+        - fileName
+        - fileTitle
+        - status
+        - assetId
+        - assetTypeId
+        - tenantId
+        - assetOrgId
+        - insertedTs
+        - modifiedTs
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique ID of the asset.
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        fileName:
+          type: string
+          description: The file name with extension separated by a dot.
+          example: "file.txt"
+        fileTitle:
+          type: string
+          description: The file title. Optional.
+          example: "file title"
+        description:
+          type: string
+          description: The file description. Optional.
+          example: "Document needed for OS installation"
+        assetId:
+          type: string
+          format: uuid
+          description: The unique ID of the asset.
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        assetTypeId:
+          type: string
+          format: uuid
+          description: The unique ID of the asset type.
+          example: "56133D81-BBDB-4BDC-A4D1-4E64CA494D08"
+        assetOrgId:
+          type: string
+          description: The unique ID of the Organization asset.
+          example: "56133D81-BBDB-4BDC-A4D1-4E64CA494D08"
+        insertedTs:
+          type: string
+          description: Inserted timestamp.
+          example: "2025-04-24T18:43:03Z"
+        modifiedTs:
+          type: string
+          description: Modified timestamp.
+          example: "2025-04-24T18:43:03Z"
+
+    createFileRequestV1:
+      type: object
+      description: Request for creating a single file.
+      required:
+        - fileTitle
+        - description
+        - fileName
+        - assetId
+        - assetTypeId
+        - assetOrgId
+      properties:
+        fileTitle:
+          type: string
+          description: The file title. Optional.
+          example: "file title"
+        description:
+          type: string
+          description: The file description.
+          example: "Document needed for OS installation"
+        fileName:
+          type: string
+          description: The file name with extension separated by a dot.
+          example: "file.txt"
+        assetId:
+          type: string
+          format: uuid
+          description: The unique ID of the asset.
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        assetTypeId:
+          type: string
+          format: uuid
+          description: The unique ID of the asset type.
+          example: "56133D81-BBDB-4BDC-A4D1-4E64CA494D08"
+        fileType:
+          type: string
+          description: The file type.
+          example: "application/pdf"
+
+    updateFileRequestV1:
+      type: object
+      description: Request for updating a single asset's file.
+      properties:
+        fileTitle:
+          type: string
+          description: The title for the file.
+          example: "A title"
+        description:
+          type: string
+          description: The file description.
+          example: "Document needed for OS installation"
+
+    CreateFileResponseV1:
+      type: object
+      description: Response for creating an asset file.
+      required:
+        - id
+        - fileName
+        - fileTitle
+        - status
+        - assetId
+        - assetTypeId
+        - tenantId
+        - assetOrgId
+        - insertedTs
+        - modifiedTs
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique ID of the asset.
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        fileTitle:
+          type: string
+          description: The file title. Optional.
+          example: "file title"
+        status:
+          type: string
+          description: The file status.
+          example: "UploadInProgress"
+        description:
+          type: string
+          description: The file description. Optional.
+          example: "Document needed for OS installation"
+        fileName:
+          type: string
+          description: The file name with extension separated by a dot.
+          example: "file.txt"
+        assetId:
+          type: string
+          format: uuid
+          description: The unique ID of the asset.
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        assetTypeId:
+          type: string
+          format: uuid
+          description: The unique ID of the asset type.
+          example: "56133D81-BBDB-4BDC-A4D1-4E64CA494D08"
+        assetOrgId:
+          type: string
+          description: The unique ID of the Organization asset.
+          example: "56133D81-BBDB-4BDC-A4D1-4E64CA494D08"
+        insertedTs:
+          type: string
+          description: Inserted timestamp.
+          format: date-time
+          example: "2025-04-24T18:43:03Z"
+        modifiedTs:
+          type: string
+          format: date-time
+          description: Modified timestamp.
+          example: "2025-04-24T18:43:03Z"
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
+    Error:
+      description: The error details.
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: The HTTP status code.
+        message:
+          type: string
+          description: The error message.
+
+    Pagination:
+      type: object
+      description: The pagination details.
+      additionalProperties: false
+      required:
+        - page_size
+        - page_number
+      properties:
+        page_size:
+          type: integer
+          description: The page size you requested.
+          format: int32
+          example: 15
+        page_number:
+          type: integer
+          description: The page number you requested.
+          format: int32
+          example: 1
+        total_pages:
+          type: integer
+          description: The total number of pages.
+          format: int32
+          nullable: true
+          example: 5
+        total_items:
+          type: integer
+          description: The total number of items.
+          format: int32
+          nullable: true
+          example: 50
+  responses:
+    '400':
+      description: 'Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: 400
+              message: Filter field name needs to be formatted as a string.
+    '404':
+      description: 'Not Found: The operation you requested failed because a resource associated with your request could not be found.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: 404
+              message: Resource with ID '32aeda0a-80dc-475a-907f-2d250a3a8614' not found.
+    '500':
+      description: 'Internal Server Error: Your request failed due to an internal error.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: 500
+              message: The service encountered an unexpected condition that prevented it from fulfilling the request.
+tags:
+  - name: Files
+  - name: Files collection
