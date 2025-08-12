@@ -1,0 +1,439 @@
+openapi: 3.0.3
+info:
+  title: 'SAM: Links'
+  description: API for interacting with SAM links.
+  contact:
+    name: Flexera
+    url: https://www.flexera.com
+  version: '1.0.0'
+servers:
+  - url: 'https://{region}.snowsoftware.io'
+    variables:
+      region:
+        enum:
+          - westeurope
+          - australiasoutheast
+          - eastus2
+          - uksouth
+        default: westeurope
+paths:
+  /api/sam/v1/links/asset/{assetId}:
+    get:
+      tags:
+        - Links collection
+      summary: Get links for asset
+      description: Returns a collection of links for an asset.
+      operationId: getAvailableAssetLinks
+      parameters:
+        - name: assetId
+          in: path
+          required: true
+          description: The unique ID of the asset.
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/PageNumber'
+        - name: filter
+          in: query
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          required: false
+          schema: {
+            "type" : "string"
+          }
+        - name: sort
+          in: query
+          description: For more information on sorting capability and examples, see [Sort API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#sort-api-call-results).
+          required: false
+          schema: {
+            "type" : "string"
+          }
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getAvailableAssetLinksV1'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - BearerAuth: []
+  /api/sam/v1/links/{id}:
+    get:
+      tags:
+        - Links
+      summary: Get link details
+      description: Returns the details of a link.
+      operationId: getLinkDetails
+      parameters:
+        - name: id
+          in: path
+          description: The unique ID of the link.
+          required: true
+          schema:
+            type : string
+            format: uuid
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLinksDetailsV1'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - BearerAuth: []
+    put:
+      tags:
+        - Links
+      summary: Replace a single link
+      description: Replaces an asset's link with the one provided.
+      operationId: replaceLinkForAsset
+      parameters:
+        - name: id
+          in: path
+          description: The unique ID of the link.
+          required: true
+          schema:
+            type : string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLinkRequestV1'
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLinksDetailsV1'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - BearerAuth: []
+  /api/sam/v1/links:
+    post:
+      tags:
+        - Links
+      summary: Add a single link
+      description: Creates a single link for asset.
+      operationId: addLink
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLinkRequestV1'
+      responses:
+        '201':
+          description: 'Created: Your request created something new. Usually, this is a call that used the POST method and will allow a GET method to retrieve it later.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetLinksDetailsV1'
+          headers:
+            Location:
+              description: The relative path to the newly created resource.
+              schema:
+                type: string
+                example: /api/sam/v1/links/b814cda1-2c2a-455c-b288-57b642982eb0
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - BearerAuth: []
+  /api/sam/v1/links/bulk-delete:
+    post:
+      tags:
+        - Links collection
+      summary: Bulk delete links
+      description: Removes a collection of links. This operation cannot be undone.
+      operationId: deleteLinksForAsset
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteLinksRequestV1'
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteLinksResponseV1'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+      security:
+        - BearerAuth: []
+components:
+  parameters:
+
+    PageSize:
+      name: page_size
+      in: query
+      required: false
+      description: The maximum number of items in the response.
+      schema: {
+        "type" : "integer",
+        "default": 100,
+        "maximum": 1000
+      }
+
+    PageNumber:
+      name: page_number
+      in: query
+      required: false
+      description: The page number.
+      schema: {
+        "type" : "integer",
+        "format" : "int64",
+        "default": 1
+      }
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    getAvailableAssetLinksV1:
+      type: object
+      description: Response containing a list of links.
+      additionalProperties: false
+      required:
+        - items
+        - pagination
+      properties:
+        items:
+          type: array
+          description: A collection of items.
+          items:
+            $ref: '#/components/schemas/GetLinksDetailsV1'
+        pagination:
+          description: The pagination details.
+          oneOf:
+            - $ref: '#/components/schemas/Pagination'
+    
+    GetLinksDetailsV1:
+      type: object
+      description: Response containing the details of asset's link.
+      additionalProperties: false
+      required:
+        - id
+        - url
+        - assetType
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique ID of the link.
+          example: "a8411272-aa0d-42f3-823f-0fb1ceee16c0"
+        description:
+          type: string
+          description: The link description.
+          example: "Document needed for OS installation"
+        url:
+          type: string
+          description: The URL which points to a specific resource.
+          example: "https://somedomain.com/file.txt"
+        createdDate:
+          type: string
+          format: date-time
+          description: The date when link was created.
+          example: "2024-08-12T05:04:34Z"
+        lastUpdatedDate:
+          type: string
+          format: date-time
+          description: The date when link was last updated.
+          example: "2024-09-12T07:09:34Z"
+        assetType:
+          type: object
+          description: Response containing asset type details.
+          additionalProperties: false
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: The unique ID of the asset type.
+              example: "56133D81-BBDB-4BDC-A4D1-4E64CA494D08"
+            name:
+              type: string
+              description: The asset type name.
+              example: "License"
+    
+    CreateLinkRequestV1:
+      type: object
+      description: Request for creating a single link.
+      required:
+        - assetId
+        - url
+        - assetTypeId
+      properties:
+        assetId:
+          type: string
+          format: uuid
+          description: The unique ID of the asset.
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        assetTypeId:
+          type: string
+          format: uuid
+          description: The unique ID of the asset type.
+          example: "56133D81-BBDB-4BDC-A4D1-4E64CA494D08"
+        url:
+          type: string
+          description: The URL which points to a specific resource.
+          example: "https://somedomain.com/file.txt"
+        description:
+          type: string
+          description: The link description.
+          example: "Document needed for OS installation"
+    
+    UpdateLinkRequestV1:
+      type: object
+      description: Request for updating a single asset's link.
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          description: The URL which points to a specific resource.
+          example: "https://somedomain.com"
+        description:
+          type: string
+          description: The link description.
+          example: "Document needed for OS installation"
+    
+    DeleteLinksRequestV1:
+      type: object
+      description: Request for delete one or multiple asset's links.
+      required:
+        - ids
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: The list of link identifiers.
+          example: ["a8411272-aa0d-42f3-823f-0fb1ceee14b7", "a8411272-aa0d-42f3-823f-0fb1ceee14b9"]
+    
+    DeleteLinksResponseV1:
+      type: object
+      description: Response for delete one or multiple asset's links.
+      required:
+        - ids
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: The list of link identifiers.
+          example: ["a8411272-aa0d-42f3-823f-0fb1ceee14b7", "a8411272-aa0d-42f3-823f-0fb1ceee14b9"]
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
+    Error:
+      description: The error details.
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: The HTTP status code.
+        message:
+          type: string
+          description: The error message.
+    
+    Pagination:
+      type: object
+      description: The pagination details.
+      additionalProperties: false
+      required:
+        - page_size
+        - page_number
+      properties:
+        page_size:
+          type: integer
+          description: The page size you requested.
+          format: int32
+          example: 25
+        page_number:
+          type: integer
+          description: The page number you requested.
+          format: int32
+          example: 1
+        total_pages:
+          type: integer
+          description: The total number of pages.
+          format: int32
+          nullable: true
+          example: 5
+        total_items:
+          type: integer
+          description: The total number of items.
+          format: int32
+          nullable: true
+          example: 100
+  responses:
+    '400':
+      description: 'Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: 400
+              message: Filter field name needs to be formatted as a string.
+    '404':
+      description: 'Not Found: The operation you requested failed because a resource associated with your request could not be found.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: 404
+              message: Resource with ID '32aeda0a-80dc-475a-907f-2d250a3a8614' not found.
+    '500':
+      description: 'Internal Server Error: Your request failed due to an internal error.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              code: 500
+              message: The service encountered an unexpected condition that prevented it from fulfilling the request.
+tags:
+  - name: Links
+  - name: Links collection
