@@ -1,0 +1,280 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Audit logs",
+    "description": "API for interacting with the Snow Atlas audit logs service.",
+    "version": "2.0.0",
+    "contact": {
+      "name": "Flexera",
+      "url": "https://www.flexera.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://{region}.snowsoftware.io",
+      "variables": {
+        "region": {
+          "enum": [
+            "westeurope",
+            "australiasoutheast",
+            "eastus2",
+            "uksouth"
+          ],
+          "default": "westeurope"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/api/audit/v2/logs": {
+      "get": {
+        "summary": "Get audit logs",
+        "description": "Returns the details of the tenant logs matching a criteria.",
+        "operationId": "getAuditV2Logs",
+        "responses": {
+          "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuditLog"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden: The operation you requested is forbidden and cannot be completed. This could be because you don't have the required permissions to use the requested endpoint, or the requested endpoint requires purchasing additional features. The recommended action is to abort.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "title": "Error",
+                      "description": "The error details.",
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "description": "The HTTP status code.",
+                          "type": "integer",
+                          "format": "int32",
+                          "example": 403
+                        },
+                        "message": {
+                          "description": "The error message.",
+                          "type": "string",
+                          "example": "Forbidden"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error: Your request failed due to an internal error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "title": "Error",
+                      "description": "The error details.",
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "description": "The HTTP status code.",
+                          "type": "integer",
+                          "format": "int32",
+                          "example": 500
+                        },
+                        "message": {
+                          "description": "The error message.",
+                          "type": "string",
+                          "example": "The service encountered an unexpected condition that prevented it from fulfilling the request."
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "attachments",
+            "description": "Specify if the attachments should be included in the response.",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "format": "boolean"
+            }
+          },
+          {
+            "name": "filter",
+            "description": "The fields which you can use to filter the results. Format of the query string parameter:\n```\n?filter=\u003cfilter name\u003e \u003coperator\u003e \u003cvalue\u003e\n```\n| Filter name  |                            Description                            | Data type |                            Example                            |\n|--------------|-------------------------------------------------------------------|-----------|---------------------------------------------------------------|\n| accountId    | The unique ID of the account.                                     | string    | ?filter=accountId -eq \"bf49948b-9e55-4bb5-3316-08d90e3e012d\"  |\n| category     | The log category.                                                 | double    | ?filter=category -eq 3                                        |\n| created      | The log create date.                                              | string    | ?filter=created -eq \"2023-08-26T00:00:00Z\"                    |\n| identityName | A full name of the user performing a action, or application name. | string    | ?filter=identityName -eq \"John Doe\"                           |\n| ipAddress    | The IP address.                                                   | string    | ?filter=ipAddress -eq \"127.0.0.1\"                             |\n| resourceId   | The unique ID of the resource.                                    | string    | ?filter=resourceId -eq \"bf49948b-9e55-4bb5-3316-08d90e3e012d\" |\n| resourceName | The name of the resource.                                         | string    | ?filter=resourceName -eq \"User John Doe\"                      |\n| source       | The log source.                                                   | string    | ?filter=source -eq \"identity\"                                 |\n| type         | The log type.                                                     | string    | ?filter=type -eq \"identity.account.reset\"                     |\n| userId       | The unique ID of the user.                                        | string    | ?filter=userId -eq \"5cdef9c0-b177-4bbc-7f9a-08d90e3e012c\"     |\n\nFor more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "?filter=accountId -eq \"bf49948b-9e55-4bb5-3316-08d90e3e012d\""
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": [
+              "audit.logs.app.r"
+            ]
+          }
+        ],
+        "tags": [
+          "Auditlogs"
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Auditlogs"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "AuditLog": {
+        "title": "AuditLog",
+        "description": "AuditLog is the document structure for a log entry",
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "description": "The unique ID of the account.",
+            "type": "string",
+            "example": "7826eac4-84c2-11f0-b45c-6acb7750b94c"
+          },
+          "actorId": {
+            "type": "string"
+          },
+          "actorTenantId": {
+            "type": "string"
+          },
+          "archiveUntil": {
+            "description": "The hot storage expiration date.",
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-08-26T00:00:00Z"
+          },
+          "attachments": {
+            "description": "The log attachments.",
+            "type": "object"
+          },
+          "category": {
+            "description": "The log category.",
+            "type": "integer",
+            "format": "int32",
+            "example": 3
+          },
+          "created": {
+            "description": "The log create date.",
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-08-26T00:00:00Z"
+          },
+          "httpMethod": {
+            "type": "string"
+          },
+          "id": {
+            "description": "The unique ID of the audit log entry.",
+            "type": "string",
+            "example": "5cdef9c0-b177-4bbc-7f9a-08d90e3e012c"
+          },
+          "identityName": {
+            "description": "A full name of the user performing a action, or application name.",
+            "type": "string",
+            "example": "John Doe"
+          },
+          "ipAddress": {
+            "description": "The IP address.",
+            "type": "string",
+            "example": "127.0.0.1"
+          },
+          "message": {
+            "description": "The log message.",
+            "type": "string",
+            "example": "The user was deleted"
+          },
+          "resourceId": {
+            "description": "The unique ID of the resource.",
+            "type": "string",
+            "example": "7cfe6e46-84c2-11f0-b45c-6acb7750b94c"
+          },
+          "resourceName": {
+            "description": "The name of the resource.",
+            "type": "string",
+            "example": "User John Doe"
+          },
+          "source": {
+            "description": "The log source.",
+            "type": "string",
+            "example": "identity"
+          },
+          "tenantId": {
+            "description": "The unique ID of the tenant.",
+            "type": "string",
+            "example": "6032f084-84c2-11f0-b45c-6acb7750b94c"
+          },
+          "type": {
+            "description": "The log type.",
+            "type": "string",
+            "example": "identity.account.reset"
+          },
+          "url": {
+            "type": "string"
+          },
+          "userId": {
+            "description": "The unique ID of the user.",
+            "type": "string",
+            "example": "73c41844-84c2-11f0-b45c-6acb7750b94c"
+          }
+        },
+        "required": [
+          "type",
+          "category",
+          "source",
+          "resourceId",
+          "accountId",
+          "archiveUntil",
+          "tenantId",
+          "userId",
+          "message",
+          "ipAddress",
+          "id",
+          "created"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
