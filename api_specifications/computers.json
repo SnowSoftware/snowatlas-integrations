@@ -2016,14 +2016,14 @@
         ]
       }
     },
-    "/api/sam/estate/v1/computers/archive/{id}": {
+    "/api/sam/estate/v1/computers/{id}/archive": {
       "patch": {
         "tags": [
           "Computers"
         ],
-        "summary": "Update computer",
-        "description": "Modifies the given computer.",
-        "operationId": "updateComputer",
+        "summary": "Archive computer",
+        "description": "Archives the given computer.",
+        "operationId": "archiveComputer",
         "parameters": [
           {
             "name": "id",
@@ -2035,32 +2035,9 @@
             }
           }
         ],
-         "requestBody": {
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchRequest"
-              },
-              "example": [
-                {
-                  "op": "replace",
-                  "path": "status",
-                  "value": "Active"
-                }
-              ]
-            }
-          }
-        },
         "responses": {
           "200": {
-            "description": "OK: Your request succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ComputerDetails"
-                }
-              }
-            }
+            "description": "Your request succeeded.",
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -2086,8 +2063,8 @@
         "tags": [
           "Computers"
         ],
-        "summary": "Update computer",
-        "description": "Modifies the given computer.",
+        "summary": "Update Disable auto editing settings for a computer",
+        "description": "Modifies Disable auto editing settings for the given computer.",
         "operationId": "updateComputer",
         "parameters": [
           {
@@ -2109,7 +2086,7 @@
               "example": [
                 {
                   "op": "replace",
-                  "path": "isAutoEditingDisabled",
+                  "path": "/isAutoEditingDisabled",
                   "value": "false"
                 }
               ]
@@ -2129,21 +2106,8 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          },
-          "500": {
-            "$ref": "#/components/responses/500"
           }
-        },
-        "security": [
-          {
-            "BearerAuth": [
-              "sam.computer.u"
-            ]
-          }
-        ]
+        }
       }
     },
     "/api/sam/estate/v1/computers/patch-organization-assigment/{id}": {
@@ -2151,8 +2115,8 @@
         "tags": [
           "Computers"
         ],
-        "summary": "Update computer",
-        "description": "Modifies the given computer.",
+        "summary": "Update Organization for a computer",
+        "description": "Modifies Organization for the given computer.",
         "operationId": "updateComputer",
         "parameters": [
           {
@@ -2174,7 +2138,7 @@
               "example": [
                 {
                   "op": "replace",
-                  "path": "organizationId",
+                  "path": "/organizationId",
                   "value": "8a51eea9-68ce-4a32-906d-112ef9533f71"
                 }
               ]
@@ -2198,51 +2162,6 @@
           "404": {
             "$ref": "#/components/responses/404"
           },
-          "500": {
-            "$ref": "#/components/responses/500"
-          }
-        },
-        "security": [
-          {
-            "BearerAuth": [
-              "sam.computer.u"
-            ]
-          }
-        ]
-      }
-    },
-    "/api/sam/estate/v1/computers/bulk-update": {
-      "post": {
-        "tags": [
-          "Computers"
-        ],
-        "summary": "Bulk update computers",
-        "description": "Modifies a collection of computers.",
-        "operationId": "bulkUpdateComputers",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateBulkComputersRequest"
-              },
-            }
-          }
-        },
-        "responses": {
-           "200": {
-            "description": "OK: Your request succeeded.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BulkSummaryResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
-
           "500": {
             "$ref": "#/components/responses/500"
           }
