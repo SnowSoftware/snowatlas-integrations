@@ -1508,7 +1508,7 @@
           },
           "value": {
             "type": "string",
-            "description": "Custom field's value. Values of type Yes/No are returned in PascalCase.",
+            "description": "Custom field's value.",
             "nullable": true,
             "example": "A value"
           }
