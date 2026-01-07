@@ -161,7 +161,7 @@
           "Custom fields"
         ],
         "summary": "Get custom fields",
-        "description": "Returns a collection of customfields.",
+        "description": "Returns a collection of custom fields. Custom field values of type Yes/No are returned in PascalCase. ",
         "operationId": "getCustomFields",
         "responses": {
           "200": {
@@ -276,7 +276,7 @@
           "Custom fields"
         ],
         "summary": "Get custom field",
-        "description": "Returns the details of a given customfield.",
+        "description": "Returns the details of a given custom field. Custom field values of type Yes/No are returned in PascalCase.",
         "operationId": "getCustomField",
         "parameters": [
           {
@@ -505,7 +505,7 @@
           "Custom field values"
         ],
         "summary": "Get custom field values",
-        "description": "Returns a collection of customfield values.",
+        "description": "Returns a collection of custom field values. Values of type Yes/No are returned in PascalCase",
         "operationId": "getCustomFieldValues",
         "responses": {
           "200": {
@@ -620,7 +620,7 @@
           "Custom field values"
         ],
         "summary": "Get custom field value",
-        "description": "Returns the details of a given customfield value.",
+        "description": "Returns the details of a given custom field value. Values of type Yes/No are returned in PascalCase",
         "operationId": "getCustomFieldValue",
         "parameters": [
           {
