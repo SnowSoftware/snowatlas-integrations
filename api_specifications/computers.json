@@ -1851,9 +1851,9 @@
         "tags": [
           "Computers"
         ],
-        "summary": "Replace computer",
-        "description": "Replaces the given computer.",
-        "operationId": "replaceComputer",
+        "summary": "Update computer attributes",
+        "description": "Modifies a computer by adding or updating the specified attributes.",
+        "operationId": "updateComputer",
         "parameters": [
           {
             "name": "id",
