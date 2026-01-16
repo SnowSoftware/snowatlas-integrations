@@ -6303,25 +6303,25 @@
             "properties": {
               "estateTypeId": {
                 "type": "string",
-                "description": "Gets or sets the estate type identifier.",
+                "description": "The estate type identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "computerId": {
                 "type": "string",
-                "description": "Gets or sets the computer identifier.",
+                "description": "The computer identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "datacenterId": {
                 "type": "string",
-                "description": "Gets or sets the datacenter/cluster identifier.",
+                "description": "The datacenter/cluster identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "estateComplianceStatusId": {
                 "type": "string",
-                "description": "Gets or sets the estate compliance status identifier.",
+                "description": "The estate compliance status identifier.",
                 "format": "guid"
               }
             }
@@ -6404,46 +6404,46 @@
             "properties": {
               "productId": {
                 "type": "string",
-                "description": "Gets or sets the product identifier.",
+                "description": "The product identifier.",
                 "format": "guid"
               },
               "licenseMetricTypeId": {
                 "type": "string",
-                "description": "Gets or sets the license metric item type identifier.",
+                "description": "The license metric item type identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "computerId": {
                 "type": "string",
-                "description": "Gets or sets the computer identifier.",
+                "description": "The computer identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "datacenterId": {
                 "type": "string",
-                "description": "Gets or sets the datacenter/cluster identifier.",
+                "description": "The datacenter/cluster identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "estateTypeId": {
                 "type": "string",
-                "description": "Gets or sets the estate type identifier.",
+                "description": "The estate type identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "orderId": {
                 "type": "string",
-                "description": "Gets or sets the order identifier.",
+                "description": "The order identifier.",
                 "format": "guid"
               },
               "licenseId": {
                 "type": "string",
-                "description": "Gets or sets the license identifier.",
+                "description": "The license identifier.",
                 "format": "guid"
               },
               "quantityAssigned": {
                 "type": "integer",
-                "description": "Gets or sets the assigned quantity.",
+                "description": "The assigned quantity.",
                 "format": "int32"
               },
               "isManualAssigned": {
@@ -6499,47 +6499,47 @@
             "properties": {
               "productId": {
                 "type": "string",
-                "description": "Gets or sets the product identifier.",
+                "description": "The product identifier.",
                 "format": "guid"
               },
               "licenseMetricTypeId": {
                 "type": "string",
-                "description": "Gets or sets the license metric item type identifier.",
+                "description": "The license metric item type identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "computerId": {
                 "type": "string",
-                "description": "Gets or sets the computer identifier.",
+                "description": "The computer identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "datacenterId": {
                 "type": "string",
-                "description": "Gets or sets the datacenter/cluster identifier.",
+                "description": "The datacenter/cluster identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "estateTypeId": {
                 "type": "string",
-                "description": "Gets or sets the estate type identifier.",
+                "description": "The estate type identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "requiredQuantity": {
                 "type": "integer",
-                "description": "Gets or sets the required quantity.",
+                "description": "The required quantity.",
                 "format": "int32"
               },
               "requiredQuantityDecimal": {
                 "type": "number",
-                "description": "Gets or sets the required quantity decimal.",
+                "description": "The required quantity decimal.",
                 "format": "decimal",
                 "nullable": true
               },
               "notAllowedLicensableEntityTypes": {
                 "type": "string",
-                "description": "Gets or sets the not allowed licensable entity types.",
+                "description": "The not allowed licensable entity types.",
                 "nullable": true
               }
             }
@@ -6596,17 +6596,17 @@
               },
               "productId": {
                 "type": "string",
-                "description": "Gets or sets the product identifier.",
+                "description": "The product identifier.",
                 "format": "guid"
               },
               "databaseName": {
                 "type": "string",
-                "description": "Gets or sets the database name.",
+                "description": "The database name.",
                 "nullable": true
               },
               "productVersion": {
                 "type": "string",
-                "description": "Gets or sets the product version.",
+                "description": "The product version.",
                 "nullable": true
               },
               "isRac": {
@@ -6621,7 +6621,7 @@
               },
               "scanDate": {
                 "type": "string",
-                "description": "Gets or sets the scan date.",
+                "description": "The scan date.",
                 "format": "date-time"
               }
             }
@@ -6713,7 +6713,7 @@
               },
               "managementPackAccess11G": {
                 "type": "string",
-                "description": "Gets or sets the management pack access 11G.",
+                "description": "The management pack access 11G.",
                 "nullable": true
               },
               "isSqlProfilesUsed": {
@@ -6742,76 +6742,76 @@
               },
               "productId": {
                 "type": "string",
-                "description": "Gets or sets the product identifier.",
+                "description": "The product identifier.",
                 "format": "guid"
               },
               "identifier": {
                 "type": "string",
-                "description": "Gets or sets the identifier.",
+                "description": "The identifier.",
                 "nullable": true
               },
               "productVersion": {
                 "type": "string",
-                "description": "Gets or sets the product version.",
+                "description": "The product version.",
                 "nullable": true
               },
               "databaseName": {
                 "type": "string",
-                "description": "Gets or sets the database name.",
+                "description": "The database name.",
                 "nullable": true
               },
               "databaseUniqueName": {
                 "type": "string",
-                "description": "Gets or sets the database unique name.",
+                "description": "The database unique name.",
                 "nullable": true
               },
               "databaseDomain": {
                 "type": "string",
-                "description": "Gets or sets the database domain.",
+                "description": "The database domain.",
                 "nullable": true
               },
               "globalName": {
                 "type": "string",
-                "description": "Gets or sets the global name.",
+                "description": "The global name.",
                 "nullable": true
               },
               "mode": {
                 "type": "string",
-                "description": "Gets or sets the mode.",
+                "description": "The mode.",
                 "nullable": true
               },
               "scanDate": {
                 "type": "string",
-                "description": "Gets or sets the scan date.",
+                "description": "The scan date.",
                 "format": "date-time"
               },
               "processorsAssigned": {
                 "type": "integer",
-                "description": "Gets or sets the processors assigned.",
+                "description": "The processors assigned.",
                 "format": "int32",
                 "nullable": true
               },
               "cpuSocketCount": {
                 "type": "integer",
-                "description": "Gets or sets the cpu socket count.",
+                "description": "The cpu socket count.",
                 "format": "int32",
                 "nullable": true
               },
               "cpuCoreCount": {
                 "type": "integer",
-                "description": "Gets or sets the cpu core count.",
+                "description": "The cpu core count.",
                 "format": "int32",
                 "nullable": true
               },
               "cpuHighWater": {
                 "type": "integer",
-                "description": "Gets or sets the cpu high-water.",
+                "description": "The cpu high-water.",
                 "format": "int32",
                 "nullable": true
               },
               "cpuCoreHighWater": {
                 "type": "integer",
-                "description": "Gets or sets the cpu core high-water.",
+                "description": "The cpu core high-water.",
                 "format": "int32",
                 "nullable": true
               },
@@ -6832,7 +6832,7 @@
               },
               "maxMemoryUsed": {
                 "type": "integer",
-                "description": "Gets or sets the max memory used.",
+                "description": "The max memory used.",
                 "format": "int64",
                 "nullable": true
               },
@@ -6847,12 +6847,12 @@
               },
               "failOverClient": {
                 "type": "string",
-                "description": "Gets or sets the failover client.",
+                "description": "The failover client.",
                 "nullable": true
               },
               "failOverServer": {
                 "type": "string",
-                "description": "Gets or sets the failover server.",
+                "description": "The failover server.",
                 "nullable": true
               },
               "isDataGuard": {
@@ -6862,27 +6862,27 @@
               },
               "logArchiveConfig": {
                 "type": "string",
-                "description": "Gets or sets the log archive config.",
+                "description": "The log archive config.",
                 "nullable": true
               },
               "databaseRole": {
                 "type": "string",
-                "description": "Gets or sets the database role.",
+                "description": "The database role.",
                 "nullable": true
               },
               "openMode": {
                 "type": "string",
-                "description": "Gets or sets the open mode.",
+                "description": "The open mode.",
                 "nullable": true
               },
               "switchoverStatus": {
                 "type": "string",
-                "description": "Gets or sets the switchover status.",
+                "description": "The switchover status.",
                 "nullable": true
               },
               "protectionMode": {
                 "type": "string",
-                "description": "Gets or sets the protection mode.",
+                "description": "The protection mode.",
                 "nullable": true
               },
               "isRac": {
@@ -6912,28 +6912,28 @@
               },
               "numberOfInstances": {
                 "type": "integer",
-                "description": "Gets or sets the number of instances.",
+                "description": "The number of instances.",
                 "format": "int32",
                 "nullable": true
               },
               "createdDate": {
                 "type": "string",
-                "description": "Gets or sets the created date.",
+                "description": "The created date.",
                 "format": "date-time",
                 "nullable": true
               },
               "oracleDBID": {
                 "type": "string",
-                "description": "Gets or sets the oracle DBID.",
+                "description": "The oracle DBID.",
                 "nullable": true
               },
               "cdbDBID": {
                 "type": "string",
-                "description": "Gets or sets the cdb DBID.",
+                "description": "The cdb DBID.",
                 "nullable": true
               },
               "summary": {
-                "description": "Gets or sets the summary.",
+                "description": "The summary.",
                 "nullable": true,
                 "oneOf": [
                   {
@@ -6995,12 +6995,12 @@
               },
               "computerId": {
                 "type": "string",
-                "description": "Gets or sets the computer identifier.",
+                "description": "The computer identifier.",
                 "format": "guid"
               },
               "licensingCoreFactor": {
                 "type": "number",
-                "description": "Gets or sets the licensing core factor.",
+                "description": "The licensing core factor.",
                 "format": "decimal"
               }
             }
@@ -7057,58 +7057,58 @@
               },
               "computerId": {
                 "type": "string",
-                "description": "Gets or sets the computer identifier.",
+                "description": "The computer identifier.",
                 "format": "guid"
               },
               "instanceName": {
                 "type": "string",
-                "description": "Gets or sets the instance name.",
+                "description": "The instance name.",
                 "nullable": true
               },
               "hostName": {
                 "type": "string",
-                "description": "Gets or sets the host name.",
+                "description": "The host name.",
                 "nullable": true
               },
               "numberOfProcessorsAssigned": {
                 "type": "integer",
-                "description": "Gets or sets the mumber of processors assigned.",
+                "description": "The mumber of processors assigned.",
                 "format": "int32",
                 "nullable": true
               },
               "cpuCoreCount": {
                 "type": "integer",
-                "description": "Gets or sets the cpu core count.",
+                "description": "The cpu core count.",
                 "format": "int32",
                 "nullable": true
               },
               "cpuSocketCount": {
                 "type": "integer",
-                "description": "Gets or sets the cpu socket count.",
+                "description": "The cpu socket count.",
                 "format": "int32",
                 "nullable": true
               },
               "cpuHighwater": {
                 "type": "integer",
-                "description": "Gets or sets the cpu high-water.",
+                "description": "The cpu high-water.",
                 "format": "int32",
                 "nullable": true
               },
               "cpuCoreHighwater": {
                 "type": "integer",
-                "description": "Gets or sets the cpu core high-water.",
+                "description": "The cpu core high-water.",
                 "format": "int32",
                 "nullable": true
               },
               "cpuSocketHighwater": {
                 "type": "integer",
-                "description": "Gets or sets the cpu socket high-water.",
+                "description": "The cpu socket high-water.",
                 "format": "int32",
                 "nullable": true
               },
               "instanceId": {
                 "type": "string",
-                "description": "Gets or sets the instance identifier.",
+                "description": "The instance identifier.",
                 "format": "guid"
               }
             }
@@ -7165,12 +7165,12 @@
               },
               "productId": {
                 "type": "string",
-                "description": "Gets or sets the product identifier.",
+                "description": "The product identifier.",
                 "format": "guid"
               },
               "tableOwner": {
                 "type": "string",
-                "description": "Gets or sets the table owner.",
+                "description": "The table owner.",
                 "nullable": true
               },
               "isInstalled": {
@@ -7183,19 +7183,19 @@
               },
               "lastUsed": {
                 "type": "string",
-                "description": "Gets or sets the last used.",
+                "description": "The last used.",
                 "format": "date-time",
                 "nullable": true
               },
               "firstUsed": {
                 "type": "string",
-                "description": "Gets or sets the first used.",
+                "description": "The first used.",
                 "format": "date-time",
                 "nullable": true
               },
               "detectedUsages": {
                 "type": "integer",
-                "description": "Gets or sets the detected usages.",
+                "description": "The detected usages.",
                 "format": "int32",
                 "nullable": true
               }
@@ -7253,7 +7253,7 @@
               },
               "productId": {
                 "type": "string",
-                "description": "Gets or sets the product identifier.",
+                "description": "The product identifier.",
                 "format": "guid"
               },
               "isInstalled": {
@@ -7266,12 +7266,12 @@
               },
               "oraclePackUser": {
                 "type": "string",
-                "description": "Gets or sets the oracle pack user.",
+                "description": "The oracle pack user.",
                 "nullable": true
               },
               "oracleOemDate": {
                 "type": "string",
-                "description": "Gets or sets the oracle OEM date.",
+                "description": "The oracle OEM date.",
                 "format": "date-time",
                 "nullable": true
               },
@@ -7287,13 +7287,13 @@
               },
               "packAccessAgreedDate": {
                 "type": "string",
-                "description": "Gets or sets the pack access agreed date.",
+                "description": "The pack access agreed date.",
                 "format": "date-time",
                 "nullable": true
               },
               "packAccessAgreedBy": {
                 "type": "string",
-                "description": "Gets or sets the pack access agreed by.",
+                "description": "The pack access agreed by.",
                 "nullable": true
               }
             }
@@ -7350,12 +7350,12 @@
               },
               "computerId": {
                 "type": "string",
-                "description": "Gets or sets the computer identifier.",
+                "description": "The computer identifier.",
                 "format": "guid"
               },
               "name": {
                 "type": "string",
-                "description": "Gets or sets the name.",
+                "description": "The name.",
                 "nullable": true
               },
               "isUsed": {
@@ -7365,24 +7365,24 @@
               },
               "firstUsed": {
                 "type": "string",
-                "description": "Gets or sets the first used.",
+                "description": "The first used.",
                 "format": "date-time",
                 "nullable": true
               },
               "lastUsed": {
                 "type": "string",
-                "description": "Gets or sets the last used.",
+                "description": "The last used.",
                 "format": "date-time",
                 "nullable": true
               },
               "description": {
                 "type": "string",
-                "description": "Gets or sets the description.",
+                "description": "The description.",
                 "nullable": true
               },
               "detectedUsages": {
                 "type": "integer",
-                "description": "Gets or sets the detected usages.",
+                "description": "The detected usages.",
                 "format": "int32",
                 "nullable": true
               }
@@ -7440,28 +7440,28 @@
               },
               "userName": {
                 "type": "string",
-                "description": "Gets or sets the user name.",
+                "description": "The user name.",
                 "nullable": true
               },
               "createdDate": {
                 "type": "string",
-                "description": "Gets or sets the created date.",
+                "description": "The created date.",
                 "format": "date-time",
                 "nullable": true
               },
               "expireDate": {
                 "type": "string",
-                "description": "Gets or sets the expire date.",
+                "description": "The expire date.",
                 "format": "date-time"
               },
               "accountStatus": {
                 "type": "string",
-                "description": "Gets or sets the account status.",
+                "description": "The account status.",
                 "nullable": true
               },
               "lockDate": {
                 "type": "string",
-                "description": "Gets or sets the lock date.",
+                "description": "The lock date.",
                 "format": "date-time",
                 "nullable": true
               }
@@ -7519,38 +7519,38 @@
               },
               "computerId": {
                 "type": "string",
-                "description": "Gets or sets the computer identifier.",
+                "description": "The computer identifier.",
                 "format": "guid"
               },
               "sessionId": {
                 "type": "string",
-                "description": "Gets or sets the session identifier.",
+                "description": "The session identifier.",
                 "format": "guid"
               },
               "osUser": {
                 "type": "string",
-                "description": "Gets or sets the os user.",
+                "description": "The os user.",
                 "nullable": true
               },
               "clientProgram": {
                 "type": "string",
-                "description": "Gets or sets the client program.",
+                "description": "The client program.",
                 "nullable": true
               },
               "oracleUser": {
                 "type": "string",
-                "description": "Gets or sets the oracle user.",
+                "description": "The oracle user.",
                 "nullable": true
               },
               "logonTime": {
                 "type": "string",
-                "description": "Gets or sets the logon date.",
+                "description": "The logon date.",
                 "format": "date-time",
                 "nullable": true
               },
               "status": {
                 "type": "string",
-                "description": "Gets or sets the status.",
+                "description": "The status.",
                 "nullable": true
               },
               "isBackgroundSession": {
@@ -7560,7 +7560,7 @@
               },
               "machine": {
                 "type": "string",
-                "description": "Gets or sets the machine.",
+                "description": "The machine.",
                 "nullable": true
               }
             }
@@ -7612,12 +7612,12 @@
             "properties": {
               "factName": {
                 "type": "string",
-                "description": "Gets or sets the fact name.",
+                "description": "The fact name.",
                 "nullable": true
               },
               "factValues": {
                 "type": "string",
-                "description": "Gets or sets the fact values.",
+                "description": "The fact values.",
                 "nullable": true
               }
             }
@@ -7636,7 +7636,7 @@
             "properties": {
               "queryName": {
                 "type": "string",
-                "description": "Gets or sets the query name.",
+                "description": "The query name.",
                 "nullable": true
               },
               "isUsageTriggered": {
@@ -7645,7 +7645,7 @@
               },
               "usageFacts": {
                 "type": "array",
-                "description": "Gets or sets the usage facts.",
+                "description": "The usage facts.",
                 "nullable": true,
                 "items": {
                   "$ref": "#/components/schemas/DatabaseInstallationOptionUsageFactEntity"
@@ -7672,12 +7672,12 @@
               },
               "productId": {
                 "type": "string",
-                "description": "Gets or sets the product identifier.",
+                "description": "The product identifier.",
                 "format": "guid"
               },
               "groupName": {
                 "type": "string",
-                "description": "Gets or sets the group name.",
+                "description": "The group name.",
                 "nullable": true
               },
               "isUsageTriggered": {
@@ -7686,7 +7686,7 @@
               },
               "usageQueries": {
                 "type": "array",
-                "description": "Gets or sets the usage queries.",
+                "description": "The usage queries.",
                 "nullable": true,
                 "items": {
                   "$ref": "#/components/schemas/DatabaseInstallationOptionUsageQueriesEntity"
@@ -7750,33 +7750,33 @@
               },
               "computerId": {
                 "type": "string",
-                "description": "Gets or sets the computer identifier.",
+                "description": "The computer identifier.",
                 "format": "guid"
               },
               "productId": {
                 "type": "string",
-                "description": "Gets or sets the product identifier.",
+                "description": "The product identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "runtimeName": {
                 "type": "string",
-                "description": "Gets or sets the runtime name.",
+                "description": "The runtime name.",
                 "nullable": true
               },
               "runtimeVersion": {
                 "type": "string",
-                "description": "Gets or sets the runtime version.",
+                "description": "The runtime version.",
                 "nullable": true
               },
               "vendor": {
                 "type": "string",
-                "description": "Gets or sets the vendor.",
+                "description": "The vendor.",
                 "nullable": true
               },
               "version": {
                 "type": "string",
-                "description": "Gets or sets the version.",
+                "description": "The version.",
                 "nullable": true
               }
             }
@@ -7837,108 +7837,108 @@
               },
               "computerId": {
                 "type": "string",
-                "description": "Gets or sets the computer identifier.",
+                "description": "The computer identifier.",
                 "format": "guid"
               },
               "productId": {
                 "type": "string",
-                "description": "Gets or sets the product identifier.",
+                "description": "The product identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "dataModel": {
                 "type": "integer",
-                "description": "Gets or sets the data model.",
+                "description": "The data model.",
                 "format": "int32"
               },
               "classVersion": {
                 "type": "string",
-                "description": "Gets or sets the class version.",
+                "description": "The class version.",
                 "nullable": true
               },
               "home": {
                 "type": "string",
-                "description": "Gets or sets the home.",
+                "description": "The home.",
                 "nullable": true
               },
               "runtimeName": {
                 "type": "string",
-                "description": "Gets or sets the runtime name.",
+                "description": "The runtime name.",
                 "nullable": true
               },
               "runtimeVersion": {
                 "type": "string",
-                "description": "Gets or sets the runtime version.",
+                "description": "The runtime version.",
                 "nullable": true
               },
               "specificationName": {
                 "type": "string",
-                "description": "Gets or sets the specification name.",
+                "description": "The specification name.",
                 "nullable": true
               },
               "specificationVendor": {
                 "type": "string",
-                "description": "Gets or sets the specification vendor.",
+                "description": "The specification vendor.",
                 "nullable": true
               },
               "specificationVersion": {
                 "type": "string",
-                "description": "Gets or sets the specification version.",
+                "description": "The specification version.",
                 "nullable": true
               },
               "vendor": {
                 "type": "string",
-                "description": "Gets or sets the vendor.",
+                "description": "The vendor.",
                 "nullable": true
               },
               "vendorUrl": {
                 "type": "string",
-                "description": "Gets or sets the vendor url.",
+                "description": "The vendor url.",
                 "nullable": true
               },
               "version": {
                 "type": "string",
-                "description": "Gets or sets the version.",
+                "description": "The version.",
                 "nullable": true
               },
               "vmName": {
                 "type": "string",
-                "description": "Gets or sets the VM name.",
+                "description": "The VM name.",
                 "nullable": true
               },
               "vmSpecificationVendor": {
                 "type": "string",
-                "description": "Gets or sets the VM specification vendor.",
+                "description": "The VM specification vendor.",
                 "nullable": true
               },
               "vmSpecificationVersion": {
                 "type": "string",
-                "description": "Gets or sets the VM specification version.",
+                "description": "The VM specification version.",
                 "nullable": true
               },
               "vmVersion": {
                 "type": "string",
-                "description": "Gets or sets the VM version.",
+                "description": "The VM version.",
                 "nullable": true
               },
               "userHome": {
                 "type": "string",
-                "description": "Gets or sets the user home.",
+                "description": "The user home.",
                 "nullable": true
               },
               "userName": {
                 "type": "string",
-                "description": "Gets or sets the user name.",
+                "description": "The user name.",
                 "nullable": true
               },
               "createdDate": {
                 "type": "string",
-                "description": "Gets or sets the created date.",
+                "description": "The created date.",
                 "format": "date-time"
               },
               "updatedDate": {
                 "type": "string",
-                "description": "Gets or sets the updated date.",
+                "description": "The updated date.",
                 "format": "date-time",
                 "nullable": true
               }
@@ -8000,42 +8000,42 @@
               },
               "computerId": {
                 "type": "string",
-                "description": "Gets or sets the computer identifier.",
+                "description": "The computer identifier.",
                 "format": "guid"
               },
               "featureId": {
                 "type": "string",
-                "description": "Gets or sets the feature identifier.",
+                "description": "The feature identifier.",
                 "format": "guid"
               },
               "name": {
                 "type": "string",
-                "description": "Gets or sets the name.",
+                "description": "The name.",
                 "nullable": true
               },
               "status": {
                 "type": "string",
-                "description": "Gets or sets the status.",
+                "description": "The status.",
                 "nullable": true
               },
               "version": {
                 "type": "string",
-                "description": "Gets or sets the version.",
+                "description": "The version.",
                 "nullable": true
               },
               "vendor": {
                 "type": "string",
-                "description": "Gets or sets the vendor.",
+                "description": "The vendor.",
                 "nullable": true
               },
               "createdDate": {
                 "type": "string",
-                "description": "Gets or sets the created date.",
+                "description": "The created date.",
                 "format": "date-time"
               },
               "updatedDate": {
                 "type": "string",
-                "description": "Gets or sets the updated date.",
+                "description": "The updated date.",
                 "format": "date-time",
                 "nullable": true
               }
@@ -8097,27 +8097,27 @@
               },
               "productId": {
                 "type": "string",
-                "description": "Gets or sets the product identifier.",
+                "description": "The product identifier.",
                 "format": "guid"
               },
               "computerId": {
                 "type": "string",
-                "description": "Gets or sets the computer identifier.",
+                "description": "The computer identifier.",
                 "format": "guid"
               },
               "version": {
                 "type": "string",
-                "description": "Gets or sets the version.",
+                "description": "The version.",
                 "nullable": true
               },
               "oracleHomePath": {
                 "type": "string",
-                "description": "Gets or sets the Oracle home path.",
+                "description": "The Oracle home path.",
                 "nullable": true
               },
               "firstDiscovered": {
                 "type": "string",
-                "description": "Gets or sets the first discovered date.",
+                "description": "The first discovered date.",
                 "format": "date-time"
               }
             }
@@ -8178,27 +8178,27 @@
               },
               "productId": {
                 "type": "string",
-                "description": "Gets or sets the product identifier.",
+                "description": "The product identifier.",
                 "format": "guid"
               },
               "computerId": {
                 "type": "string",
-                "description": "Gets or sets the computer identifier.",
+                "description": "The computer identifier.",
                 "format": "guid"
               },
               "version": {
                 "type": "string",
-                "description": "Gets or sets the version.",
+                "description": "The version.",
                 "nullable": true
               },
               "oracleHomePath": {
                 "type": "string",
-                "description": "Gets or sets the Oracle home path.",
+                "description": "The Oracle home path.",
                 "nullable": true
               },
               "firstDiscovered": {
                 "type": "string",
-                "description": "Gets or sets the first discovered date.",
+                "description": "The first discovered date.",
                 "format": "date-time"
               }
             }
@@ -8259,22 +8259,22 @@
               },
               "version": {
                 "type": "string",
-                "description": "Gets or sets the version.",
+                "description": "The version.",
                 "nullable": true
               },
               "name": {
                 "type": "string",
-                "description": "Gets or sets the name.",
+                "description": "The name.",
                 "nullable": true
               },
               "parentId": {
                 "type": "string",
-                "description": "Gets or sets the parent unique identifier.",
+                "description": "The parent unique identifier.",
                 "format": "guid"
               },
               "applicationId": {
                 "type": "string",
-                "description": "Gets or sets the application identifier.",
+                "description": "The application identifier.",
                 "format": "guid"
               }
             }
@@ -8335,32 +8335,32 @@
               },
               "orderDate": {
                 "type": "string",
-                "description": "Gets or sets the order date.",
+                "description": "The order date.",
                 "format": "date-time"
               },
               "orderName": {
                 "type": "string",
-                "description": "Gets or sets the order name.",
+                "description": "The order name.",
                 "nullable": true
               },
               "oracleOrderNumber": {
                 "type": "string",
-                "description": "Gets or sets the oracle order number.",
+                "description": "The oracle order number.",
                 "nullable": true
               },
               "olsa": {
                 "type": "string",
-                "description": "Gets or sets the olsa.",
+                "description": "The olsa.",
                 "nullable": true
               },
               "areaOfUse": {
                 "type": "string",
-                "description": "Gets or sets the area of use.",
+                "description": "The area of use.",
                 "nullable": true
               },
               "createdDate": {
                 "type": "string",
-                "description": "Gets or sets the created date.",
+                "description": "The created date.",
                 "format": "date-time"
               }
             }
@@ -8421,107 +8421,107 @@
               },
               "orderDate": {
                 "type": "string",
-                "description": "Gets or sets the order date.",
+                "description": "The order date.",
                 "format": "date-time"
               },
               "orderName": {
                 "type": "string",
-                "description": "Gets or sets the order name.",
+                "description": "The order name.",
                 "nullable": true
               },
               "oracleOrderNumber": {
                 "type": "string",
-                "description": "Gets or sets the oracle order number.",
+                "description": "The oracle order number.",
                 "nullable": true
               },
               "resellerOrderNumber": {
                 "type": "string",
-                "description": "Gets or sets the reseller order number.",
+                "description": "The reseller order number.",
                 "nullable": true
               },
               "internalReferenceNumber": {
                 "type": "string",
-                "description": "Gets or sets the internal reference number.",
+                "description": "The internal reference number.",
                 "nullable": true
               },
               "olsa": {
                 "type": "string",
-                "description": "Gets or sets the olsa.",
+                "description": "The olsa.",
                 "nullable": true
               },
               "purchaseCurrency": {
                 "type": "string",
-                "description": "Gets or sets the purchase currency.",
+                "description": "The purchase currency.",
                 "nullable": true
               },
               "areaOfUse": {
                 "type": "string",
-                "description": "Gets or sets the area of use.",
+                "description": "The area of use.",
                 "nullable": true
               },
               "notes": {
                 "type": "string",
-                "description": "Gets or sets the notes.",
+                "description": "The notes.",
                 "nullable": true
               },
               "organizationId": {
                 "type": "string",
-                "description": "Gets or sets the Organization identifier.",
+                "description": "The Organization identifier.",
                 "format": "guid"
               },
               "contactName": {
                 "type": "string",
-                "description": "Gets or sets the contact name.",
+                "description": "The contact name.",
                 "nullable": true
               },
               "contactEmail": {
                 "type": "string",
-                "description": "Gets or sets the contact email.",
+                "description": "The contact email.",
                 "nullable": true
               },
               "contactPhone": {
                 "type": "string",
-                "description": "Gets or sets the contact phone.",
+                "description": "The contact phone.",
                 "nullable": true
               },
               "vendorName": {
                 "type": "string",
-                "description": "Gets or sets the vendor name.",
+                "description": "The vendor name.",
                 "nullable": true
               },
               "vendorAddress": {
                 "type": "string",
-                "description": "Gets or sets the vendor address.",
+                "description": "The vendor address.",
                 "nullable": true
               },
               "vendorContact": {
                 "type": "string",
-                "description": "Gets or sets the vendor contact.",
+                "description": "The vendor contact.",
                 "nullable": true
               },
               "vendorEmail": {
                 "type": "string",
-                "description": "Gets or sets the vendor email.",
+                "description": "The vendor email.",
                 "nullable": true
               },
               "vendorPhone": {
                 "type": "string",
-                "description": "Gets or sets the vendor phone.",
+                "description": "The vendor phone.",
                 "nullable": true
               },
               "createdDate": {
                 "type": "string",
-                "description": "Gets or sets the created date.",
+                "description": "The created date.",
                 "format": "date-time"
               },
               "updatedDate": {
                 "type": "string",
-                "description": "Gets or sets the updated date.",
+                "description": "The updated date.",
                 "format": "date-time"
               },
               "orderStatusId": {
                 "type": "string",
-                "description": "Gets or sets the order status identifier.",
+                "description": "The order status identifier.",
                 "format": "guid",
                 "nullable": true
               }
@@ -8550,74 +8550,74 @@
               },
               "orderId": {
                 "type": "string",
-                "description": "Gets or sets the order identifier.",
+                "description": "The order identifier.",
                 "format": "guid"
               },
               "licenseType": {
                 "type": "string",
-                "description": "Gets or sets the license item type.",
+                "description": "The license item type.",
                 "nullable": true
               },
               "referstoItemId": {
                 "type": "string",
-                "description": "Gets or sets the refers to item identifier.",
+                "description": "The refers to item identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "productId": {
                 "type": "string",
-                "description": "Gets or sets the product identifier.",
+                "description": "The product identifier.",
                 "format": "guid"
               },
               "licenseTypeId": {
                 "type": "string",
-                "description": "Gets or sets the license type.",
+                "description": "The license type.",
                 "format": "guid",
                 "nullable": true
               },
               "licenseMetricTypeId": {
                 "type": "string",
-                "description": "Gets or sets the license metric type identifier.",
+                "description": "The license metric type identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "quantity": {
                 "type": "integer",
-                "description": "Gets or sets the quantity.",
+                "description": "The quantity.",
                 "format": "int32"
               },
               "licenseCost": {
                 "type": "number",
-                "description": "Gets or sets the license cost.",
+                "description": "The license cost.",
                 "format": "decimal",
                 "nullable": true
               },
               "licenseCostBase": {
                 "type": "number",
-                "description": "Gets or sets the license cost base.",
+                "description": "The license cost base.",
                 "format": "decimal",
                 "nullable": true
               },
               "supportCost": {
                 "type": "number",
-                "description": "Gets or sets the support cost.",
+                "description": "The support cost.",
                 "format": "decimal",
                 "nullable": true
               },
               "supportCostBase": {
                 "type": "number",
-                "description": "Gets or sets the support cost base.",
+                "description": "The support cost base.",
                 "format": "decimal",
                 "nullable": true
               },
               "csi": {
                 "type": "string",
-                "description": "Gets or sets the SCI.",
+                "description": "The SCI.",
                 "nullable": true
               },
               "supportContractId": {
                 "type": "integer",
-                "description": "Gets or sets the support contract identifier.",
+                "description": "The support contract identifier.",
                 "format": "int32",
                 "nullable": true
               },
@@ -8627,7 +8627,7 @@
               },
               "nonPerpertualYears": {
                 "type": "integer",
-                "description": "Gets or sets the non perpetual years.",
+                "description": "The non perpetual years.",
                 "format": "int32",
                 "nullable": true
               }
@@ -8680,29 +8680,29 @@
             "properties": {
               "productId": {
                 "type": "string",
-                "description": "Gets or sets the product identifier.",
+                "description": "The product identifier.",
                 "format": "guid"
               },
               "estateTypeId": {
                 "type": "string",
-                "description": "Gets or sets the estate type identifier.",
+                "description": "The estate type identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "estateName": {
                 "type": "string",
-                "description": "Gets or sets the estate name.",
+                "description": "The estate name.",
                 "nullable": true
               },
               "computerId": {
                 "type": "string",
-                "description": "Gets or sets the computer identifier.",
+                "description": "The computer identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "datacenterId": {
                 "type": "string",
-                "description": "Gets or sets the datacenter/cluster identifier.",
+                "description": "The datacenter/cluster identifier.",
                 "format": "guid",
                 "nullable": true
               },
@@ -8712,70 +8712,70 @@
               },
               "totalAssignedLicenseProcessor": {
                 "type": "integer",
-                "description": "Gets or sets the total assigned license per processor metric.",
+                "description": "The total assigned license per processor metric.",
                 "format": "int32"
               },
               "totalRequiredLicenseProcessor": {
                 "type": "integer",
-                "description": "Gets or sets the total required license per processor metric.",
+                "description": "The total required license per processor metric.",
                 "format": "int32"
               },
               "totalAssignedLicenseNup": {
                 "type": "integer",
-                "description": "Gets or sets the total assigned license per NUP metric.",
+                "description": "The total assigned license per NUP metric.",
                 "format": "int32"
               },
               "totalRequiredLicenseNup": {
                 "type": "integer",
-                "description": "Gets or sets the total required license per NUP metric.",
+                "description": "The total required license per NUP metric.",
                 "format": "int32"
               },
               "allInstallationsCount": {
                 "type": "integer",
-                "description": "Gets or sets the installations count.",
+                "description": "The installations count.",
                 "format": "int32"
               },
               "installationsRequiredLicenseCount": {
                 "type": "integer",
-                "description": "Gets or sets the count of installations that require license.",
+                "description": "The count of installations that require license.",
                 "format": "int32"
               },
               "installationsNotRequiredLicenseCount": {
                 "type": "integer",
-                "description": "Gets or sets the count of installations that not require license.",
+                "description": "The count of installations that not require license.",
                 "format": "int32"
               },
               "licenseMetricTypeId": {
                 "type": "string",
-                "description": "Gets or sets the license metric item type identifier.",
+                "description": "The license metric item type identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "productComplianceStatusId": {
                 "type": "string",
-                "description": "Gets or sets the estate compliance status identifier.",
+                "description": "The estate compliance status identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "coveredByProductId": {
                 "type": "string",
-                "description": "Gets or sets the covered by product identifier.",
+                "description": "The covered by product identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "coveredByEstate": {
                 "type": "string",
-                "description": "Gets or sets the covered by estate name.",
+                "description": "The covered by estate name.",
                 "nullable": true
               },
               "licenseNeeded": {
                 "type": "integer",
-                "description": "Gets or sets the license needed.",
+                "description": "The license needed.",
                 "format": "int32"
               },
               "partitioningTypeId": {
                 "type": "string",
-                "description": "Gets or sets the partitioning type identifier.",
+                "description": "The partitioning type identifier.",
                 "format": "guid",
                 "nullable": true
               }
@@ -8894,7 +8894,7 @@
               },
               "name": {
                 "type": "string",
-                "description": "Gets or sets the name.",
+                "description": "The name.",
                 "nullable": true
               }
             }
@@ -8955,7 +8955,7 @@
               },
               "name": {
                 "type": "string",
-                "description": "Gets or sets the name.",
+                "description": "The name.",
                 "nullable": true
               }
             }
@@ -9016,7 +9016,7 @@
               },
               "name": {
                 "type": "string",
-                "description": "Gets or sets the name.",
+                "description": "The name.",
                 "nullable": true
               }
             }
@@ -9077,7 +9077,7 @@
               },
               "name": {
                 "type": "string",
-                "description": "Gets or sets the name.",
+                "description": "The name.",
                 "nullable": true
               }
             }
@@ -9138,7 +9138,7 @@
               },
               "name": {
                 "type": "string",
-                "description": "Gets or sets the name.",
+                "description": "The name.",
                 "nullable": true
               }
             }
@@ -9199,7 +9199,7 @@
               },
               "name": {
                 "type": "string",
-                "description": "Gets or sets the name.",
+                "description": "The name.",
                 "nullable": true
               }
             }
@@ -9260,7 +9260,7 @@
               },
               "name": {
                 "type": "string",
-                "description": "Gets or sets the name.",
+                "description": "The name.",
                 "nullable": true
               }
             }
@@ -9321,7 +9321,7 @@
               },
               "name": {
                 "type": "string",
-                "description": "Gets or sets the name.",
+                "description": "The name.",
                 "nullable": true
               }
             }
@@ -9382,7 +9382,7 @@
               },
               "name": {
                 "type": "string",
-                "description": "Gets or sets the name.",
+                "description": "The name.",
                 "nullable": true
               }
             }
@@ -9443,7 +9443,7 @@
               },
               "name": {
                 "type": "string",
-                "description": "Gets or sets the name.",
+                "description": "The name.",
                 "nullable": true
               }
             }
@@ -9504,41 +9504,41 @@
               },
               "parentId": {
                 "type": "string",
-                "description": "Gets or sets the parent product identifier.",
+                "description": "The parent product identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "categoryId": {
                 "type": "string",
-                "description": "Gets or sets the product category identifier.",
+                "description": "The product category identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "productTypeId": {
                 "type": "string",
-                "description": "Gets or sets the product type identifier.",
+                "description": "The product type identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "licensingTypeId": {
                 "type": "string",
-                "description": "Gets or sets the licensing type identifier.",
+                "description": "The licensing type identifier.",
                 "format": "guid",
                 "nullable": true
               },
               "productName": {
                 "type": "string",
-                "description": "Gets or sets the product name.",
+                "description": "The product name.",
                 "nullable": true
               },
               "productEdition": {
                 "type": "string",
-                "description": "Gets or sets the product edition.",
+                "description": "The product edition.",
                 "nullable": true
               },
               "acronym": {
                 "type": "string",
-                "description": "Gets or sets the acronym.",
+                "description": "The acronym.",
                 "nullable": true
               }
             }
@@ -9599,7 +9599,7 @@
               },
               "name": {
                 "type": "string",
-                "description": "Gets or sets the name.",
+                "description": "The name.",
                 "nullable": true
               }
             }
