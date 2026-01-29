@@ -516,7 +516,7 @@
             "schema": {
               "type": "string"
             },
-			"example": "?filter=(AssetId -eq '030f4ee9-46f5-4550-a6f1-3a454d4ae56e') -and (AssetType -eq Application)"
+			"example": "(AssetId -eq '030f4ee9-46f5-4550-a6f1-3a454d4ae56e') -and (AssetType -eq Application)"
           }
         ],
         "responses": {
