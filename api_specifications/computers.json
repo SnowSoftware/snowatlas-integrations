@@ -26,46 +26,6 @@
     }
   ],
   "paths": {
-    "/api/sam/estate/v1/computers/bulk-update": {
-      "patch": {
-        "tags": ["Computer bulk status update"],
-        "summary": "Bulk update status of computers",
-        "description": "Allows updating the status of multiple computers in bulk.",
-        "operationId": "BulkUpdateComputerStatus",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BulkUpdateComputerStatusRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK - Bulk status update completed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BulkUpdateComputerStatusResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request - Invalid request body, scope, or parameters.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/sam/estate/v1/computers-metering": {
       "get": {
         "tags": [
@@ -538,7 +498,7 @@
         ]
       }
     },
-    "/api/sam/estate/v1/computers-application-usage/summary": {
+    "/api/sam/estate/v1/computers-application-usage/summaries": {
       "get": {
         "tags": [
           "Computer applications"
@@ -1863,7 +1823,7 @@
             "schema": {
               "type": "string"
             }
-          }
+          },
         ],
         "responses": {
           "204": {
@@ -1891,8 +1851,8 @@
         "tags": [
           "Computers"
         ],
-        "summary": "Update computer attributes",
-        "description": "Modifies a computer by adding or updating the specified attributes.",
+        "summary": "Replace computer",
+        "description": "Replaces the given computer.",
         "operationId": "replaceComputer",
         "parameters": [
           {
@@ -1916,18 +1876,22 @@
         },
         "responses": {
           "200": {
-            "description": "OK: Your request succeeded."
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComputerDetails"
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.",
             "$ref": "#/components/responses/400"
           },
           "404": {
-            "description": "Not Found: The operation you requested failed because a resource associated with your request could not be found.",
             "$ref": "#/components/responses/404"
           },
           "500": {
-            "description": "Internal Server Error: Your request failed due to an internal error.",
             "$ref": "#/components/responses/500"
           }
         },
@@ -2005,16 +1969,61 @@
             ]
           }
         ]
+      },
+    },
+     "/api/sam/estate/v1/computers/bulk-delete": {
+      "post": {
+        "tags": [
+          "Computers"
+        ],
+        "summary": "Bulk delete computers",
+        "description": "Removes a collection of computers.",
+        "operationId": "bulkDeleteComputers",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComputerDeleteBulkOperation"
+              }
+            }
+          }
+        },
+        "responses": {
+           "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkSummaryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.computer.d"
+            ]
+          }
+        ]
       }
     },
-    "/api/sam/estate/v1/computers/{id}/archive": {
+    "/api/sam/estate/v1/computers/archive/{id}": {
       "patch": {
         "tags": [
           "Computers"
         ],
-        "summary": "Archive computer",
-        "description": "Archives the given computer.",
-        "operationId": "archiveComputer",
+        "summary": "Update computer",
+        "description": "Modifies the given computer.",
+        "operationId": "updateComputer",
         "parameters": [
           {
             "name": "id",
@@ -2026,9 +2035,32 @@
             }
           }
         ],
+         "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchRequest"
+              },
+              "example": [
+                {
+                  "op": "replace",
+                  "path": "status",
+                  "value": "Active"
+                }
+              ]
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Your request succeeded."
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComputerDetails"
+                }
+              }
+            }
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -2054,9 +2086,9 @@
         "tags": [
           "Computers"
         ],
-        "summary": "Update Disable auto editing settings for a computer",
-        "description": "Modifies Disable auto editing settings for the given computer.",
-        "operationId": "updateComputerAutoEditing",
+        "summary": "Update computer",
+        "description": "Modifies the given computer.",
+        "operationId": "updateComputer",
         "parameters": [
           {
             "name": "id",
@@ -2077,7 +2109,7 @@
               "example": [
                 {
                   "op": "replace",
-                  "path": "/isAutoEditingDisabled",
+                  "path": "isAutoEditingDisabled",
                   "value": "false"
                 }
               ]
@@ -2097,8 +2129,21 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
-        }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.computer.u"
+            ]
+          }
+        ]
       }
     },
     "/api/sam/estate/v1/computers/patch-organization-assigment/{id}": {
@@ -2106,9 +2151,9 @@
         "tags": [
           "Computers"
         ],
-        "summary": "Update Organization for a computer",
-        "description": "Modifies Organization for the given computer.",
-        "operationId": "updateComputerOrganization",
+        "summary": "Update computer",
+        "description": "Modifies the given computer.",
+        "operationId": "updateComputer",
         "parameters": [
           {
             "name": "id",
@@ -2129,7 +2174,7 @@
               "example": [
                 {
                   "op": "replace",
-                  "path": "/organizationId",
+                  "path": "organizationId",
                   "value": "8a51eea9-68ce-4a32-906d-112ef9533f71"
                 }
               ]
@@ -2153,6 +2198,51 @@
           "404": {
             "$ref": "#/components/responses/404"
           },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": [
+              "sam.computer.u"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/sam/estate/v1/computers/bulk-update": {
+      "post": {
+        "tags": [
+          "Computers"
+        ],
+        "summary": "Bulk update computers",
+        "description": "Modifies a collection of computers.",
+        "operationId": "bulkUpdateComputers",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBulkComputersRequest"
+              },
+            }
+          }
+        },
+        "responses": {
+           "200": {
+            "description": "OK: Your request succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkSummaryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+
           "500": {
             "$ref": "#/components/responses/500"
           }
@@ -2388,59 +2478,6 @@
   },
   "components": {
     "schemas": {
-      "BulkUpdateComputerStatusRequest": {
-        "type": "object",
-        "properties": {
-          "scope": {
-            "type": "string",
-            "enum": ["Only"],
-            "description": "Scope for the bulk status update. Must be 'Only'."
-          },
-          "ids": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            },
-            "description": "List of computer IDs to update."
-          },
-          "body": {
-            "$ref": "#/components/schemas/BulkUpdateComputerStatusBody"
-          }
-        },
-        "required": ["scope", "ids", "body"]
-      },
-      "BulkUpdateComputerStatusBody": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "enum": ["Active", "Inactive", "Quarantined"],
-            "description": "Target status value for the bulk update."
-          }
-        },
-        "required": ["status"]
-      },
-      "BulkUpdateComputerStatusResponse": {
-        "type": "object",
-        "properties": {
-          "errors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ComputerStatusUpdateError"
-            }
-          },
-          "message": { "type": "string" },
-          "processedCount": { "type": "integer" },
-          "skippedCount": { "type": "integer" }
-        }
-      },
-      "ComputerStatusUpdateError": {
-        "type": "object",
-        "properties": {
-          "message": { "type": "string" }
-        }
-      },
       "PaginationResponse": {
         "type": "object",
         "description": "Generic response class for the pagination part. Properties are annotated using DataMemberAttribute so that we're aligned with REST style guide regarding the json payload.",
@@ -2738,7 +2775,7 @@
             "type": "string",
             "description": "Additional error message.",
             "nullable": true,
-            "example": "Invalid GUID format: 123. All computer IDs must be in valid GUID format (00000000-0000-0000-0000-000000000000)."
+            "example": "Resource with ID '32aeda0a-80dc-475a-907f-2d250a3a8614' not found."
           }
         }
       },
@@ -4460,6 +4497,12 @@
                 "nullable": true,
                 "example": true
               },
+              "hypervisorName": {
+                "type": "string",
+                "description": "The hypervisor name of the computer.",
+                "nullable": true,
+                "example": "VMware Virtual Platform"
+              },
               "isVdi": {
                 "type": "boolean",
                 "description": "```true``` if the computer uses virtual desktop infrastructure; otherwise, ```false```.",
@@ -4595,70 +4638,6 @@
                 "format": "int32",
                 "nullable": true,
                 "example": 8
-              },
-              "physicalMemory": {
-                "type": "integer",
-                "description": "The physical memory (RAM) of the computer in megabytes.",
-                "format": "int32",
-                "nullable": true,
-                "example": 16384
-              },
-              "processorType": {
-                "type": "string",
-                "description": "The type of processor installed in the computer.",
-                "nullable": true,
-                "example": "11th Gen Intel Core i7-1185G7 @ 3.00GHz"
-              },
-              "coresPerProcessor": {
-                "type": "integer",
-                "description": "The number of cores per processor in the computer.",
-                "format": "int32",
-                "nullable": true,
-                "example": 4
-              },
-              "logicalProcessorCount": {
-                "type": "integer",
-                "description": "The number of logical processors in the computer.",
-                "format": "int32",
-                "nullable": true,
-                "example": 16
-              },
-              "processorSpeed": {
-                "type": "integer",
-                "description": "The speed of the processor in the computer in MHz.",
-                "format": "int32",
-                "nullable": true,
-                "example": 3000
-              },
-              "hypervisorName": {
-                "type": "string",
-                "description": "The name of the hypervisor running on the computer.",
-                "nullable": true,
-                "example": "VMware Virtual Platform"
-              },
-              "hostComputerName": {
-                "type": "string",
-                "description": "The host name of the host computer for a virtual machine.",
-                "nullable": true,
-                "example": "ESX-HOST-01"
-              },
-              "dccName": {
-                "type": "string",
-                "description": "The name of the data collection center (DCC) for the computer.",
-                "nullable": true,
-                "example": "DataCenter-EU"
-              },
-              "biosVersion": {
-                "type": "string",
-                "description": "The BIOS version of the computer.",
-                "nullable": true,
-                "example": "1.26.0"
-              },
-              "lastLoggedOnUser": {
-                "type": "string",
-                "description": "The username of the last logged on user of the computer.",
-                "nullable": true,
-                "example": "jsmith"
               }
             }
           }
@@ -4807,207 +4786,145 @@
                 "format": "int32",
                 "nullable": true,
                 "example": 8
-              },
-              "architecture": {
-                "type": "string",
-                "description": "The architecture of the computer.",
-                "nullable": true,
-                "example": "64-bit"
-              },
-              "physicalMemory": {
-                "type": "integer",
-                "description": "The physical memory (RAM) of the computer in megabytes.",
-                "format": "int32",
-                "nullable": true,
-                "example": 16384
-              },
-              "processorType": {
-                "type": "string",
-                "description": "The type of processor installed in the computer.",
-                "nullable": true,
-                "example": "11th Gen Intel Core i7-1185G7 @ 3.00GHz"
-              },
-              "coresPerProcessor": {
-                "type": "integer",
-                "description": "The number of cores per processor in the computer.",
-                "format": "int32",
-                "nullable": true,
-                "example": 4
-              },
-              "logicalProcessorCount": {
-                "type": "integer",
-                "description": "The number of logical processors in the computer.",
-                "format": "int32",
-                "nullable": true,
-                "example": 16
-              },
-              "processorSpeed": {
-                "type": "integer",
-                "description": "The speed of the processor in the computer in MHz.",
-                "format": "int32",
-                "nullable": true,
-                "example": 3000
-              },
-              "hypervisorName": {
-                "type": "string",
-                "description": "The name of the hypervisor running on the computer.",
-                "nullable": true,
-                "example": "VMware Virtual Platform"
-              },
-              "hostComputerName": {
-                "type": "string",
-                "description": "The host name of the host computer for a virtual machine.",
-                "nullable": true,
-                "example": "ESX-HOST-01"
-              },
-              "dccName": {
-                "type": "string",
-                "description": "The name of the data collection center (DCC) for the computer.",
-                "nullable": true,
-                "example": "DataCenter-EU"
-              },
-              "biosVersion": {
-                "type": "string",
-                "description": "The BIOS version of the computer.",
-                "nullable": true,
-                "example": "1.26.0"
-              },
-              "lastLoggedOnUser": {
-                "type": "string",
-                "description": "The username of the last logged on user of the computer.",
-                "nullable": true,
-                "example": "jsmith"
               }
             }
           }
         ]
       },
        "ComputerWrite": {
-        "type": "object",
-        "properties": {
-          "purchaseDate": {
-            "type": "string",
-            "format": "date-time",
-            "description": "The date on which the computer was purchased.",
-            "nullable": true,
-            "example": "2024-03-24T12:52:20Z"
-          },
-          "purchaseValue": {
-            "type": "number",
-            "format": "decimal",
-            "description": "The amount for which the computer was purchased.",
-            "nullable": true,
-            "example": 2461.32
-          },
-          "purchaseCurrency": {
-            "type": "string",
-            "description": "The currency in which the computer was purchased.",
-            "nullable": true,
-            "example": "EUR"
-          },
-          "vendor": {
-            "type": "string",
-            "description": "The vendor of the computer.",
-            "nullable": true,
-            "example": "Dell"
-          },
-          "invoiceReference": {
-            "type": "string",
-            "description": "The invoice reference for the purchase of the computer.",
-            "nullable": true,
-            "example": "2024/03/63729P"
-          },
-          "status": {
-            "type": "string",
-            "description": "The status of the computer.",
-            "nullable": true,
-            "example": "Active"
-          },
-          "organizationId": {
-            "type": "string",
-            "format": "guid",
-            "description": "The unique ID of the organization to which the computer belongs.",
-            "nullable": true,
-            "example": "293cf227-bf7f-4919-b664-791f3f49e1ef"
-          },
-          "isQuarantineManagementDisabled": {
-            "type": "boolean",
-            "description": "```true``` if the computer has quarantine management disabled; otherwise, ```false```.",
-            "nullable": true,
-            "example": true
-          },
-          "isAutoEditingDisabled": {
-            "type": "boolean",
-            "description": "```true``` if the auto editing is disabled for the computer; otherwise, ```false```.",
-            "nullable": true,
-            "example": false
-          },
-          "socketCount": {
-            "type": "integer",
-            "format": "int32",
-            "description": "The number of sockets in the computer.",
-            "nullable": true,
-            "example": 2
-          },
-          "hostComputerId": {
-            "type": "string",
-            "format": "guid",
-            "description": "The unique ID of the host computer if present.",
-            "nullable": true,
-            "example": "8FD97CF1-FB71-469B-ACEA-39314EC26213"
-          },
-          "siblingComputerId": {
-            "type": "string",
-            "format": "guid",
-            "description": "The unique ID of the sibling computer if present.",
-            "nullable": true,
-            "example": "f2c35e21-aba4-4e0d-8c14-f3033e7b1fb7"
-          },
-          "isVirtual": {
-            "type": "boolean",
-            "description": "```true``` if the computer is virtual; otherwise, ```false```.",
-            "nullable": true,
-            "example": false
-          },
-          "isSocketCountManualOverrideEnabled": {
-            "type": "boolean",
-            "description": "```true``` if the socket count manual override of the computer is enabled; otherwise, ```false```.",
-            "nullable": true,
-            "example": true
-          },
-          "chipModulesPerProcessor": {
-            "type": "integer",
-            "format": "int32",
-            "description": "The number of chip modules per processor.",
-            "nullable": true,
-            "example": 2
-          },
-          "notes": {
-            "type": "string",
-            "description": "The notes associated with the purchase of the computer.",
-            "nullable": true,
-            "example": "Purchased in a set with printer"
-          },
-          "securityCode": {
-            "type": "string",
-            "description": "The security code for the computer.",
-            "nullable": true,
-            "example": "A563Z"
-          },
-          "processorValueUnit": {
-            "type": "integer",
-            "format": "int32",
-            "description": "The processor value unit of the computer.",
-            "nullable": true,
-            "example": 32
-          },
-          "biosSerialNumber": {
-            "type": "string",
-            "description": "The BIOS serial number of the computer.",
-            "nullable": true,
-            "example": "43-01-10-TX"
+        "allOf": [
+          {
+            "type": "object",
+            "required": [
+              "hostName",
+              "lastScanDate",
+              "status"
+            ],
+            "properties": {
+              "hostName": {
+                "type": "string",
+                "description": "The host name of the computer.",
+                "minLength": 1,
+                "example": "AM21-S42MONITOR"
+              },
+              "hostComputerId": {
+                "type": "string",
+                "description": "The unique ID of the host computer.",
+                "format": "guid",
+                "nullable": true,
+                "example": "035613f6-26a5-4929-94f0-ed10a991438a"
+              },
+              "mostFrequentUser": {
+                "type": "string",
+                "description": "The unique ID of the most frequent user of the computer.",
+                "format": "guid",
+                "nullable": true,
+                "example": "f2c35e21-aba4-4e0d-8c14-f3033e7b1fb7"
+              },
+              "mostRecentUser": {
+                "type": "string",
+                "description": "The unique ID of the most recent user of the computer.",
+                "format": "guid",
+                "nullable": true,
+                "example": "77f8f11f-e4f8-4bed-8e44-b78d66244302"
+              },
+              "manufacturer": {
+                "type": "string",
+                "description": "The manufacturer of the computer.",
+                "nullable": true,
+                "example": "Lenovo"
+              },
+              "isPortable": {
+                "type": "boolean",
+                "description": "```true``` if the computer is portable; otherwise, ```false```.",
+                "nullable": true,
+                "example": true
+              },
+              "isVirtual": {
+                "type": "boolean",
+                "description": "```true``` if the computer is virtual; otherwise, ```false```.",
+                "nullable": true,
+                "example": true
+              },
+              "isServer": {
+                "type": "boolean",
+                "description": "```true``` if the computer is a server; otherwise, ```false```.",
+                "nullable": true,
+                "example": true
+              },
+              "model": {
+                "type": "string",
+                "description": "The model of the computer.",
+                "nullable": true,
+                "example": "T480s"
+              },
+              "operatingSystem": {
+                "type": "string",
+                "description": "The operating system of the computer.",
+                "nullable": true,
+                "example": "Microsoft Windows 11 Pro"
+              },
+              "vendor": {
+                "type": "string",
+                "description": "The vendor of the computer.",
+                "nullable": true,
+                "example": "Dell Inc."
+              },
+              "domain": {
+                "type": "string",
+                "description": "The domain of the computer.",
+                "nullable": true,
+                "example": "APAC"
+              },
+              "ipAddress": {
+                "type": "string",
+                "description": "The IP address of the computer.",
+                "nullable": true,
+                "example": "10.20.20.77"
+              },
+              "isVDI": {
+                "type": "boolean",
+                "description": "```true``` if the computer uses virtual desktop infrastructure; otherwise, ```false```.",
+                "nullable": true,
+                "example": true
+              },
+              "lastScanDate": {
+                "type": "string",
+                "description": "The last date that the computer was scanned.",
+                "format": "date-time",
+                "minLength": 1,
+                "example": "2024-03-24T12:52:20Z"
+              },
+              "status": {
+                "type": "string",
+                "description": "The status of the computer.",
+                "minLength": 1,
+                "example": "Active"
+              },
+              "organizationId": {
+                "type": "string",
+                "description": "The unique ID of the organization to which the computer belongs.",
+                "format": "guid",
+                "nullable": true,
+                "example": "293cf227-bf7f-4919-b664-791f3f49e1ef"
+              },
+              "processorCount": {
+                "type": "integer",
+                "description": "The number of processors in the computer.",
+                "format": "int32",
+                "nullable": true,
+                "example": 2
+              },
+              "coreCount": {
+                "type": "integer",
+                "description": "The number of cores in the computer.",
+                "format": "int32",
+                "nullable": true,
+                "example": 8
+              }
+            }
           }
-        }
+        ]
       },
       "FilteredResponseWithLinksOfComputer": {
         "allOf": [
@@ -5048,7 +4965,7 @@
           "oneOf": [
             {
               "$ref": "#/components/schemas/JSONPatchRequestAddReplace"
-            }
+            },
           ]
         }
       },
@@ -5085,6 +5002,73 @@
           "op",
           "path"
         ]
+      },
+       "BulkSummaryResponse": {
+        "type": "object",
+        "required": [
+          "successCount",
+          "failedCount"
+        ],
+        "properties": {
+          "successCount": {
+            "description": "The number of items that succeeded in the operation.",
+            "type": "integer",
+            "format": "int64",
+            "example": 10
+          },
+          "failedCount": {
+            "description": "The number of items that failed in the operation.",
+            "type": "integer",
+            "format": "int64",
+            "example": 2
+          },
+          "failed": {
+            "description": "The IDs of the failed items.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "e192ea5e-363c-47e4-82e3-d2587afada8c",
+              "07d30e31-3d4b-49e3-8000-4faa0653e7dc"
+            ]
+          },
+          "failureReason": {
+            "description": "The reason the bulk operation failed.",
+            "type": "string",
+            "example": "These computers failed for reasons x and y."
+          }
+        }
+      },
+      "ComputerDeleteBulkOperation": {
+        "type": "object",
+        "required": [
+          "scope"
+        ],
+        "properties": {
+          "filter": {
+            "description": "For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).",
+            "type": "string",
+            "example": "name -eq Rover"
+          },
+          "scope": {
+            "description": "The scope of the delete operation.",
+            "x-enumDescriptions": {
+              "Only": "The operation is performed only on the computers whose IDs are specified.",
+              "All": "The operation is performed on all computers.",
+              "AllExcept": "The operation is performed on every computer except those whose IDs are specified."
+            },
+            "type": "string",
+            "example": "All"
+          },
+          "ids": {
+            "description": "The IDs that the operation is performed on.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
       },
       "UpdateBulkComputersRequest": {
         "type": "object",
