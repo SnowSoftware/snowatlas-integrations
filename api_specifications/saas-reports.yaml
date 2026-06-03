@@ -1,0 +1,649 @@
+openapi: 3.0.3
+info:
+  title: 'SaaS: Reports'
+  description: API for interacting with SaaS reports.
+  version: 1.0.0
+  contact:
+    name: Flexera
+    url: https://www.flexera.com
+servers:
+  - url: https://{region}.snowsoftware.io
+    variables:
+      region:
+        enum:
+          - westeurope
+          - australiasoutheast
+          - eastus2
+          - uksouth
+        default: westeurope
+tags:
+  - name: Reports
+paths:
+  /api/saas/consolidated-view/v1/reports/applications-per-users:
+    get:
+      summary: Get applications per users report
+      description: Returns a collection of applications for the users or group nodes for reporting.
+      operationId: getSaasConsolidatedViewV1UsersApplicationsReport
+      parameters:
+        - $ref: '#/components/parameters/PageNumberQuery'
+        - $ref: '#/components/parameters/PageSizeQuery'
+        - $ref: '#/components/parameters/FilterQuery'
+        - $ref: '#/components/parameters/SortQuery'
+        - $ref: '#/components/parameters/RowGroupFieldsQuery'
+        - $ref: '#/components/parameters/RowGroupKeysQuery'
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                required:
+                  - pagination
+                  - items
+                properties:
+                  pagination:
+                    $ref: '#/components/schemas/PaginationResponse'
+                  items:
+                    description: A collection of applications for the users or group nodes for reporting.
+                    type: array
+                    items:
+                      oneOf:
+                        - $ref: '#/components/schemas/GroupNode'
+                        - $ref: '#/components/schemas/UserApplicationsItem'
+        '400':
+          $ref: '#/components/responses/400Response'
+        '429':
+          $ref: '#/components/responses/429Response'
+        '500':
+          $ref: '#/components/responses/500Response'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+      tags:
+        - Reports
+  /api/saas/consolidated-view/v1/reports/subscriptions-per-users:
+    get:
+      summary: Get subscriptions per users report
+      description: Returns a collection of subscriptions for the users or group nodes for reporting.
+      operationId: getSaasConsolidatedViewV1UsersSubscriptionsReport
+      parameters:
+        - $ref: '#/components/parameters/PageNumberQuery'
+        - $ref: '#/components/parameters/PageSizeQuery'
+        - $ref: '#/components/parameters/FilterQuery'
+        - $ref: '#/components/parameters/SortQuery'
+        - $ref: '#/components/parameters/RowGroupFieldsQuery'
+        - $ref: '#/components/parameters/RowGroupKeysQuery'
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                required:
+                  - pagination
+                  - items
+                properties:
+                  pagination:
+                    $ref: '#/components/schemas/PaginationResponse'
+                  items:
+                    description: A collection of subscriptions for the users.
+                    type: array
+                    items:
+                      oneOf:
+                        - $ref: '#/components/schemas/UserSubscriptionsItem'
+                        - $ref: '#/components/schemas/GroupNode'
+        '400':
+          $ref: '#/components/responses/400Response'
+        '429':
+          $ref: '#/components/responses/429Response'
+        '500':
+          $ref: '#/components/responses/500Response'
+      security:
+        - bearerAuth:
+            - saas.consolidation.view.r
+      tags:
+        - Reports
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    PageNumberQuery:
+      name: page_number
+      description: The page number.
+      in: query
+      schema:
+        type: integer
+        format: int32
+        default: 1
+    PageSizeQuery:
+      name: page_size
+      description: The maximum number of items in the response.
+      in: query
+      schema:
+        type: integer
+        format: int32
+        default: 100
+    FilterQuery:
+      name: filter
+      in: query
+      description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+      required: false
+      schema:
+        type: string
+        example: '?filter=field1 -eq ''abc'''
+    SortQuery:
+      name: sort
+      in: query
+      description: For more information on sorting capability and examples, see [Sort API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#sort-api-call-results).
+      required: false
+      schema:
+        type: string
+        example: '?sort=field1:asc'
+    RowGroupFieldsQuery:
+      name: rowGroupFields
+      in: query
+      description: |
+        A comma separated ordered list of fields that define the grouping hierarchy from highest-to-lowest precedence.
+        The first field is the top-level group, the next is a sub-group, and so on.
+        Use `rowGroupKeys` parameter to drill into a specific branch of this hierarchy.
+      required: false
+      schema:
+        type: string
+        example: department,status
+    RowGroupKeysQuery:
+      name: rowGroupKeys
+      in: query
+      description: |
+        Ordered list of group key values used to drill into the grouping hierarchy defined by `rowGroupFields`.
+        Each `rowGroupKeys` entry corresponds to the same-position field in `rowGroupFields`. 
+        The number of `rowGroupKeys` must be less than or equal to the number of `rowGroupFields` supplied. 
+        Examples:
+          - `?rowGroupFields=department,status&rowGroupKeys=Engineering` returns status-level
+            group nodes for the `Engineering` department.
+          - `?rowGroupFields=department,status&rowGroupKeys=Engineering&rowGroupKeys=Active` drills
+            further and returns leaf rows for users in `Engineering` with `Active` status.
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+  schemas:
+    PaginationResponse:
+      description: The pagination details.
+      type: object
+      required:
+        - page_size
+        - page_number
+      properties:
+        page_size:
+          type: integer
+          description: The page size you requested.
+          example: 100
+        page_number:
+          type: integer
+          format: int64
+          description: The page number you requested.
+          example: 1
+        total_pages:
+          type: integer
+          format: int64
+          description: The total number of pages.
+          example: 1
+        total_items:
+          type: integer
+          format: int64
+          description: The total number of items.
+          example: 1
+    GroupNode:
+      title: GroupNode
+      type: object
+      required:
+        - id
+        - childCount
+        - isGroup
+        - groupValue
+      properties:
+        id:
+          type: string
+          description: The unique ID of the resource.
+          example: 483c67cf-e247-4a82-bef7-b86a29560788
+        childCount:
+          type: integer
+          format: int64
+          description: Number of children under this group node.
+          example: 42
+        isGroup:
+          type: boolean
+          description: '```true``` if resource is a group node; otherwise, ```false```.'
+          example: true
+        groupValue:
+          type: string
+          description: The value of the group key at this level.
+          example: Engineering
+    CustomFieldValue:
+      title: Custom Field Value
+      description: The custom field details for a resource.
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the custom field.
+          example: Department
+        dataType:
+          type: string
+          enum:
+            - String
+            - Decimal
+            - Number
+            - DateTime
+            - Bool
+          x-enumDescriptions:
+            String: Text value.
+            Decimal: Decimal number with fractional component.
+            Number: Integer number.
+            DateTime: Date and time value.
+            Bool: Boolean true/false value.
+          description: The data type of the custom field.
+          example: String
+        value:
+          description: The value assigned to the custom field. The type varies based on dataType.
+          oneOf:
+            - type: string
+            - type: number
+            - type: boolean
+            - type: object
+              required:
+                - currencyCode
+                - value
+              properties:
+                currencyCode:
+                  type: string
+                  description: ISO currency code.
+                  example: USD
+                value:
+                  type: number
+                  description: Currency value.
+                  example: 1200.5
+        currencyCode:
+          type: string
+          description: ISO currency code (for currency fields).
+          example: USD
+        baseCurrencyValue:
+          type: number
+          description: Value converted to base currency.
+          example: 1200.5
+      required:
+        - name
+        - dataType
+        - value
+    ReportUser:
+      title: ReportUser
+      description: A discovered user in your SaaS estate for reporting.
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique ID of the user.
+          example: 46c56876-c33a-4551-b603-06b6ce4a56e3
+        displayName:
+          type: string
+          description: The display name of the user.
+          example: John Doe
+        country:
+          type: string
+          description: The country of the user.
+          example: Japan
+        department:
+          type: string
+          description: The department of the user.
+          example: Engineering
+        isInReview:
+          type: boolean
+          description: '```true``` if user has been marked as one to be analyzed further, or as a reminder for taking action on their subscriptions; otherwise, ```false```.'
+          example: false
+        email:
+          type: string
+          description: Email address of the user.
+          example: john.doe@organization.com
+        username:
+          type: string
+          description: The username of the user.
+          example: john.doe_1@org.com
+        isQualified:
+          type: boolean
+          description: '```true``` if has been marked to be included in Snow''''s services which incur a cost; otherwise, ```false```.'
+          example: true
+        isOnline:
+          type: boolean
+          description: '```true``` if user has been marked as a SaaS user; who does not have a device that is inventoried in your organization. This is common for, for example, consultants and other temporary staff; otherwise, ```false```.'
+          example: false
+        userCostPerMonth:
+          type: number
+          format: double
+          description: The monthly cost of the user's subscription entitlements.
+          example: 25
+        potentialSavings:
+          type: number
+          format: double
+          description: The monthly subscription costs for users who are inactive or have no activity.
+          example: 0
+        customFields:
+          type: array
+          description: Custom field values associated with the user.
+          items:
+            $ref: '#/components/schemas/CustomFieldValue'
+        discoveryDate:
+          type: string
+          format: date-time
+          description: The date the user was discovered.
+          example: '2024-06-28T00:00:00Z'
+      required:
+        - id
+        - displayName
+        - country
+        - department
+        - isInReview
+        - email
+        - username
+        - isQualified
+        - isOnline
+        - userCostPerMonth
+        - potentialSavings
+        - customFields
+        - discoveryDate
+    ApplicationDetail:
+      title: ApplicationDetail
+      description: Per user application detail for reporting.
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique ID of the application.
+          example: 77f176da-7640-4889-ba6b-c53fe882b234
+        name:
+          type: string
+          description: The name of the application.
+          example: Box
+        vendor:
+          type: string
+          description: The name of the vendor of the application.
+          example: Box, Inc.
+        aiCategory:
+          type: string
+          description: AI category of the application.
+          example: Document Management
+        aiSubcategory:
+          type: string
+          description: AI sub-category of the application.
+          example: Cloud Storage
+        status:
+          type: string
+          description: The status of the user in the application.
+          example: Active
+        lastActive:
+          type: string
+          format: date-time
+          description: Time of last user activity in the application.
+          example: '2025-08-13T09:26:51Z'
+        totalDaysUsed:
+          type: integer
+          format: int32
+          description: The count of days the application was used by the user.
+          example: 30
+        licenseCount:
+          type: integer
+          format: int32
+          description: The number of subscription types assigned to the user.
+          example: 1
+        discoveryTypes:
+          type: array
+          items:
+            type: integer
+          description: The type of discovery sources for the application.
+          x-enumDescriptions:
+            '0': SaaS connector - Represents integration with SaaS applications for automated data collection and management.
+            '1': Manually added - Indicates resources or applications manually added by users without automated discovery.
+            '2': Browser unverified - Refers to browser-based applications that have not been verified for compliance or usage.
+            '3': SSO - Represents Single Sign-On integrations for centralized user authentication.
+            '4': Device - Refers to physical or virtual devices managed within the IT environment.
+            '7': Browser verified - Denotes browser-based applications that have been verified for compliance or usage.
+            '8': CASB - Represents Cloud Access Security Broker integrations to enhance cloud security and compliance.
+          example:
+            - 1
+            - 2
+      required:
+        - id
+        - name
+        - vendor
+        - aiCategory
+        - aiSubcategory
+        - status
+        - lastActive
+        - totalDaysUsed
+        - licenseCount
+        - discoveryTypes
+    UserApplicationsItem:
+      title: UserApplicationsItem
+      description: Flattened user master row with an applications detail array.
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ReportUser'
+        - type: object
+          properties:
+            applications:
+              type: array
+              description: Application usage summary for the user.
+              items:
+                $ref: '#/components/schemas/ApplicationDetail'
+          required:
+            - applications
+    ValidationError:
+      type: object
+      description: Validation error.
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code.
+          format: int32
+          example: 400
+        message:
+          type: string
+          description: The error message.
+          example: Filter field name needs to be formatted as a string.
+      required:
+        - code
+        - message
+    ErrorValidationResponse:
+      title: ErrorValidationResponse
+      description: Bad Request - Your request is invalid or improperly formed. Consequently, the API server could not understand your request.
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ValidationError'
+      required:
+        - error
+    TooManyRequestsError:
+      type: object
+      description: Too many requests error.
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code.
+          format: int32
+          example: 429
+        message:
+          type: string
+          description: The error message.
+          example: 'Too Many Requests: You have sent too many requests within a given time span. The recommended action is to check the response header for the backoff time. If it exists, it is indicated by the `Retry-After` response header, in seconds. Abort for the duration specified by Retry-After, and retry.'
+      required:
+        - code
+        - message
+    TooManyRequestsResponse:
+      description: Too Many Requests - You have sent too many requests within a given time span.
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/TooManyRequestsError'
+      required:
+        - error
+    InternalError:
+      type: object
+      description: Internal error.
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code.
+          format: int32
+          example: 500
+        message:
+          type: string
+          description: The error message.
+          example: The service encountered an unexpected condition that prevented it from fulfilling the request.
+      required:
+        - code
+        - message
+    ErrorResponse:
+      description: Internal Server Error - Your request failed due to an internal error.
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/InternalError'
+      required:
+        - error
+    SubscriptionDetail:
+      title: SubscriptionDetail
+      description: Per user subscription detail for reporting.
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique ID of the subscription.
+          example: ac2c7870-6457-4a99-bafb-467eaf5de8e4
+        name:
+          type: string
+          description: The name of the subscription.
+          example: Enterprise Plan
+        familyName:
+          type: string
+          description: The name of the subscription family.
+          example: Microsoft 365
+        vendor:
+          type: string
+          description: The vendor name for the subscription.
+          example: Microsoft Corporation
+        status:
+          type: string
+          description: The subscription status for this user.
+          example: Active
+        lastActive:
+          type: string
+          format: date-time
+          description: Time of last activity for this user on the subscription.
+          example: '2025-08-07T02:36:15Z'
+        isEnabled:
+          type: boolean
+          description: '```true``` if the enabled state of the user in the discovery source is true.; otherwise, ```false```.'
+          example: true
+        mfaStatus:
+          type: string
+          description: The status of the Microsoft M365 MFA user.
+          example: Enabled
+        connectorName:
+          type: string
+          description: The name of the connector through which the subscription was discovered.
+          example: Microsoft Entra ID connector
+        discoveryType:
+          type: integer
+          format: int32
+          description: The unique ID of the discovery source type where the user was detected. For information on IDs, see https://docs.snowsoftware.io/snow-atlas/user-documentation/saas/saas-discovery#discovery-sources.
+          example: 1
+        discoveryDate:
+          type: string
+          format: date-time
+          description: The date the subscription usage was discovered.
+          example: '2024-06-28T00:00:00Z'
+        excludeFromMetrics:
+          type: boolean
+          description: '```true``` if this subscription is excluded from metrics.; otherwise, ```false```.'
+          example: false
+        free:
+          type: boolean
+          description: '```true``` if subscription is free and excluded from total usage and cost metrics.; otherwise, ```false```.'
+          example: false
+        isBundled:
+          type: boolean
+          description: '```true``` if this subscription is part of a bundle. ; otherwise, ```false```.'
+          example: false
+        startDate:
+          type: string
+          format: date-time
+          description: The start date the subscription can be used.
+          example: '2024-01-01T00:00:00Z'
+        expirationDate:
+          type: string
+          format: date-time
+          description: The expiration date of the subscription.
+          example: '2026-01-01T00:00:00Z'
+        purchasedDate:
+          type: string
+          format: date-time
+          description: The date when the subscription was purchased.
+          example: '2023-12-28T00:00:00Z'
+      required:
+        - id
+        - name
+        - family
+        - vendor
+        - status
+        - lastActive
+        - isEnabled
+        - discoveryTypes
+        - discoveryDate
+        - excludeFromMetrics
+        - free
+        - isBundled
+        - startDate
+        - expirationDate
+        - purchasedDate
+    UserSubscriptionsItem:
+      title: UserSubscriptionsItem
+      description: Flattened user master row with a subscriptions detail array.
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ReportUser'
+        - type: object
+          properties:
+            subscriptions:
+              type: array
+              description: Subscription usage summary for the user.
+              items:
+                $ref: '#/components/schemas/SubscriptionDetail'
+          required:
+            - subscriptions
+  responses:
+    400Response:
+      description: 'Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorValidationResponse'
+    429Response:
+      description: 'Too Many Requests: You have sent too many requests within a given time span. The recommended action is to check the response header for the backoff time. If it exists, it is indicated by the `Retry-After` response header, in seconds. Abort for the duration specified by Retry-After, and retry.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TooManyRequestsResponse'
+    500Response:
+      description: 'Internal Server Error: Your request failed due to an internal error.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
