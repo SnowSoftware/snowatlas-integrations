@@ -2,9 +2,9 @@ openapi: 3.0.0
 info:
   title: 'SAM: Licenses'
   contact:
-    name: Flexera
-    url: https://www.flexera.com
-  version: 1.7.0
+    name: Snow Software, Inc.
+    url: https://www.snowsoftware.com
+  version: 1.8.0
 servers:
   - url: https://{region}.snowsoftware.io
     description: You can find your **Data region** in the **Snow Atlas settings** menu, in **License details**. Your **Data region** is on the **General information** tab. For further information, see [General information](https://docs.snowsoftware.com/snow-atlas/en/UUID-2d4ce22b-e2a9-b7b0-44b8-0ecc55c2959f.html#UUID-2d4ce22b-e2a9-b7b0-44b8-0ecc55c2959f_section-idm4543865842761633102149279789 "https://docs.snowsoftware.com/snow-atlas/en/UUID-2d4ce22b-e2a9-b7b0-44b8-0ecc55c2959f.html#UUID-2d4ce22b-e2a9-b7b0-44b8-0ecc55c2959f_section-idm4543865842761633102149279789").
@@ -34,10 +34,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `licenseId`, `quantity`, `upgradedLicenseId`, `upgradedQuantity`.
           schema:
             type: string
-          example: filter=status -eq "active"
+            example: filter=licenseId -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -171,10 +171,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `toApplicationId`, `computerId`, `licenseId`, `organizationId`.
           schema:
             type: string
-          example: filter=status -eq "active"
+            example: filter=toApplicationId -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -253,10 +253,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `metricId`, `toApplicationId`, `licenseId`, `organizationId`, `isUpgrade`, `isDowngrade`, `isCrossEdition`, `isCrossPlatform`, `quantity`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -328,10 +328,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `metricId`, `customCompareValueId`, `licenseId`, `organizationId`, `fromApplicationId`, `toApplicationId`, `isUpgrade`, `isDowngrade`, `isCrossEdition`, `isCrossPlatform`, `quantity`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -410,10 +410,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `metricId`, `customCompareValueId`, `licenseId`, `organizationId`, `fromApplicationId`, `toApplicationId`, `isUpgrade`, `isDowngrade`, `isCrossEdition`, `isCrossPlatform`, `quantity`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -485,10 +485,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `licenseId`, `hasComputerTransfer`, `hasUserTransfer`, `hasCustomCompareValueTransfer`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=licenseId -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -560,10 +560,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `licenseId`, `organizationId`, `userId`, `toApplicationId`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=licenseId -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -642,10 +642,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `metricId`, `licenseId`, `organizationId`, `toApplicationId`, `isUpgrade`, `isDowngrade`, `isCrossPlatform`, `isCrossEdition`, `quantity`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -700,81 +700,6 @@ paths:
       security:
         - BearerAuth:
             - sam.license.r
-  /api/sam/v1/licenses/tracking-computers/{computerId}:
-    get:
-      tags:
-        - Tracking
-      summary: Get computer license tracking
-      description: Returns a collection of application license tracking for a given computer.
-      operationId: getApplicationsComputerTrackingCollection
-      parameters:
-        - name: computerId
-          in: path
-          required: true
-          description: The unique ID of the computer.
-          schema:
-            type: string
-          example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
-        - name: filter
-          in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
-          schema:
-            type: string
-          example: filter=status -eq "active"
-        - name: page_number
-          in: query
-          description: The page number.
-          schema:
-            type: integer
-            default: 1
-            minimum: 1
-        - name: page_size
-          in: query
-          description: The maximum number of items in the response.
-          schema:
-            type: integer
-            default: 100
-            minimum: 1
-      responses:
-        '200':
-          description: 'OK: Your request succeeded.'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HateoasCollectionOfApplicationComputerTrackingCollection'
-        '400':
-          description: 'Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                error:
-                  code: 400
-                  message: 'Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.'
-        '404':
-          description: 'Not Found: The operation you requested failed because a resource associated with your request could not be found.'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                error:
-                  code: 404
-                  message: Resource with ID '32aeda0a-80dc-475a-907f-2d250a3a8614' not found.
-        '500':
-          description: 'Internal Server Error: Your request failed due to an internal error.'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              example:
-                error:
-                  code: 500
-                  message: The service encountered an unexpected condition that prevented it from fulfilling the request.
-      security:
-        - BearerAuth:
-            - sam.license.r
   /api/sam/v1/licenses/tracking/{applicationId}/computers:
     get:
       tags:
@@ -792,10 +717,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `metricId`, `computerId`, `licenseId`, `organizationId`, `coverageTrait`, `initialRequirement`, `requirement`, `receivedCoverage`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -874,10 +799,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `metricId`, `licenseId`, `organizationId`, `coverageTrait`, `initialRequirement`, `receivedCoverage`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -938,7 +863,7 @@ paths:
         - Tracking
       summary: Get application license tracking details
       description: Returns a collection of license tracking for an application.
-      operationId: getSiteAssignment
+      operationId: getLicenseTrackingCollection
       parameters:
         - name: applicationId
           in: path
@@ -949,10 +874,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `licenseId`, `hasComputerTracking`, `hasUserTracking`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=licenseId -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -1024,10 +949,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `metricId`, `licenseId`, `organizationId`, `coverageTrait`, `initialRequirement`, `receivedCoverage`, `userId`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -1106,10 +1031,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `metricId`, `licenseId`, `organizationId`, `coverageTrait`, `initialRequirement`, `receivedCoverage`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -1181,10 +1106,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `name`, `description`, `isRequired`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -1309,12 +1234,6 @@ paths:
       description: Returns a collection of license policies.
       operationId: getPolicyCollection
       parameters:
-        - name: filter
-          in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
-          schema:
-            type: string
-          example: filter=status -eq "active"
         - name: page_number
           in: query
           description: The page number.
@@ -1424,10 +1343,10 @@ paths:
       parameters:
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `licenseId`, `organizationId`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -1489,10 +1408,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `licenseId`, `organizationId`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -1849,10 +1768,10 @@ paths:
       parameters:
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `organizationId`, `applicationId`, `metricId`, `assignmentTypeId`, `purchaseValue`, `purchaseCurrency`, `quantity`, `agreementId`, `externalId`, `isIncomplete`, `status`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -2102,6 +2021,79 @@ paths:
       security:
         - BearerAuth:
             - sam.license.crud
+    patch:
+      tags:
+        - Licenses
+      summary: Update license status
+      description: Archives or unarchives the given license using a JSON Patch document.
+      operationId: updateLicenseStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The unique ID of the license.
+          schema:
+            type: string
+          example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/JsonPatchDocumentOfPatchLicenseRequest'
+            example:
+              - path: /status
+                op: Replace
+                value: Archived
+      responses:
+        '200':
+          description: 'OK: Your request succeeded.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/License'
+        '400':
+          description: 'Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: 400
+                  message: 'Bad Request: Your request is invalid or improperly formed. Consequently, the API server could not understand your request.'
+        '404':
+          description: 'Not Found: The operation you requested failed because a resource associated with your request could not be found.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: 404
+                  message: Resource with ID '32aeda0a-80dc-475a-907f-2d250a3a8614' not found.
+        '405':
+          description: 'Method Not Allowed: The requested patch operation is not supported for this resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: 405
+                  message: 'Method Not Allowed: The requested patch operation is not supported for this resource.'
+        '500':
+          description: 'Internal Server Error: Your request failed due to an internal error.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: 500
+                  message: The service encountered an unexpected condition that prevented it from fulfilling the request.
+      security:
+        - BearerAuth:
+            - sam.license.crud
   /api/sam/v1/licenses/bulk-update:
     post:
       summary: Bulk update licenses
@@ -2156,10 +2148,10 @@ paths:
       parameters:
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `applicationId`, `organizationId`, `metricId`, `assignmentType`, `quantity`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=applicationId -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -2214,10 +2206,10 @@ paths:
       parameters:
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `computerId`, `applicationId`, `metricId`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=computerId -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -2324,10 +2316,10 @@ paths:
       parameters:
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `userId`, `applicationId`, `metricId`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=userId -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -2382,10 +2374,9 @@ paths:
       parameters:
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Note:** This endpoint does not currently support filtering; this parameter has no effect.
           schema:
             type: string
-          example: filter=status -eq "active"
         - name: page_number
           in: query
           description: The page number.
@@ -2440,10 +2431,10 @@ paths:
       parameters:
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `parentComputerId`, `isParentComputerDatacenter`, `extendedComputerId`, `applicationId`, `coveredApplicationId`, `reason`, `reasonDescription`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=parentComputerId -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -2560,10 +2551,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `organizationId`, `licenseQuantity`, `licensePurchaseCost`, `currentMaintenanceCost`, `accumulatedMaintenanceCost`, `currentSupportCost`, `accumulatedSupportCost`, `totalCost`, `currency`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=organizationId -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -2910,10 +2901,10 @@ paths:
       parameters:
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `assignmentType`, `assignmentTypeId`, `name`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=assignmentType -eq "Organization"
         - name: page_number
           in: query
           description: The page number.
@@ -2975,10 +2966,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `licenseId`, `computerId`, `quantity`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -3403,10 +3394,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `licenseId`, `datacenterId`, `quantity`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -3653,10 +3644,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `quantity`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=quantity -eq 1
         - name: page_number
           in: query
           description: The page number.
@@ -3906,10 +3897,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `licenseId`, `organizationId`, `quantity`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -4323,7 +4314,7 @@ paths:
         - Assignments
       summary: Get license assignment to site
       description: Returns the details of the given license’s assignment to site.
-      operationId: getSiteAssignment2
+      operationId: getSiteAssignment
       parameters:
         - name: id
           in: path
@@ -4572,10 +4563,10 @@ paths:
           example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
         - name: filter
           in: query
-          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
+          description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results). **Supported filter fields:** `id`, `licenseId`, `userId`.
           schema:
             type: string
-          example: filter=status -eq "active"
+          example: filter=id -eq "49cdd99f-bc16-40f9-ad40-48f12182fb30"
         - name: page_number
           in: query
           description: The page number.
@@ -6168,6 +6159,11 @@ components:
               description: The unique ID of the license.
               format: guid
               example: 49cdd99f-bc16-40f9-ad40-48f12182fb30
+            organizationId:
+              type: string
+              description: The unique ID of the license's organization.
+              format: guid
+              example: 1D6CE71D-D821-49FF-978D-3C16086312B3
             validFrom:
               type: string
               description: The valid form date.
@@ -6520,6 +6516,16 @@ components:
               description: The product description.
               nullable: true
               example: MSDN
+            notes:
+              type: string
+              description: The notes.
+              nullable: true
+              example: Notes
+            licenseKeys:
+              type: string
+              description: The license keys.
+              nullable: true
+              example: 69658998-12-12031517-23
             isSubscription:
               type: boolean
               description: '```true``` if is subscription; otherwise, ```false```.'
@@ -7054,6 +7060,7 @@ components:
         licenseKeys:
           type: string
           description: The license keys.
+          maxLength: 500
           nullable: true
           example: 69658998-12-12031517-23
         licenseProofLocation:
@@ -7079,6 +7086,7 @@ components:
         notes:
           type: string
           description: The notes.
+          maxLength: 10000
           nullable: true
           example: Notes
         organizationId:
@@ -7450,6 +7458,10 @@ components:
               description: The unique ID of the entitlement state.
               format: guid
               example: 6fb32edf-1d45-44e3-a55d-6df6068c0c08
+            isCoveredBySubscription:
+              type: boolean
+              description: '```true``` when entitlement coverage originates from a Microsoft 365 subscription plan; otherwise, ```false```.'
+              example: true
     FilteredResponseOfUserApplicationEntitlement:
       type: object
       description: Filtered response.
@@ -7989,6 +8001,11 @@ components:
             computerAppExclusions:
               type: integer
               description: The number of licenses excluded for a specific computer application.
+              format: int32
+              example: 1
+            userAppExclusions:
+              type: integer
+              description: The number of licenses excluded for a specific user application.
               format: int32
               example: 1
             windowsServer:
