@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: 'SaaS: Custom fields'
   description: API for interacting with SaaS Custom fields.
-  version: 1.0.1
+  version: 1.0.2
   contact:
     name: Flexera
     url: https://www.flexera.com
@@ -18,8 +18,9 @@ servers:
         default: westeurope
 tags:
   - name: Custom-Fields
+    description: Custom field endpoints.
 paths:
-  /api/saas/consolidated-view/v2/custom-fields/values:
+  /api/saas/consolidated-view/v1/custom-fields/values:
     patch:
       summary: Update custom field values
       description: Modifies one or more custom field values for the given resource.
@@ -38,6 +39,8 @@ paths:
                 $ref: '#/components/schemas/UpsertCustomFieldValueMessage'
         '400':
           $ref: '#/components/responses/400Response'
+        '429':
+          $ref: '#/components/responses/429Response'
         '500':
           $ref: '#/components/responses/500Response'
       security:
@@ -47,7 +50,7 @@ paths:
             - saas.consolidation.view.crud
       tags:
         - Custom-Fields
-  /api/saas/consolidated-view/v2/custom-fields:
+  /api/saas/consolidated-view/v1/custom-fields:
     get:
       summary: Get custom fields
       description: Returns a collection of custom fields.
@@ -58,7 +61,7 @@ paths:
           description: For more information on the available operators and which data types those operators work on, see [Filter API call results](https://docs.snowsoftware.io/snow-atlas-api/resources/get-started-with-apis/api-conventions#filter-api-call-results).
           schema:
             type: string
-            example: '?filter=''SaaSCategory -eq Application'''
+            example: ?filter='SaaSCategory -eq Application'
         - $ref: '#/components/parameters/PageNumberQuery'
         - $ref: '#/components/parameters/PageSizeQuery'
         - $ref: '#/components/parameters/SortQuery'
@@ -81,6 +84,8 @@ paths:
                       $ref: '#/components/schemas/CustomField'
         '400':
           $ref: '#/components/responses/400Response'
+        '429':
+          $ref: '#/components/responses/429Response'
         '500':
           $ref: '#/components/responses/500Response'
       security:
@@ -98,28 +103,60 @@ components:
       bearerFormat: JWT
   schemas:
     CustomFieldValue:
-      title: Custom Field Object
+      title: Custom Field Value
       description: The custom field details for a resource.
       type: object
       properties:
         name:
+          type: string
           description: The name of the custom field.
-          example: color
-          type: string
-        value:
-          description: The value assigned to the custom field.
-          example: string
-          type: string
+          example: Department
         dataType:
+          type: string
+          enum:
+            - String
+            - Decimal
+            - Number
+            - DateTime
+            - Bool
+          x-enumDescriptions:
+            String: Text value.
+            Decimal: Decimal number with fractional component.
+            Number: Integer number.
+            DateTime: Date and time value.
+            Bool: Boolean true/false value.
           description: The data type of the custom field.
-          example: string
-          type: string
+          example: String
+        value:
+          description: The value assigned to the custom field. The type varies based on dataType.
+          oneOf:
+            - type: string
+            - type: number
+            - type: boolean
+            - type: object
+              required:
+                - currencyCode
+                - value
+              properties:
+                currencyCode:
+                  type: string
+                  description: ISO currency code.
+                  example: USD
+                value:
+                  type: number
+                  description: Currency value.
+                  example: 1200.5
         currencyCode:
-          description: The code representing the currency used in monetary custom fields.
-          example: EUR
           type: string
+          description: ISO currency code (for currency fields).
+          example: USD
+        baseCurrencyValue:
+          type: number
+          description: Value converted to base currency.
+          example: 1200.5
       required:
         - name
+        - dataType
         - value
     UpdateCustomFieldsRequest:
       type: object
@@ -212,6 +249,30 @@ components:
       properties:
         error:
           $ref: '#/components/schemas/ValidationError'
+      required:
+        - error
+    TooManyRequestsError:
+      type: object
+      description: Too many requests error.
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code.
+          format: int32
+          example: 429
+        message:
+          type: string
+          description: The error message.
+          example: 'Too Many Requests: You have sent too many requests within a given time span. The recommended action is to check the response header for the backoff time. If it exists, it is indicated by the `Retry-After` response header, in seconds. Abort for the duration specified by Retry-After, and retry.'
+      required:
+        - code
+        - message
+    TooManyRequestsResponse:
+      description: Too Many Requests - You have sent too many requests within a given time span.
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/TooManyRequestsError'
       required:
         - error
     InternalError:
@@ -318,6 +379,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorValidationResponse'
+    429Response:
+      description: 'Too Many Requests: You have sent too many requests within a given time span. The recommended action is to check the response header for the backoff time. If it exists, it is indicated by the `Retry-After` response header, in seconds. Abort for the duration specified by Retry-After, and retry.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TooManyRequestsResponse'
     500Response:
       description: 'Internal Server Error: Your request failed due to an internal error.'
       content:
@@ -348,4 +415,4 @@ components:
       required: false
       schema:
         type: string
-        example: '?sort=field1:asc'
+        example: ?sort=field1:asc
